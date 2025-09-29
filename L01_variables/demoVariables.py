@@ -1,7 +1,7 @@
 #dit is een comentaarlijn
-personName = "Anna-Kyra"
-print(f"Hello, {personName}")
-print(f"What do you want me to say, {personName}?!")
+person_name = "Anna-Kyra"
+print(f"Hello, {person_name}")
+print(f"What do you want me to say, {person_name}?!")
 message = input("Type something here: ")
 print(f'Oke fine. "{message}"')
 print("Ok, that's not enough")
