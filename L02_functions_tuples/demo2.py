@@ -24,6 +24,10 @@ def setup():
     pass
 
 def draw_sun():
+    """
+    Draws a sun in the middle of the screen
+    :return:
+    """
     engine.shape_mode = ShapeMode.CENTER
     engine.color = 1, 1, 0
     engine.draw_circle(engine.width/2, engine.height/2, 100, 0)
