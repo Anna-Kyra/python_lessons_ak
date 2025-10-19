@@ -10,7 +10,7 @@ import dae_progfa_lib as pfe
 from dae_progfa_lib import MouseButton, ShapeMode
 
 # Create an instance of ProgfaEngine and set window size (width, height):
-engine = pfe.ProgfaEngine(1200, 800)
+engine = pfe.ProgfaEngine(800, 800)
 
 # Set the frame rate to x frames per second:
 engine.fps = 60
