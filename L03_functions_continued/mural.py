@@ -85,6 +85,14 @@ def mural2():
 
     #RECTANGLES
     def rectangle_vertical(x: int | float, y: int | float, color1: tuple, color2: tuple):
+        """
+        Drawing a tile width two rectangles shapes with different colors vertically
+        :param x: The x position of the tile (center or top left, determined by shape mode)
+        :param y: The y position of the tile (center or top left, determined by shape mode)
+        :param color1: fill rectangle 1
+        :param color2: fill rectangle 2
+        :return:
+        """
         engine.color = color1
         engine.draw_rectangle(x, y, tile_width, tile_height, 0)
 
@@ -92,6 +100,14 @@ def mural2():
         engine.draw_rectangle(x, y, tile_width/2, tile_height, 0)
 
     def rectangle_horizontal(x: int | float, y: int | float, color1: tuple, color2: tuple):
+        """
+        Drawing a tile width two rectangles shapes with different colors horizontally
+        :param x: The x position of the tile (center or top left, determined by shape mode)
+        :param y: The y position of the tile (center or top left, determined by shape mode)
+        :param color1: fill rectangle 1
+        :param color2: fill rectangle 2
+        :return:
+        """
         engine.color = color1
         engine.draw_rectangle(x, y, tile_width, tile_height, 0)
 
@@ -100,6 +116,14 @@ def mural2():
 
     #TRIANGLES
     def triangles_left(x: int | float, y: int | float, color1: tuple, color2: tuple):
+        """
+        Drawing a tile width two triangles shapes with different colors left orientated
+        :param x: The x position of the tile (center or top left, determined by shape mode)
+        :param y: The y position of the tile (center or top left, determined by shape mode)
+        :param color1: fill triangle 1
+        :param color2: fill triangle 2
+        :return:
+        """
         engine.color = color1
         engine.draw_rectangle(x, y, tile_width, tile_height,  0)
         engine.color = color2
@@ -107,6 +131,14 @@ def mural2():
         pass
 
     def triangles_right(x: int | float, y: int | float, color1: tuple, color2: tuple):
+        """
+        Drawing a tile width two triangles shapes with different colors right orientated
+        :param x: The x position of the tile (center or top left, determined by shape mode)
+        :param y: The y position of the tile (center or top left, determined by shape mode)
+        :param color1: fill triangle 1
+        :param color2: fill triangle 2
+        :return:
+        """
         engine.color = color1
         engine.draw_rectangle(x, y, tile_width, tile_height,  0)
         engine.color = color2
@@ -114,6 +146,14 @@ def mural2():
         pass
 
     def circle(x: int | float, y: int | float, background_color: tuple, color_circle: tuple):
+        """
+        Drawing a tile width a circle in the middle
+        :param x: The x position of the tile (center or top left, determined by shape mode)
+        :param y: The y position of the tile (center or top left, determined by shape mode)
+        :param background_color: fill background
+        :param color_circle: fill circle
+        :return:
+        """
         engine.color = background_color
         engine.draw_rectangle(x, y, tile_width, tile_height, 0)
         engine.color = color_circle
