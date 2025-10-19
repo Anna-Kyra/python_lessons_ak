@@ -58,9 +58,23 @@ paid = 150
 print(f"If the item costs ${item_cost} and the customer pays ${paid}, their change is ${calculate_change(item_cost, paid)}.")
 
 #User input
-item_cost = int(input(f"[TOTAL] EUR "))
-paid = int(input("[PAID]  EUR "))
-print(f"[CHANGE] EUR {calculate_change(item_cost, paid):.1f}")
+# item_cost = int(input(f"[TOTAL] EUR "))
+# paid = int(input("[PAID]  EUR "))
+# print(f"[CHANGE] EUR {calculate_change(item_cost, paid):.1f}")
 
 #ENGINE COLORS
+print_title("make_engine_clr", "=", 10)
+
+def calculate_color(r: int, g: int, b: int) -> str:
+    r = r / 255
+    g = g / 255
+    b = b / 255
+    return f"({r}, {g}, {b})"
+
+print(calculate_color(0, 255, 125))
+red = int(input("R: "))
+green = int(input("G: "))
+blue = int(input("B: "))
+print(f"color = {calculate_color(red, green, blue)}")
+
 
