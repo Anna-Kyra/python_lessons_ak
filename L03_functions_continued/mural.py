@@ -40,6 +40,8 @@ def mural1():
         tile_width = engine.width/2
         tile_height = engine.height/2
 
+        #if orientation == True Kan met een if statement om de orientation true of false te doen
+
         engine.color = color1
         engine.draw_rectangle(x, y, tile_width, tile_height,  0)
         engine.color = color2
