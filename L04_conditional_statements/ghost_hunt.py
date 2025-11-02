@@ -3,7 +3,7 @@
 """
 Created on 29-10-2025
 
-@author: anna-
+@author: Anna-Kyra
 """
 
 import dae_progfa_lib as pfe
@@ -20,7 +20,6 @@ def setup():
     """
     Only executed ONCE (at the start); use to load files and initialize.
     """
-
     pass
 
 def draw_ghost(x: float, y: float, scale: float = 1.0, color: tuple[float,float, float] = (1, 1, 1)) -> None:
@@ -30,7 +29,7 @@ def draw_ghost(x: float, y: float, scale: float = 1.0, color: tuple[float,float,
 
     on_ghost = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, x, y, width, height)
 
-    if on_ghost:
+    if on_ghost and engine.mouse_button == MouseButton.LEFT:
         engine.color = color
         engine.outline_color = None
 
@@ -53,9 +52,10 @@ def draw_ghost(x: float, y: float, scale: float = 1.0, color: tuple[float,float,
         engine.draw_text("BOO!", x + width / 2, y + height + 10, centered=True)
 
 def flashlight():
-    engine.shape_mode = ShapeMode.CENTER
-    engine.color = (1, 1, 0, 0.2)
-    engine.draw_circle(engine.mouse_x, engine.mouse_y, 200, 0)
+    if engine.mouse_button == MouseButton.LEFT:
+        engine.shape_mode = ShapeMode.CENTER
+        engine.color = (1, 1, 0, 0.2)
+        engine.draw_circle(engine.mouse_x, engine.mouse_y, 200, 0)
 
 def render():
     """
@@ -75,7 +75,6 @@ def evaluate():
     """
     This function is being executed over and over, as fast as the frame rate. Use to update (not draw).
     """
-
     pass
 
 
