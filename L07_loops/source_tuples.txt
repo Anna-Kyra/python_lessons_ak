@@ -1,0 +1,22 @@
+# EX02: SAY HI TO THE PLAYERS!
+names = ("Blinky", "Zap", "Wiggles", "Snoop", "Fizz", "Buzz", "Nibs", "Flip", "Zonk", "Loop", "Chomp")
+messages = ("Welcome aboard,", "Oh no, here comes", "Look who decided to join us:", "Say hi to", "Well helloooo",
+            "Yikes, they're here:", "Beware! Here's", "Looking good,", "Late to the party,", "Join the club,")
+
+# EX03: AMONG COLORS
+crewmate_colors = (
+    (0.0, 0.325, 1.0),  # Blue
+    (0.0, 0.6, 0.25),   # Green
+    (1.0, 0.51, 0.74),  # Pink
+    (1.0, 0.55, 0.0),   # Orange
+    (1.0, 0.95, 0.2),   # Yellow
+    (0.1, 0.1, 0.1),    # Black
+    (1.0, 1.0, 1.0),    # White
+    (0.6, 0.0, 1.0),    # Purple
+    (0.4, 0.26, 0.13),  # Brown
+    (0.0, 0.9, 1.0),    # Cyan
+    (0.5, 1.0, 0.0),    # Lime
+    (1.0, 0.0, 0.0)     # Red
+)
+crewmate_names = ("Pogo", "Peep", "Bolt", "Scruff", "Zippy", "Dash", "Quirk", "Blink", "Doodle", "Squish", "Sprout", "Nibble")
+positions = ((854, 51), (413, 15), (764, 290), (976, 210), (87, 48), (41, 279), (216, 203), (435, 242), (523, 149), (696, 54), (848, 181), (997, 19))

@@ -1,0 +1,33 @@
+# EX01: SELECT A COURSE
+courses = ["Programming for artists", "Applied Math and Physics Fundamentals", "Preproduction", "3D1", "Compositing",
+           "Programming for artists", "Foundation for film", "Foundation for games", "Compositing", "3D1"]
+
+# EX02: SECRET MESSAGE
+start_sentence = "The quick brown fox jumps over the lazy dog."
+secret_indices = (0, 1, 6, 24, 3, 7, 12, 40, 28, 15, 6, 24, 3, 36, 15, 22, 36, 24, 31, 33, 29, 23, 6, 2, 7, 33, 43)
+
+# EX03: COSMIC DANCE
+def draw_star(center_x: float, center_y: float, size: float, color: tuple):
+    """
+    Draws a 5-point star with a fill color of choice, but no outline. It is drawn as a polygon.
+    :param center_x: The center x position of the star
+    :param center_y: The center y position of the star
+    :param size: The size (diameter) to draw the star with
+    :param color: The fill color of the star
+    :return: -
+    """
+    engine.outline_color = None
+    engine.color = color
+    dots = []
+    num_points = 5
+    outer_radius = size / 2
+    inner_radius = outer_radius / 2
+    angle = math.pi / num_points
+
+    for i in range(num_points * 2):
+        r = outer_radius if i % 2 == 0 else inner_radius
+        x = center_x + math.cos(i * angle) * r
+        y = center_y + math.sin(i * angle) * r
+        dots.append((x, y))
+
+    engine.draw_poly(dots)
