@@ -18,14 +18,17 @@ engine.fps = 60
 
 # GAME STATE
 class GameState(Enum):
-    INTRO = 0,
-    GAMEPLAY = 1,
-    GAMEOVER = 2,
-    HIGHSCORE = 3
-current_state = GameState.INTRO
+    START = 0,
+    DIFFICULTY = 1,
+    GAMEPLAY = 2,
+    GAMEOVER = 3,
+    HIGHSCORE = 4
+current_state = GameState.START
 
 # SPAWNING WORDS
-# word_list =
+word_list = ["cow", "horse", "test", "pig", "chicken"]
+word_spawn_timer = 0
+time_to_spawn = 2
 
 def start_screen():
     engine.shape_mode = ShapeMode.CORNER
@@ -51,16 +54,19 @@ def render():
     """
     This function is being executed over and over, as fast as the frame rate. Use to draw (not update).
     """
-    if current_state == GameState.INTRO:
+    if current_state == GameState.START:
         engine.background_color = 1, 0, 1
         start_screen()
+    elif current_state == GameState.DIFFICULTY:
+        engine.background_color = 1, 1, 0
+        engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2, engine.height / 2, True)
     elif current_state == GameState.GAMEPLAY:
         engine.background_color = 0, 1, 1
         draw_words()
     elif current_state == GameState.GAMEOVER:
         engine.background_color = 1, 0, 0
         engine.shape_mode = ShapeMode.CENTER
-        engine.draw_text("GAMEOVER", engine.width/2, engine.height/2, True)
+        engine.draw_text("GAME OVER", engine.width/2, engine.height/2, True)
     elif current_state == GameState.HIGHSCORE:
         engine.background_color = 0, 1, 0
         engine.draw_text("HIGHSCORE", engine.width/2, engine.height/2, True)
@@ -89,19 +95,20 @@ def key_up_event(key: str):
     Special keys have more than 1 character, for example ESCAPE, BACKSPACE, ENTER, ...
     """
     global current_state
-    if current_state == GameState.INTRO and key:
-        current_state = GameState.GAMEPLAY
+    if current_state == GameState.START and key:
+        current_state = GameState.DIFFICULTY
 
     # DEBUG
     if key == "1":
-        current_state = GameState.INTRO
+        current_state = GameState.START
     elif key == "2":
-        current_state = GameState.GAMEPLAY
+        current_state = GameState.DIFFICULTY
     elif key == "3":
-        current_state = GameState.GAMEOVER
+        current_state = GameState.GAMEPLAY
     elif key == "4":
+        current_state = GameState.GAMEOVER
+    elif key == "5":
         current_state = GameState.HIGHSCORE
-
     pass
 
 
