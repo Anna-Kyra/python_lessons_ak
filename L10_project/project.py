@@ -16,12 +16,16 @@ engine = pfe.ProgfaEngine(800, 600)
 # Set the frame rate to x frames per second:
 engine.fps = 60
 
+# GAME STATE
 class GameState(Enum):
-    START = 0
-    PLAY = 1
-    END = 2
+    INTRO = 0,
+    GAMEPLAY = 1,
+    GAMEOVER = 2,
+    HIGHSCORE = 3
+current_state = GameState.INTRO
 
-current_state = GameState.START
+# SPAWNING WORDS
+# word_list =
 
 def start_screen():
     engine.shape_mode = ShapeMode.CORNER
@@ -31,7 +35,7 @@ def start_screen():
     engine.draw_text('Moo-ve your fingers', engine.width/2, engine.height/4, True)
 
     engine.set_font_size(30)
-    engine.draw_text('_Press any key to start_', engine.width/2, engine.height*(3/4), True)
+    engine.draw_text('_Press any key to play_', engine.width/2, engine.height*(3/4), True)
 
 def setup():
     """
@@ -40,17 +44,26 @@ def setup():
 
     pass
 
+def draw_words():
+    pass
 
 def render():
     """
     This function is being executed over and over, as fast as the frame rate. Use to draw (not update).
     """
-    if current_state == GameState.START:
+    if current_state == GameState.INTRO:
         engine.background_color = 1, 0, 1
         start_screen()
-    if current_state == GameState.PLAY:
+    elif current_state == GameState.GAMEPLAY:
+        engine.background_color = 0, 1, 1
+        draw_words()
+    elif current_state == GameState.GAMEOVER:
+        engine.background_color = 1, 0, 0
+        engine.shape_mode = ShapeMode.CENTER
+        engine.draw_text("GAMEOVER", engine.width/2, engine.height/2, True)
+    elif current_state == GameState.HIGHSCORE:
         engine.background_color = 0, 1, 0
-
+        engine.draw_text("HIGHSCORE", engine.width/2, engine.height/2, True)
     pass
 
 
@@ -76,8 +89,18 @@ def key_up_event(key: str):
     Special keys have more than 1 character, for example ESCAPE, BACKSPACE, ENTER, ...
     """
     global current_state
-    if current_state == GameState.START and key:
-        current_state = GameState.PLAY
+    if current_state == GameState.INTRO and key:
+        current_state = GameState.GAMEPLAY
+
+    # DEBUG
+    if key == "1":
+        current_state = GameState.INTRO
+    elif key == "2":
+        current_state = GameState.GAMEPLAY
+    elif key == "3":
+        current_state = GameState.GAMEOVER
+    elif key == "4":
+        current_state = GameState.HIGHSCORE
 
     pass
 
