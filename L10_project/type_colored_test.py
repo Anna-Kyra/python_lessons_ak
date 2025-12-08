@@ -18,10 +18,6 @@ engine.fps = 60
 
 # SPAWNING WORDS
 word_list = ["cow", "horse", "test", "pig", "chicken"]
-word_spawn_timer = 0
-time_to_spawn = 2
-
-
 
 def setup():
     """
@@ -91,16 +87,23 @@ def key_up_event(key: str):
     suffix = f"\033[0m"
 
     if key.lower() == random_word_list[current_index]:
-        print("Correct:", f"{prefix}{key}{suffix}")
         current_index += 1
-        print(random_word)
+
+        colored_word = ""
+        for index, letter in enumerate(random_word_list):
+            if index < current_index:
+                colored_word += f"{prefix}{letter}{suffix}"
+            else:
+                colored_word += letter
+        print(colored_word)
 
         if current_index == len(random_word_list):
             print("Word Complete!")
             random_word = random.choice(word_list)
             random_word_list = list(random_word)
-            print(random_word)
             current_index = 0
+            print(random_word)
+
     else:
         print("Wrong:", key)
     pass
