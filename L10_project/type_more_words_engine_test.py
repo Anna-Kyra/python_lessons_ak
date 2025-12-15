@@ -57,6 +57,7 @@ def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 10):
 
     engine.set_font_size(font_size)
 
+    # COW
     if animal == "cow":
         # Word
         engine.shape_mode = ShapeMode.CORNER
@@ -69,6 +70,7 @@ def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 10):
         engine.color = 0, 1, 0
         engine.set_font_size(50)
         engine.draw_text(f"{word_colored_cow.upper()}", x, y, False)
+    # CHICKEN
     elif animal == "chicken":
         # Word
         engine.shape_mode = ShapeMode.CORNER
@@ -81,6 +83,7 @@ def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 10):
         engine.color = 0, 1, 0
         engine.set_font_size(50)
         engine.draw_text(f"{word_colored_chicken.upper()}", x, y, False)
+    # HORSE
     elif animal == "horse":
         # Word
         engine.shape_mode = ShapeMode.CORNER
@@ -172,7 +175,6 @@ def type_word(animal: str, key: str):
             random_word_list_horse = list(random_word_horse)
             current_index_horse = 0
             word_colored_horse = ""
-
 
     if not correct:
         print("Wrong:", key)
