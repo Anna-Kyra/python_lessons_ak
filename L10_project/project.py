@@ -250,24 +250,31 @@ def type_word(key: str):
         current_index_cow += 1
         word_colored_cow = random_word_cow[:current_index_cow]
     if current_index_cow == len(random_word_list_cow):
-        if current_difficulty == GameDifficulty.MEDIUM:
+        if current_difficulty == GameDifficulty.EASY:
+            if score < 5:
+                score += 1
+        elif current_difficulty == GameDifficulty.MEDIUM:
             if score < 5 and random_animal_medium == "cow":
                 score += 1
             elif random_animal_medium == "cow":
                 random_animal_medium = random.choice(animals_medium)
                 word_count += 1
-            elif random_animal_medium != "cow":
+            elif random_animal_medium != "cow" and score > 0:
                 score -= 1
                 print("not cow")
+            else:
+                current_state = GameState.GAMEOVER
         elif current_difficulty == GameDifficulty.HARD:
             if score < 5 and random_animal_hard == "cow":
                 score += 1
             elif random_animal_hard == "cow":
                 random_animal_hard = random.choice(animals_hard)
                 word_count += 1
-            elif random_animal_hard != "cow":
+            elif random_animal_hard != "cow" and score > 0:
                 score -= 1
                 print("not cow")
+            else:
+                current_state = GameState.GAMEOVER
 
         print("Cow word complete!")
         random_word_cow = random.choice(word_list_cow)
@@ -298,9 +305,11 @@ def type_word(key: str):
             elif random_animal_hard == "chicken":
                 random_animal_hard = random.choice(animals_hard)
                 word_count += 1
-            elif random_animal_hard != "chicken":
+            elif random_animal_hard != "chicken" and score > 0:
                 score -= 1
                 print("not chicken")
+            else:
+                current_state = GameState.GAMEOVER
 
         print("Chicken word complete!")
         random_word_chicken = random.choice(word_list_chicken)
@@ -316,24 +325,17 @@ def type_word(key: str):
         current_index_horse += 1
         word_colored_horse = random_word_horse[:current_index_horse]
     if current_index_horse == len(random_word_list_horse):
-        if current_difficulty == GameDifficulty.MEDIUM:
-            if score < 5 and random_animal_medium == "horse":
-                score += 1
-            elif random_animal_medium == "horse":
-                random_animal_medium = random.choice(animals_medium)
-                word_count += 1
-            elif random_animal_medium != "horse":
-                score -= 1
-                print("not horse")
-        elif current_difficulty == GameDifficulty.HARD:
+        if current_difficulty == GameDifficulty.HARD:
             if score < 5 and random_animal_hard == "horse":
                 score += 1
             elif random_animal_hard == "horse":
                 random_animal_hard = random.choice(animals_hard)
                 word_count += 1
-            elif random_animal_hard != "horse":
+            elif random_animal_hard != "horse" and score > 0:
                 score -= 1
                 print("not horse")
+            else:
+                current_state = GameState.GAMEOVER
 
         print("Horse word complete!")
         random_word_horse = random.choice(word_list_horse)
