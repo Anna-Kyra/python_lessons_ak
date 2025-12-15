@@ -1,0 +1,208 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on 8-12-2025
+
+@author: anna-
+"""
+
+import dae_progfa_lib as pfe
+from dae_progfa_lib import MouseButton, ShapeMode
+import random
+
+# Create an instance of ProgfaEngine and set window size (width, height):
+engine = pfe.ProgfaEngine(800, 600)
+
+# Set the frame rate to x frames per second:
+engine.fps = 60
+
+# SPAWNING WORDS
+# Lists
+word_list_cow = ["cow", "cheese", "milk", "leather", "meat", "four stomachs", "strong smell", "peripheral vision", "zoomies", "mooo"]
+word_list_chicken = ["chicken", "hen", "egg", "seeds", "bird", "rooster", "feathers", "chick"]
+word_list_horse = ["horse", "neh", "carrot", "sugar cube", "saddle", "cowboy", "equipment", "helmet", "riding"]
+
+# Randomise
+random_word_cow = random.choice(word_list_cow)
+random_word_chicken = random.choice(word_list_chicken)
+random_word_horse = random.choice(word_list_horse)
+
+# Chosen word lists
+random_word_list_cow = list(random_word_cow)
+random_word_list_chicken = list(random_word_chicken)
+random_word_list_horse = list(random_word_horse)
+
+# Word colored
+word_colored_cow = ""
+word_colored_chicken = ""
+word_colored_horse = ""
+
+# Current index
+current_index_cow = 0
+current_index_chicken = 0
+current_index_horse = 0
+
+print(f"Cow = {random_word_cow}")
+print(f"Chicken = {random_word_chicken}")
+print(f"Horse = {random_word_horse}")
+
+def setup():
+    """
+    Only executed ONCE (at the start); use to load files and initialize.
+    """
+
+    pass
+
+def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 10):
+
+    engine.set_font_size(font_size)
+
+    if animal == "cow":
+        # Word
+        engine.shape_mode = ShapeMode.CORNER
+        engine.color = 1, 1, 1
+        engine.set_font_size(50)
+        engine.draw_text(f"{random_word_cow.upper()}", x, y, False)
+
+        # Word colored
+        engine.shape_mode = ShapeMode.CORNER
+        engine.color = 0, 1, 0
+        engine.set_font_size(50)
+        engine.draw_text(f"{word_colored_cow.upper()}", x, y, False)
+    elif animal == "chicken":
+        # Word
+        engine.shape_mode = ShapeMode.CORNER
+        engine.color = 1, 1, 1
+        engine.set_font_size(50)
+        engine.draw_text(f"{random_word_chicken.upper()}", x, y, False)
+
+        # Word colored
+        engine.shape_mode = ShapeMode.CORNER
+        engine.color = 0, 1, 0
+        engine.set_font_size(50)
+        engine.draw_text(f"{word_colored_chicken.upper()}", x, y, False)
+    elif animal == "horse":
+        # Word
+        engine.shape_mode = ShapeMode.CORNER
+        engine.color = 1, 1, 1
+        engine.set_font_size(50)
+        engine.draw_text(f"{random_word_horse.upper()}", x, y, False)
+
+        # Word colored
+        engine.shape_mode = ShapeMode.CORNER
+        engine.color = 0, 1, 0
+        engine.set_font_size(50)
+        engine.draw_text(f"{word_colored_horse.upper()}", x, y, False)
+    pass
+
+def render():
+    """
+    This function is being executed over and over, as fast as the frame rate. Use to draw (not update).
+    """
+    engine.background_color = 0, 0, 0
+    draw_word("cow", 100, 100)
+    draw_word("chicken", 200, 200)
+    draw_word("horse", 300, 300)
+    pass
+
+def evaluate():
+    """
+    This function is being executed over and over, as fast as the frame rate. Use to update (not draw).
+    """
+
+    pass
+
+
+def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
+    """
+    This function is only executed once each time a mouse button was pressed!
+    """
+
+    pass
+
+def type_word_cow(key: str):
+    global current_index_cow, random_word_cow, random_word_list_cow, word_colored_cow
+
+    correct = False
+    word_colored_cow = random_word_cow[:current_index_cow]
+
+    # COW
+    if key.lower() == random_word_list_cow[current_index_cow]:
+        correct = True
+        current_index_cow += 1
+        word_colored_cow = random_word_cow[:current_index_cow]
+
+    if current_index_cow == len(random_word_list_cow):
+        print("Cow word complete!")
+        random_word_cow = random.choice(word_list_cow)
+        random_word_list_cow = list(random_word_cow)
+        current_index_cow = 0
+        word_colored_cow = ""
+
+    if not correct:
+        print("Wrong:", key)
+
+def type_word_chicken(key: str):
+    global current_index_chicken, random_word_chicken, random_word_list_chicken, word_colored_chicken
+
+    correct = False
+    word_colored_chicken = random_word_chicken[:current_index_chicken]
+
+    # COW
+    if key.lower() == random_word_list_chicken[current_index_chicken]:
+        correct = True
+        current_index_chicken += 1
+        word_colored_chicken = random_word_chicken[:current_index_chicken]
+
+    if current_index_chicken == len(random_word_list_chicken):
+        print("Cow word complete!")
+        random_word_chicken = random.choice(word_list_chicken)
+        random_word_list_chicken = list(random_word_chicken)
+        current_index_chicken = 0
+        word_colored_chicken = ""
+
+    if not correct:
+        print("Wrong:", key)
+
+def type_word_horse(key: str):
+    global current_index_horse, random_word_horse, random_word_list_horse, word_colored_horse
+
+    correct = False
+    word_colored_horse = random_word_horse[:current_index_horse]
+
+    # COW
+    if key.lower() == random_word_list_horse[current_index_horse]:
+        correct = True
+        current_index_horse += 1
+        word_colored_horse = random_word_horse[:current_index_horse]
+
+    if current_index_horse == len(random_word_list_horse):
+        print("Cow word complete!")
+        random_word_horse = random.choice(word_list_horse)
+        random_word_list_horse = list(random_word_horse)
+        current_index_horse = 0
+        word_colored_horse = ""
+
+    if not correct:
+        print("Wrong:", key)
+
+def key_up_event(key: str):
+    """
+    This function is only executed once each time a key was released!
+    Special keys have more than 1 character, for example ESCAPE, BACKSPACE, ENTER, ...
+    """
+    type_word_cow(key)
+    type_word_chicken(key)
+    type_word_horse(key)
+    pass
+
+
+# Engine stuff; best not to mess with this:
+engine._setup = setup
+engine._evaluate = evaluate
+engine._render = render
+engine._mouse_pressed_event = mouse_pressed_event
+engine._key_up_event = key_up_event
+
+# Start the game loop:
+engine.play()

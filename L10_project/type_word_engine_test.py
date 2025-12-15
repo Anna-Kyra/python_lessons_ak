@@ -7,10 +7,8 @@ Created on 8-12-2025
 """
 
 import dae_progfa_lib as pfe
-from dae_progfa_lib import MouseButton
+from dae_progfa_lib import MouseButton, ShapeMode
 import random
-
-from L10_project.type_colored_test import current_index
 
 # Create an instance of ProgfaEngine and set window size (width, height):
 engine = pfe.ProgfaEngine(800, 600)
@@ -21,27 +19,18 @@ engine.fps = 60
 # SPAWNING WORDS
 # Lists
 word_list_cow = ["cow", "cheese", "milk", "leather", "meat", "four stomachs", "strong smell", "peripheral vision", "zoomies", "mooo"]
-word_list_chicken = ["chicken", "hen", "egg", "seeds", "bird", "rooster", "feathers", "chick"]
-word_list_horse = ["horse", "neh", "carrot", "sugar cube", "saddle", "cowboy", "equipment", "helmet", "riding"]
 
 # Randomise
 random_word_cow = random.choice(word_list_cow)
-random_word_chicken = random.choice(word_list_chicken)
-random_word_horse = random.choice(word_list_horse)
 
 # Chosen word lists
 random_word_list_cow = list(random_word_cow)
-random_word_list_chicken = list(random_word_chicken)
-random_word_list_horse = list(random_word_horse)
+word_colored_cow = ""
 
 # Current index
 current_index_cow = 0
-current_index_chicken = 0
-current_index_horse = 0
 
 print(f"Cow = {random_word_cow}")
-print(f"Chicken = {random_word_chicken}")
-print(f"Horse = {random_word_horse}")
 
 def setup():
     """
@@ -50,12 +39,27 @@ def setup():
 
     pass
 
+def draw_word(word_cow: str):
+    engine.shape_mode = ShapeMode.CORNER
+    engine.color = 1, 1, 1
+    engine.set_font_size(50)
+    engine.draw_text(f"{word_cow}", engine.width/2, engine.height/2, False)
+    pass
+
+def draw_word_color(word_colored: str):
+    engine.shape_mode = ShapeMode.CORNER
+    engine.color = 0, 1, 0
+    engine.set_font_size(50)
+    engine.draw_text(f"{word_colored}", engine.width / 2, engine.height / 2, False)
+    pass
 
 def render():
     """
     This function is being executed over and over, as fast as the frame rate. Use to draw (not update).
     """
-
+    engine.background_color = 0, 0, 0
+    draw_word(random_word_cow.upper())
+    draw_word_color(word_colored_cow.upper())
     pass
 
 
@@ -80,9 +84,8 @@ def key_up_event(key: str):
     This function is only executed once each time a key was released!
     Special keys have more than 1 character, for example ESCAPE, BACKSPACE, ENTER, ...
     """
-    global current_index_cow, random_word_cow, random_word_list_cow
-    global current_index_chicken, random_word_chicken, random_word_list_chicken
-    global current_index_horse, random_word_horse, random_word_list_horse
+    global current_index_cow, random_word_cow, random_word_list_cow, word_colored_cow
+
     prefix = f"\033[32m"
     suffix = f"\033[0m"
 
@@ -97,6 +100,7 @@ def key_up_event(key: str):
         for index, letter in enumerate(random_word_list_cow):
             if index < current_index_cow:
                 colored_word_cow += f"{prefix}{letter}{suffix}"
+                word_colored_cow += letter
             else:
                 colored_word_cow += letter
         print(f"Cow = {colored_word_cow}")
@@ -107,48 +111,9 @@ def key_up_event(key: str):
             random_word_list_cow = list(random_word_cow)
             current_index_cow = 0
             print(f"Cow = {random_word_cow}")
-
-    # CHICKEN
-    if key.lower() == random_word_list_chicken[current_index_chicken]:
-        correct = True
-        current_index_chicken += 1
-
-        colored_word_chicken = ""
-        for index, letter in enumerate(random_word_list_chicken):
-            if index < current_index_chicken:
-                colored_word_chicken += f"{prefix}{letter}{suffix}"
-            else:
-                colored_word_chicken += letter
-        print(f"Chicken = {colored_word_chicken}")
-
-        if current_index_chicken == len(random_word_list_chicken):
-            print("Chicken word complete!")
-            random_word_chicken = random.choice(word_list_chicken)
-            random_word_list_chicken = list(random_word_chicken)
-            current_index_chicken = 0
-            print(f"Chicken = {random_word_chicken}")
-
-    # HORSE
-    if key.lower() == random_word_list_horse[current_index_horse]:
-        correct = True
-        current_index_horse += 1
-
-        colored_word_horse = ""
-        for index, letter in enumerate(random_word_list_horse):
-            if index < current_index_horse:
-                colored_word_horse += f"{prefix}{letter}{suffix}"
-            else:
-                colored_word_horse += letter
-        print(f"Horse = {colored_word_horse}")
-
-        if current_index_horse == len(random_word_list_horse):
-            print("Horse word complete!")
-            random_word_horse = random.choice(word_list_horse)
-            random_word_list_horse = list(random_word_horse)
-            current_index_horse = 0
-            print(f"Horse = {random_word_horse}")
     if not correct:
         print("Wrong:", key)
+
     pass
 
 
