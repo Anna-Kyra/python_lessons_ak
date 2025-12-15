@@ -61,6 +61,14 @@ print(f"Cow = {random_word_cow}")
 print(f"Chicken = {random_word_chicken}")
 print(f"Horse = {random_word_horse}")
 
+# DIFFERENT ANIMALS
+animals_easy = "cow"
+animals_medium = "cow", "chicken"
+animals_hard = "cow", "chicken", "horse"
+
+random_animal_medium = random.choice(animals_medium)
+random_animal_hard = random.choice(animals_hard)
+
 # SCORE
 score = 5
 word_count = 0
@@ -135,6 +143,16 @@ def draw_word_count():
     engine.color = 0, 0, 0
     engine.draw_text(f"{word_count}", engine.width - 50, 20)
 
+def draw_type_animal():
+    engine.color = 0, 0, 0
+
+    if current_difficulty == GameDifficulty.EASY:
+        engine.draw_text(f"{animals_easy}", engine.width / 2, 10, True)
+    elif current_difficulty == GameDifficulty.MEDIUM:
+        engine.draw_text(f"{random_animal_medium}", engine.width / 2, 10, True)
+    elif current_difficulty == GameDifficulty.HARD:
+        engine.draw_text(f"{random_animal_hard}", engine.width / 2, 10, True)
+
 def render():
     """
     This function is being executed over and over, as fast as the frame rate. Use to draw (not update).
@@ -160,6 +178,7 @@ def render():
 
         draw_score()
         draw_word_count()
+        draw_type_animal()
 
         # Number word change
         if current_difficulty == GameDifficulty.EASY:
@@ -219,6 +238,7 @@ def type_word(key: str):
     global current_index_horse, random_word_horse, random_word_list_horse, word_colored_horse
 
     global score, current_state, word_count
+    global random_animal_medium, random_animal_hard
 
     correct = False
 
@@ -236,9 +256,18 @@ def type_word(key: str):
         current_index_cow = 0
         word_colored_cow = ""
 
-        if score < 5:
+        if score < 5 and ((random_animal_medium == "cow" or random_animal_hard == "cow") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD)):
             score += 1
-        word_count += 1
+            word_count += 1
+
+        if (random_animal_medium == "cow" or random_animal_hard == "cow") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD):
+            word_count += 1
+
+        if (random_animal_medium == "cow" or random_animal_hard == "cow") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD):
+            random_animal_medium = random.choice(animals_medium)
+            random_animal_hard = random.choice(animals_hard)
+            print(f"hard = {random_animal_hard}")
+            print(f"medium = {random_animal_medium}")
 
     # CHICKEN
     word_colored_chicken = random_word_chicken[:current_index_chicken]
@@ -254,9 +283,19 @@ def type_word(key: str):
         current_index_chicken = 0
         word_colored_chicken = ""
 
-        if score < 5:
+        if score < 5 and ((random_animal_medium == "chicken" or random_animal_hard == "chicken") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD)):
             score += 1
-        word_count += 1
+
+        if (random_animal_medium == "chicken" or random_animal_hard == "chicken") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD):
+            word_count += 1
+
+        if (random_animal_medium == "chicken" or random_animal_hard == "chicken") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD):
+            random_animal_medium = random.choice(animals_medium)
+            random_animal_hard = random.choice(animals_hard)
+            print(f"hard = {random_animal_hard}")
+            print(f"medium = {random_animal_medium}")
+
+
 
     # HORSE
     word_colored_horse = random_word_horse[:current_index_horse]
@@ -272,9 +311,19 @@ def type_word(key: str):
         current_index_horse = 0
         word_colored_horse = ""
 
-        if score < 5:
+        if score < 5 and ((random_animal_medium == "horse" or random_animal_hard == "horse") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD)):
             score += 1
-        word_count += 1
+
+        if (random_animal_medium == "horse" or random_animal_hard == "horse") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD):
+            word_count += 1
+
+        if (random_animal_medium == "horse" or random_animal_hard == "horse") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD):
+            random_animal_medium = random.choice(animals_medium)
+            random_animal_hard = random.choice(animals_hard)
+            print(f"hard = {random_animal_hard}")
+            print(f"medium = {random_animal_medium}")
+
+
 
     if not correct:
         print("Wrong:", key)
