@@ -250,24 +250,30 @@ def type_word(key: str):
         current_index_cow += 1
         word_colored_cow = random_word_cow[:current_index_cow]
     if current_index_cow == len(random_word_list_cow):
+        if current_difficulty == GameDifficulty.MEDIUM:
+            if score < 5 and random_animal_medium == "cow":
+                score += 1
+            elif random_animal_medium == "cow":
+                random_animal_medium = random.choice(animals_medium)
+                word_count += 1
+            elif random_animal_medium != "cow":
+                score -= 1
+                print("not cow")
+        elif current_difficulty == GameDifficulty.HARD:
+            if score < 5 and random_animal_hard == "cow":
+                score += 1
+            elif random_animal_hard == "cow":
+                random_animal_hard = random.choice(animals_hard)
+                word_count += 1
+            elif random_animal_hard != "cow":
+                score -= 1
+                print("not cow")
+
         print("Cow word complete!")
         random_word_cow = random.choice(word_list_cow)
         random_word_list_cow = list(random_word_cow)
         current_index_cow = 0
         word_colored_cow = ""
-
-        if score < 5 and ((random_animal_medium == "cow" or random_animal_hard == "cow") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD)):
-            score += 1
-            word_count += 1
-
-        if (random_animal_medium == "cow" or random_animal_hard == "cow") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD):
-            word_count += 1
-
-        if (random_animal_medium == "cow" or random_animal_hard == "cow") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD):
-            random_animal_medium = random.choice(animals_medium)
-            random_animal_hard = random.choice(animals_hard)
-            print(f"hard = {random_animal_hard}")
-            print(f"medium = {random_animal_medium}")
 
     # CHICKEN
     word_colored_chicken = random_word_chicken[:current_index_chicken]
@@ -277,25 +283,30 @@ def type_word(key: str):
         current_index_chicken += 1
         word_colored_chicken = random_word_chicken[:current_index_chicken]
     if current_index_chicken == len(random_word_list_chicken):
+        if current_difficulty == GameDifficulty.MEDIUM:
+            if score < 5 and random_animal_medium == "chicken":
+                score += 1
+            elif random_animal_medium == "chicken":
+                random_animal_medium = random.choice(animals_medium)
+                word_count += 1
+            elif random_animal_medium != "chicken":
+                score -= 1
+                print("not chicken")
+        elif current_difficulty == GameDifficulty.HARD:
+            if score < 5 and random_animal_hard == "chicken":
+                score += 1
+            elif random_animal_hard == "chicken":
+                random_animal_hard = random.choice(animals_hard)
+                word_count += 1
+            elif random_animal_hard != "chicken":
+                score -= 1
+                print("not chicken")
+
         print("Chicken word complete!")
         random_word_chicken = random.choice(word_list_chicken)
         random_word_list_chicken = list(random_word_chicken)
         current_index_chicken = 0
         word_colored_chicken = ""
-
-        if score < 5 and ((random_animal_medium == "chicken" or random_animal_hard == "chicken") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD)):
-            score += 1
-
-        if (random_animal_medium == "chicken" or random_animal_hard == "chicken") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD):
-            word_count += 1
-
-        if (random_animal_medium == "chicken" or random_animal_hard == "chicken") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD):
-            random_animal_medium = random.choice(animals_medium)
-            random_animal_hard = random.choice(animals_hard)
-            print(f"hard = {random_animal_hard}")
-            print(f"medium = {random_animal_medium}")
-
-
 
     # HORSE
     word_colored_horse = random_word_horse[:current_index_horse]
@@ -305,25 +316,30 @@ def type_word(key: str):
         current_index_horse += 1
         word_colored_horse = random_word_horse[:current_index_horse]
     if current_index_horse == len(random_word_list_horse):
+        if current_difficulty == GameDifficulty.MEDIUM:
+            if score < 5 and random_animal_medium == "horse":
+                score += 1
+            elif random_animal_medium == "horse":
+                random_animal_medium = random.choice(animals_medium)
+                word_count += 1
+            elif random_animal_medium != "horse":
+                score -= 1
+                print("not horse")
+        elif current_difficulty == GameDifficulty.HARD:
+            if score < 5 and random_animal_hard == "horse":
+                score += 1
+            elif random_animal_hard == "horse":
+                random_animal_hard = random.choice(animals_hard)
+                word_count += 1
+            elif random_animal_hard != "horse":
+                score -= 1
+                print("not horse")
+
         print("Horse word complete!")
         random_word_horse = random.choice(word_list_horse)
         random_word_list_horse = list(random_word_horse)
         current_index_horse = 0
         word_colored_horse = ""
-
-        if score < 5 and ((random_animal_medium == "horse" or random_animal_hard == "horse") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD)):
-            score += 1
-
-        if (random_animal_medium == "horse" or random_animal_hard == "horse") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD):
-            word_count += 1
-
-        if (random_animal_medium == "horse" or random_animal_hard == "horse") and (current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD):
-            random_animal_medium = random.choice(animals_medium)
-            random_animal_hard = random.choice(animals_hard)
-            print(f"hard = {random_animal_hard}")
-            print(f"medium = {random_animal_medium}")
-
-
 
     if not correct:
         print("Wrong:", key)
