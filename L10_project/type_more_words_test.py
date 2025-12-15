@@ -10,8 +10,6 @@ import dae_progfa_lib as pfe
 from dae_progfa_lib import MouseButton
 import random
 
-from L10_project.type_colored_test import current_index
-
 # Create an instance of ProgfaEngine and set window size (width, height):
 engine = pfe.ProgfaEngine(800, 600)
 
@@ -147,6 +145,8 @@ def key_up_event(key: str):
             random_word_list_horse = list(random_word_horse)
             current_index_horse = 0
             print(f"Horse = {random_word_horse}")
+
+    print(correct)
     if not correct:
         print("Wrong:", key)
     pass
