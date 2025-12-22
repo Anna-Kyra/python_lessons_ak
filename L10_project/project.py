@@ -95,6 +95,8 @@ def setup():
 
     pass
 
+
+
 def start_screen():
     engine.shape_mode = ShapeMode.CORNER
     engine.color = 0, 0, 0
@@ -289,6 +291,7 @@ def type_word(key: str):
         correct = True
         current_index_cow += 1
         word_colored_cow = random_word_cow[:current_index_cow]
+        word_color_cow = 0, 1, 0
 
     if current_index_cow == len(random_word_list_cow):
         # Easy mode
@@ -403,7 +406,9 @@ def type_word(key: str):
 
     if not correct:
         print("Wrong:", key)
-
+        word_color_cow = 1, 0, 0
+        word_color_chicken = 1, 0, 0
+        word_color_horse = 1, 0, 0
 
         if score > 0:
             score -= 1
