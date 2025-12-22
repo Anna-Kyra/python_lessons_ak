@@ -69,6 +69,11 @@ animals_hard = "cow", "chicken", "horse"
 random_animal_medium = random.choice(animals_medium)
 random_animal_hard = random.choice(animals_hard)
 
+# New word color
+word_color_cow = (0, 1, 0)
+word_color_chicken = (0, 1, 0)
+word_color_horse = (0, 1, 0)
+
 # SCORE
 score = 5
 word_count = 0
@@ -78,6 +83,17 @@ timer = 0
 seconds = 0
 
 sunset_color = 1, 0.65, 0
+
+# -----------------
+# Helper functions
+# -----------------
+
+def setup():
+    """
+    Only executed ONCE (at the start); use to load files and initialize.
+    """
+
+    pass
 
 def start_screen():
     engine.shape_mode = ShapeMode.CORNER
@@ -89,14 +105,13 @@ def start_screen():
     engine.set_font_size(30)
     engine.draw_text('_Press any key to play_', engine.width/2, engine.height*(3/4), True)
 
-def setup():
-    """
-    Only executed ONCE (at the start); use to load files and initialize.
-    """
 
-    pass
+# -----------------
+# Draw functions
+# -----------------
 
-def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 10):
+def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 30):
+    global word_color_cow, word_color_chicken, word_color_horse
     engine.set_font_size(font_size)
     color_word = 0, 0, 0
 
@@ -105,39 +120,33 @@ def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 10):
         # Word
         engine.shape_mode = ShapeMode.CORNER
         engine.color = color_word
-        engine.set_font_size(50)
         engine.draw_text(f"{random_word_cow.upper()}", x, y, False)
 
         # Word colored
         engine.shape_mode = ShapeMode.CORNER
-        engine.color = 0, 1, 0
-        engine.set_font_size(50)
+        engine.color = word_color_cow
         engine.draw_text(f"{word_colored_cow.upper()}", x, y, False)
     # CHICKEN
     elif animal == "chicken":
         # Word
         engine.shape_mode = ShapeMode.CORNER
         engine.color = color_word
-        engine.set_font_size(50)
         engine.draw_text(f"{random_word_chicken.upper()}", x, y, False)
 
         # Word colored
         engine.shape_mode = ShapeMode.CORNER
-        engine.color = 0, 1, 0
-        engine.set_font_size(50)
+        engine.color = word_color_chicken
         engine.draw_text(f"{word_colored_chicken.upper()}", x, y, False)
     # HORSE
     elif animal == "horse":
         # Word
         engine.shape_mode = ShapeMode.CORNER
         engine.color = color_word
-        engine.set_font_size(50)
         engine.draw_text(f"{random_word_horse.upper()}", x, y, False)
 
         # Word colored
         engine.shape_mode = ShapeMode.CORNER
-        engine.color = 0, 1, 0
-        engine.set_font_size(50)
+        engine.color = word_color_horse
         engine.draw_text(f"{word_colored_horse.upper()}", x, y, False)
     pass
 
@@ -193,14 +202,14 @@ def render():
 
         # Number word change
         if current_difficulty == GameDifficulty.EASY:
-            draw_word("cow", 100, 100)
+            draw_word("cow", 50 , engine.height - 150)
         elif current_difficulty == GameDifficulty.MEDIUM:
-            draw_word("cow", 100, 100)
-            draw_word("chicken", 200, 200)
+            draw_word("cow", 50, engine.height - 150)
+            draw_word("chicken", engine.width / 3, engine.height - 150)
         elif current_difficulty == GameDifficulty.HARD:
-            draw_word("cow", 100, 100)
-            draw_word("chicken", 200, 200)
-            draw_word("horse", 300, 300)
+            draw_word("cow", 50, engine.height - 150)
+            draw_word("chicken", engine.width / 3, engine.height - 150)
+            draw_word("horse", engine.width / 3 * 2, engine.height - 150)
 
     elif current_state == GameState.GAMEOVER:
         engine.background_color = 1, 0, 0
@@ -208,7 +217,9 @@ def render():
         engine.draw_text("GAME OVER", engine.width/2, engine.height/2, True)
     elif current_state == GameState.HIGHSCORE:
         engine.background_color = 0, 1, 0
+        engine.color = 0, 0, 0
         engine.draw_text("HIGHSCORE", engine.width/2, engine.height/2, True)
+        draw_word_count()
     pass
 
 def evaluate():
@@ -231,6 +242,9 @@ def evaluate():
             current_state = GameState.HIGHSCORE
     pass
 
+# -----------------
+# Game logic
+# -----------------
 
 def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
     """
@@ -264,6 +278,8 @@ def type_word(key: str):
     global score, current_state, word_count
     global random_animal_medium, random_animal_hard
 
+    global word_color_cow, word_color_chicken, word_color_horse
+
     correct = False
 
     # COW
@@ -273,9 +289,11 @@ def type_word(key: str):
         correct = True
         current_index_cow += 1
         word_colored_cow = random_word_cow[:current_index_cow]
+
     if current_index_cow == len(random_word_list_cow):
         # Easy mode
         if current_difficulty == GameDifficulty.EASY:
+            word_count += 1
             if score < 5:
                 score += 1
 
@@ -319,6 +337,8 @@ def type_word(key: str):
         correct = True
         current_index_chicken += 1
         word_colored_chicken = random_word_chicken[:current_index_chicken]
+        word_color_chicken = 0, 1, 0
+
     if current_index_chicken == len(random_word_list_chicken):
         # Medium mode
         if current_difficulty == GameDifficulty.MEDIUM:
@@ -330,6 +350,8 @@ def type_word(key: str):
             elif random_animal_medium != "chicken" and score > 0:
                 score -= 1
                 print("not chicken")
+            else:
+                current_state = GameState.GAMEOVER
 
         # Hard mode
         elif current_difficulty == GameDifficulty.HARD:
@@ -357,6 +379,8 @@ def type_word(key: str):
         correct = True
         current_index_horse += 1
         word_colored_horse = random_word_horse[:current_index_horse]
+        word_color_horse = 0, 1, 0
+
     if current_index_horse == len(random_word_list_horse):
         # Hard mode
         if current_difficulty == GameDifficulty.HARD:
@@ -379,6 +403,7 @@ def type_word(key: str):
 
     if not correct:
         print("Wrong:", key)
+
 
         if score > 0:
             score -= 1
