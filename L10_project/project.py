@@ -274,12 +274,16 @@ def type_word(key: str):
         current_index_cow += 1
         word_colored_cow = random_word_cow[:current_index_cow]
     if current_index_cow == len(random_word_list_cow):
+        # Easy mode
         if current_difficulty == GameDifficulty.EASY:
             if score < 5:
                 score += 1
+
+        # Medium mode
         elif current_difficulty == GameDifficulty.MEDIUM:
             if score < 5 and random_animal_medium == "cow":
                 score += 1
+
             if random_animal_medium == "cow":
                 random_animal_medium = random.choice(animals_medium)
                 word_count += 1
@@ -288,6 +292,8 @@ def type_word(key: str):
                 print("not cow")
             else:
                 current_state = GameState.GAMEOVER
+
+        # Hard mode
         elif current_difficulty == GameDifficulty.HARD:
             if score < 5 and random_animal_hard == "cow":
                 score += 1
@@ -314,15 +320,18 @@ def type_word(key: str):
         current_index_chicken += 1
         word_colored_chicken = random_word_chicken[:current_index_chicken]
     if current_index_chicken == len(random_word_list_chicken):
+        # Medium mode
         if current_difficulty == GameDifficulty.MEDIUM:
             if score < 5 and random_animal_medium == "chicken":
                 score += 1
             if random_animal_medium == "chicken":
                 random_animal_medium = random.choice(animals_medium)
                 word_count += 1
-            elif random_animal_medium != "chicken":
+            elif random_animal_medium != "chicken" and score > 0:
                 score -= 1
                 print("not chicken")
+
+        # Hard mode
         elif current_difficulty == GameDifficulty.HARD:
             if score < 5 and random_animal_hard == "chicken":
                 score += 1
@@ -349,6 +358,7 @@ def type_word(key: str):
         current_index_horse += 1
         word_colored_horse = random_word_horse[:current_index_horse]
     if current_index_horse == len(random_word_list_horse):
+        # Hard mode
         if current_difficulty == GameDifficulty.HARD:
             if score < 5 and random_animal_hard == "horse":
                 score += 1
