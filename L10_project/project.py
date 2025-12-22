@@ -73,6 +73,12 @@ random_animal_hard = random.choice(animals_hard)
 score = 5
 word_count = 0
 
+# TIMER
+timer = 0
+seconds = 0
+
+sunset_color = 1, 0.65, 0
+
 def start_screen():
     engine.shape_mode = ShapeMode.CORNER
     engine.color = 0, 0, 0
@@ -143,6 +149,10 @@ def draw_word_count():
     engine.color = 0, 0, 0
     engine.draw_text(f"{word_count}", engine.width - 50, 20)
 
+def draw_timer():
+    engine.color = 0, 0, 0
+    engine.draw_text(f"{seconds}", 20, engine.height - 40)
+
 def draw_type_animal():
     engine.color = 0, 0, 0
 
@@ -174,11 +184,12 @@ def render():
         engine.draw_rectangle(100 * 3 + 20, 200, 100, 200, False)
 
     elif current_state == GameState.GAMEPLAY:
-        engine.background_color = 0, 1, 1
+        engine.background_color = sunset_color
 
         draw_score()
         draw_word_count()
         draw_type_animal()
+        draw_timer()
 
         # Number word change
         if current_difficulty == GameDifficulty.EASY:
@@ -204,7 +215,20 @@ def evaluate():
     """
     This function is being executed over and over, as fast as the frame rate. Use to update (not draw).
     """
+    global timer, seconds, current_state, sunset_color
 
+    minute = 60
+
+    if current_state == GameState.GAMEPLAY:
+        timer += 1
+        seconds = int(timer / 60)
+
+        if seconds == minute / 3:
+            sunset_color = 0, 1, 1
+        elif seconds == minute / 3 * 2:
+            sunset_color = 0, 0, 0.502
+        elif seconds == minute:
+            current_state = GameState.HIGHSCORE
     pass
 
 
@@ -256,7 +280,7 @@ def type_word(key: str):
         elif current_difficulty == GameDifficulty.MEDIUM:
             if score < 5 and random_animal_medium == "cow":
                 score += 1
-            elif random_animal_medium == "cow":
+            if random_animal_medium == "cow":
                 random_animal_medium = random.choice(animals_medium)
                 word_count += 1
             elif random_animal_medium != "cow" and score > 0:
@@ -267,7 +291,7 @@ def type_word(key: str):
         elif current_difficulty == GameDifficulty.HARD:
             if score < 5 and random_animal_hard == "cow":
                 score += 1
-            elif random_animal_hard == "cow":
+            if random_animal_hard == "cow":
                 random_animal_hard = random.choice(animals_hard)
                 word_count += 1
             elif random_animal_hard != "cow" and score > 0:
@@ -293,7 +317,7 @@ def type_word(key: str):
         if current_difficulty == GameDifficulty.MEDIUM:
             if score < 5 and random_animal_medium == "chicken":
                 score += 1
-            elif random_animal_medium == "chicken":
+            if random_animal_medium == "chicken":
                 random_animal_medium = random.choice(animals_medium)
                 word_count += 1
             elif random_animal_medium != "chicken":
@@ -302,7 +326,7 @@ def type_word(key: str):
         elif current_difficulty == GameDifficulty.HARD:
             if score < 5 and random_animal_hard == "chicken":
                 score += 1
-            elif random_animal_hard == "chicken":
+            if random_animal_hard == "chicken":
                 random_animal_hard = random.choice(animals_hard)
                 word_count += 1
             elif random_animal_hard != "chicken" and score > 0:
@@ -328,7 +352,7 @@ def type_word(key: str):
         if current_difficulty == GameDifficulty.HARD:
             if score < 5 and random_animal_hard == "horse":
                 score += 1
-            elif random_animal_hard == "horse":
+            if random_animal_hard == "horse":
                 random_animal_hard = random.choice(animals_hard)
                 word_count += 1
             elif random_animal_hard != "horse" and score > 0:
@@ -350,7 +374,6 @@ def type_word(key: str):
             score -= 1
         else:
             current_state = GameState.GAMEOVER
-
 
 def key_up_event(key: str):
     """
