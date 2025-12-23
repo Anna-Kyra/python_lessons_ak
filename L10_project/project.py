@@ -74,6 +74,12 @@ word_color_cow = (0, 1, 0)
 word_color_chicken = (0, 1, 0)
 word_color_horse = (0, 1, 0)
 
+# Difficulty screen
+x_difficulty = 100
+width_difficulty = (engine.width - x_difficulty * 2) / 3 - (20 / 3)
+height_difficulty = 300
+y_difficulty = 100
+
 # SCORE
 score = 5
 word_count = 0
@@ -95,8 +101,6 @@ def setup():
 
     pass
 
-
-
 def start_screen():
     engine.shape_mode = ShapeMode.CORNER
     engine.color = 0, 0, 0
@@ -106,7 +110,6 @@ def start_screen():
 
     engine.set_font_size(30)
     engine.draw_text('_Press any key to play_', engine.width/2, engine.height*(3/4), True)
-
 
 # -----------------
 # Draw functions
@@ -128,6 +131,7 @@ def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 30):
         engine.shape_mode = ShapeMode.CORNER
         engine.color = word_color_cow
         engine.draw_text(f"{word_colored_cow.upper()}", x, y, False)
+
     # CHICKEN
     elif animal == "chicken":
         # Word
@@ -139,6 +143,7 @@ def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 30):
         engine.shape_mode = ShapeMode.CORNER
         engine.color = word_color_chicken
         engine.draw_text(f"{word_colored_chicken.upper()}", x, y, False)
+
     # HORSE
     elif animal == "horse":
         # Word
@@ -150,7 +155,6 @@ def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 30):
         engine.shape_mode = ShapeMode.CORNER
         engine.color = word_color_horse
         engine.draw_text(f"{word_colored_horse.upper()}", x, y, False)
-    pass
 
 def draw_score():
     engine.color = 0, 0, 0
@@ -179,20 +183,25 @@ def render():
     This function is being executed over and over, as fast as the frame rate. Use to draw (not update).
     """
     global current_difficulty, current_state
+
     if current_state == GameState.START:
         engine.background_color = 1, 0, 1
         start_screen()
 
     elif current_state == GameState.DIFFICULTY:
         engine.background_color = 1, 1, 0
-        engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2, 100, True)
+        engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2, 50, True)
+        engine.shape_mode = ShapeMode.CORNER
         #EASY
-        engine.draw_rectangle(100, 200, 100, 200, False)
-
+        engine.draw_rectangle(x_difficulty, y_difficulty, width_difficulty, height_difficulty, False)
         #MEDIUM
-        engine.draw_rectangle(100 * 2 + 10, 200, 100, 200, False)
+        engine.draw_rectangle(x_difficulty + 200 + 10, y_difficulty, width_difficulty, height_difficulty, False)
         #HARD
-        engine.draw_rectangle(100 * 3 + 20, 200, 100, 200, False)
+        engine.draw_rectangle(x_difficulty + 200 * 2 + 20, y_difficulty, width_difficulty, height_difficulty, False)
+
+        # Go back button
+        engine.shape_mode = ShapeMode.CENTER
+        engine.draw_rectangle(100, engine.height - 75, 100, 50, False)
 
     elif current_state == GameState.GAMEPLAY:
         engine.background_color = sunset_color
@@ -256,9 +265,9 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
 
     if current_state == GameState.DIFFICULTY:
         #veranderen met variabelen
-        on_easy = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, 100, 200, 100, 200)
-        on_medium = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, 100 * 2 + 10, 200, 100, 200)
-        on_hard = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, 100 * 3 + 20, 200, 100, 200)
+        on_easy = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, x_difficulty, y_difficulty, width_difficulty, height_difficulty)
+        on_medium = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, x_difficulty + 200 + 10, y_difficulty, width_difficulty, height_difficulty)
+        on_hard = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, x_difficulty + 200 * 2 + 10 * 2, y_difficulty, width_difficulty, height_difficulty)
         # EASY
         if on_easy:
             current_difficulty = GameDifficulty.EASY
