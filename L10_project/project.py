@@ -177,12 +177,19 @@ def draw_timer():
 def draw_type_animal():
     engine.color = 0, 0, 0
 
+    #
+    y = 10
+
     if current_difficulty == GameDifficulty.EASY:
-        engine.draw_text(f"{animals_easy}", engine.width / 2, 10, True)
+        engine.draw_text(f"{animals_easy}", engine.width / 2, y, True)
     elif current_difficulty == GameDifficulty.MEDIUM:
-        engine.draw_text(f"{random_animal}", engine.width / 2, 10, True)
+        # for index, animal in enumerate(random_animal_list):
+        #     engine.draw_text(f"{animal}", engine.width / 2, y, True)
+        engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
     elif current_difficulty == GameDifficulty.HARD:
-        engine.draw_text(f"{random_animal}", engine.width / 2, 10, True)
+        # for index, animal in enumerate(random_animal_list):
+        #     engine.draw_text(f"{animal}", engine.width / 2, y, True)
+        engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
 
 def render():
     """
@@ -255,22 +262,20 @@ def add_random_animal():
 
         random_animal_list.append(random_animal)
         timer_animal = 0
-
-    print(random_animal_list)
     pass
 
 
 
-def move_random_animal():
-    """
-    Beweegt alle crewmates richting de rechterkant.
-    Als een crewmate buiten beeld gaat, keert hij links terug.
-    :return:
-    """
-    # Om crwemate te verplaatsen / restten: index, x breedte
-    for index, x, animal in enumerate(zip(random_animal_x, random_animal_list)):
-        random_animal_x[index] += 4
-    pass
+# def move_random_animal():
+#     """
+#     Beweegt alle crewmates richting de rechterkant.
+#     Als een crewmate buiten beeld gaat, keert hij links terug.
+#     :return:
+#     """
+#     # Om crwemate te verplaatsen / restten: index, x breedte
+#     for index, x, animal in enumerate(zip(random_animal_x, random_animal_list)):
+#         random_animal_x[index] += 4
+#     pass
 
 def evaluate():
     """
@@ -292,7 +297,7 @@ def evaluate():
             current_state = GameState.HIGHSCORE
 
         add_random_animal()
-        move_random_animal()
+        # move_random_animal()
     pass
 
 # -----------------
@@ -442,16 +447,17 @@ def type_word(key: str):
     if current_index_horse == len(random_word_list_horse):
         # Hard mode
         if current_difficulty == GameDifficulty.HARD:
-            if score < 5 and random_animal == "horse":
-                score += 1
-            if random_animal == "horse":
-                random_animal_list.remove("horse")
-                word_count += 1
-            elif random_animal != "horse" and score > 0:
-                score -= 1
-                print("not horse")
-            else:
-                current_state = GameState.GAMEOVER
+            for random_animal in random_animal_list:
+                if score < 5 and random_animal == "horse":
+                    score += 1
+                if random_animal == "horse":
+                    random_animal_list.remove("horse")
+                    word_count += 1
+                elif random_animal != "horse" and score > 0:
+                    score -= 1
+                    print("not horse")
+                else:
+                    current_state = GameState.GAMEOVER
 
         print("Horse word complete!")
         random_word_horse = random.choice(word_list_horse)
