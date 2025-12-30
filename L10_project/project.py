@@ -83,6 +83,7 @@ y_difficulty = 100
 # SCORE
 score = 5
 word_count = 0
+faults = 0
 
 # TIMER
 timer = 0
@@ -120,39 +121,35 @@ def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 30):
     engine.set_font_size(font_size)
     color_word = 0, 0, 0
 
+    engine.shape_mode = ShapeMode.CORNER
+
     # COW
     if animal == "cow":
         # Word
-        engine.shape_mode = ShapeMode.CORNER
         engine.color = color_word
         engine.draw_text(f"{random_word_cow.upper()}", x, y, False)
 
         # Word colored
-        engine.shape_mode = ShapeMode.CORNER
         engine.color = word_color_cow
         engine.draw_text(f"{word_colored_cow.upper()}", x, y, False)
 
     # CHICKEN
     elif animal == "chicken":
         # Word
-        engine.shape_mode = ShapeMode.CORNER
         engine.color = color_word
         engine.draw_text(f"{random_word_chicken.upper()}", x, y, False)
 
         # Word colored
-        engine.shape_mode = ShapeMode.CORNER
         engine.color = word_color_chicken
         engine.draw_text(f"{word_colored_chicken.upper()}", x, y, False)
 
     # HORSE
     elif animal == "horse":
         # Word
-        engine.shape_mode = ShapeMode.CORNER
         engine.color = color_word
         engine.draw_text(f"{random_word_horse.upper()}", x, y, False)
 
         # Word colored
-        engine.shape_mode = ShapeMode.CORNER
         engine.color = word_color_horse
         engine.draw_text(f"{word_colored_horse.upper()}", x, y, False)
 
@@ -225,12 +222,15 @@ def render():
     elif current_state == GameState.GAMEOVER:
         engine.background_color = 1, 0, 0
         engine.shape_mode = ShapeMode.CENTER
-        engine.draw_text("GAME OVER", engine.width/2, engine.height/2, True)
+        engine.draw_text("Your animals are sad", engine.width/2, engine.height/2, True)
+        engine.draw_text(f"Word count: {word_count}", engine.width/2, 300, True)
+        engine.draw_text(f"Wrongly typed letters: {faults}", engine.width/2, 350, True)
     elif current_state == GameState.HIGHSCORE:
         engine.background_color = 0, 1, 0
         engine.color = 0, 0, 0
-        engine.draw_text("HIGHSCORE", engine.width/2, engine.height/2, True)
-        draw_word_count()
+        engine.draw_text("Your animals are happy!!", engine.width/2, 50, True)
+        engine.draw_text(f"Word count: {word_count}", engine.width/2, 300, True)
+        engine.draw_text(f"Wrongly typed letters: {faults}", engine.width/2, 350, True)
     pass
 
 def evaluate():
@@ -264,7 +264,7 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
     global current_difficulty, current_state
 
     if current_state == GameState.DIFFICULTY:
-        #veranderen met variabelen
+        engine.shape_mode = ShapeMode.CORNER
         on_easy = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, x_difficulty, y_difficulty, width_difficulty, height_difficulty)
         on_medium = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, x_difficulty + 200 + 10, y_difficulty, width_difficulty, height_difficulty)
         on_hard = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, x_difficulty + 200 * 2 + 10 * 2, y_difficulty, width_difficulty, height_difficulty)
@@ -286,7 +286,7 @@ def type_word(key: str):
     global current_index_chicken, random_word_chicken, random_word_list_chicken, word_colored_chicken
     global current_index_horse, random_word_horse, random_word_list_horse, word_colored_horse
 
-    global score, current_state, word_count
+    global score, current_state, word_count, faults
     global random_animal_medium, random_animal_hard
 
     global word_color_cow, word_color_chicken, word_color_horse
@@ -415,6 +415,8 @@ def type_word(key: str):
 
     if not correct:
         print("Wrong:", key)
+        faults += 1
+
         word_color_cow = 1, 0, 0
         word_color_chicken = 1, 0, 0
         word_color_horse = 1, 0, 0
@@ -441,6 +443,7 @@ def key_up_event(key: str):
         score = 5
         current_state = GameState.START
     elif key == "2":
+        engine.color = 0, 0, 0
         score = 5
         current_state = GameState.DIFFICULTY
     elif key == "3":
