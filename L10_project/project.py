@@ -268,7 +268,7 @@ def move_random_animal():
     :return:
     """
     # Om crwemate te verplaatsen / restten: index, x breedte
-    for index, (x, image) in enumerate(zip(random_animal_x, random_animal_list)):
+    for index, x, animal in enumerate(zip(random_animal_x, random_animal_list)):
         random_animal_x[index] += 4
     pass
 
@@ -292,6 +292,7 @@ def evaluate():
             current_state = GameState.HIGHSCORE
 
         add_random_animal()
+        move_random_animal()
     pass
 
 # -----------------
@@ -352,30 +353,32 @@ def type_word(key: str):
 
         # Medium mode
         elif current_difficulty == GameDifficulty.MEDIUM:
-            if score < 5 and random_animal == "cow":
-                score += 1
+            for random_animal in random_animal_list:
+                if score < 5 and random_animal == "cow":
+                    score += 1
 
-            if random_animal == "cow":
-                random_animal = random.choice(animals_medium)
-                word_count += 1
-            elif random_animal != "cow" and score > 0:
-                score -= 1
-                print("not cow")
-            else:
-                current_state = GameState.GAMEOVER
+                if random_animal == "cow":
+                    random_animal_list.remove("cow")
+                    word_count += 1
+                elif random_animal != "cow" and score > 0:
+                    score -= 1
+                    print("not cow")
+                else:
+                    current_state = GameState.GAMEOVER
 
         # Hard mode
         elif current_difficulty == GameDifficulty.HARD:
-            if score < 5 and random_animal == "cow":
-                score += 1
-            if random_animal == "cow":
-                random_animal = random.choice(animals_hard)
-                word_count += 1
-            elif random_animal != "cow" and score > 0:
-                score -= 1
-                print("not cow")
-            else:
-                current_state = GameState.GAMEOVER
+            for random_animal in random_animal_list:
+                if score < 5 and random_animal == "cow":
+                    score += 1
+                if random_animal == "cow":
+                    random_animal_list.remove("cow")
+                    word_count += 1
+                elif random_animal != "cow" and score > 0:
+                    score -= 1
+                    print("not cow")
+                else:
+                    current_state = GameState.GAMEOVER
 
         print("Cow word complete!")
         random_word_cow = random.choice(word_list_cow)
@@ -395,29 +398,31 @@ def type_word(key: str):
     if current_index_chicken == len(random_word_list_chicken):
         # Medium mode
         if current_difficulty == GameDifficulty.MEDIUM:
-            if score < 5 and random_animal == "chicken":
-                score += 1
-            if random_animal == "chicken":
-                random_animal = random.choice(animals_medium)
-                word_count += 1
-            elif random_animal != "chicken" and score > 0:
-                score -= 1
-                print("not chicken")
-            else:
-                current_state = GameState.GAMEOVER
+            for random_animal in random_animal_list:
+                if score < 5 and random_animal == "chicken":
+                    score += 1
+                if random_animal == "chicken":
+                    random_animal_list.remove("chicken")
+                    word_count += 1
+                elif random_animal != "chicken" and score > 0:
+                    score -= 1
+                    print("not chicken")
+                else:
+                    current_state = GameState.GAMEOVER
 
         # Hard mode
         elif current_difficulty == GameDifficulty.HARD:
-            if score < 5 and random_animal == "chicken":
-                score += 1
-            if random_animal == "chicken":
-                random_animal = random.choice(animals_hard)
-                word_count += 1
-            elif random_animal != "chicken" and score > 0:
-                score -= 1
-                print("not chicken")
-            else:
-                current_state = GameState.GAMEOVER
+            for random_animal in random_animal_list:
+                if score < 5 and random_animal == "chicken":
+                    score += 1
+                if random_animal == "chicken":
+                    random_animal_list.remove("chicken")
+                    word_count += 1
+                elif random_animal != "chicken" and score > 0:
+                    score -= 1
+                    print("not chicken")
+                else:
+                    current_state = GameState.GAMEOVER
 
         print("Chicken word complete!")
         random_word_chicken = random.choice(word_list_chicken)
@@ -440,7 +445,7 @@ def type_word(key: str):
             if score < 5 and random_animal == "horse":
                 score += 1
             if random_animal == "horse":
-                random_animal = random.choice(animals_hard)
+                random_animal_list.remove("horse")
                 word_count += 1
             elif random_animal != "horse" and score > 0:
                 score -= 1
