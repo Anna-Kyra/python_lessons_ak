@@ -62,7 +62,16 @@ print(f"Cow = {random_word_cow}")
 print(f"Chicken = {random_word_chicken}")
 print(f"Horse = {random_word_horse}")
 
+
+
 # DIFFERENT ANIMALS
+class Animal:
+    def __init__(self, kind: str, x: float, y: float, speed: float):
+        self.kind = kind      # "cow", "chicken", "horse"
+        self.x = x
+        self.y = y
+        self.speed = speed
+
 animals_easy = "cow"
 animals_medium = "cow", "chicken"
 animals_hard = "cow", "chicken", "horse"
@@ -74,6 +83,14 @@ elif current_difficulty == GameDifficulty.HARD:
 
 random_animal_list : list[str] = [random_animal,]
 random_animal_counter = Counter([random_animal])
+animals: list[Animal] = []
+
+animal_type = random.choice(animals_hard)
+new_animal = Animal(animal_type, 0, 200, 2)
+animals.append(new_animal)
+
+random_animal_counter[animal_type] += 1
+
 
 random_animal_x : list[float] = []
 random_animal_y : list[float] = []
@@ -101,6 +118,17 @@ seconds = 0
 timer_animal = 0
 
 sunset_color = 1, 0.65, 0
+
+# Spritesheet test
+sprite_columns = 12
+sprite_rows = 15
+spritesheet = engine.load_image("images/among_us_hats.png")
+spritesheet.resize(1300, 1300)
+
+all_frames = spritesheet.cut_all_frames(sprite_rows, sprite_columns)
+cow_img = all_frames[0]
+chicken_img = all_frames[1]
+horse_img = all_frames[2]
 
 # -----------------
 # Helper functions
@@ -185,12 +213,13 @@ def draw_type_animal():
     if current_difficulty == GameDifficulty.EASY:
         engine.draw_text(f"{animals_easy}", engine.width / 2, y, True)
     elif current_difficulty == GameDifficulty.MEDIUM:
-        # for index, animal in enumerate(random_animal_list):
-        #     engine.draw_text(f"{animal}", engine.width / 2, y, True)
-        text = ", ".join(f"{animal}: {count}"
-                         for animal, count in random_animal_counter.items()
-                         if count > 0)
-        engine.draw_text(text, engine.width / 2, y, True)
+        for animal in animals:
+            print(animal.kind)
+            if animal.kind == "cow":
+                cow_img.draw(engine.width/2, 20)
+            elif animal.kind == "chicken":
+                chicken_img.draw(engine.width/2, 20)
+
 
 
     elif current_difficulty == GameDifficulty.HARD:
@@ -308,6 +337,9 @@ def evaluate():
             current_state = GameState.HIGHSCORE
 
         add_random_animal()
+        for animal in animals:
+            animal.x += animal.speed
+
         # move_random_animal()
     pass
 
@@ -339,6 +371,13 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
             current_state = GameState.GAMEPLAY
     pass
 
+def remove_one_animal(kind: str):
+    for animal in animals:
+        if animal.kind == kind:
+            animals.remove(animal)
+            return True
+    return False
+
 def type_word(key: str):
     global current_index_cow, random_word_cow, random_word_list_cow, word_colored_cow
     global current_index_chicken, random_word_chicken, random_word_list_chicken, word_colored_chicken
@@ -367,8 +406,9 @@ def type_word(key: str):
             if score < 5:
                 score += 1
 
-        elif current_difficulty == GameDifficulty.MEDIUM or current_difficulty == GameDifficulty.HARD:
-            if random_animal_counter["cow"] > 0:
+
+        elif current_difficulty in (GameDifficulty.MEDIUM, GameDifficulty.HARD):
+            if random_animal_counter["cow"] > 0 and remove_one_animal("cow"):
                 random_animal_counter["cow"] -= 1
                 word_count += 1
                 if score < 5:
@@ -395,7 +435,7 @@ def type_word(key: str):
         word_color_chicken = 0, 1, 0
 
     if current_index_chicken == len(random_word_list_chicken):
-        if random_animal_counter["chicken"] > 0:
+        if random_animal_counter["chicken"] > 0 and remove_one_animal("chicken"):
             random_animal_counter["chicken"] -= 1
             word_count += 1
             if score < 5:
@@ -422,8 +462,7 @@ def type_word(key: str):
         word_color_horse = 0, 1, 0
 
     if current_index_horse == len(random_word_list_horse):
-        # Hard mode
-        if random_animal_counter["horse"] > 0:
+        if random_animal_counter["horse"] > 0 and remove_one_animal("horse"):
             random_animal_counter["horse"] -= 1
             word_count += 1
             if score < 5:
