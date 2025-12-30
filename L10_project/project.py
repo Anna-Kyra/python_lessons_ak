@@ -245,9 +245,9 @@ def render():
 def add_random_animal():
     global random_animal, timer_animal
 
-    timer_animal += 1
+    timer_animal += 1 / 60
 
-    if timer_animal > 120:
+    if timer_animal > 2:
         if current_difficulty == GameDifficulty.MEDIUM:
             random_animal = random.choice(animals_medium)
         elif current_difficulty == GameDifficulty.HARD:
@@ -281,8 +281,6 @@ def evaluate():
     minute = 60
 
     if current_state == GameState.GAMEPLAY:
-        add_random_animal()
-
         timer += 1
         seconds = int(timer / 60)
 
@@ -292,6 +290,8 @@ def evaluate():
             sunset_color = 0, 0, 0.502
         elif seconds == minute:
             current_state = GameState.HIGHSCORE
+
+        add_random_animal()
     pass
 
 # -----------------
