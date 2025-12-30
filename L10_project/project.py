@@ -71,7 +71,7 @@ if current_difficulty == GameDifficulty.MEDIUM:
 elif current_difficulty == GameDifficulty.HARD:
     random_animal = random.choice(animals_hard)
 
-random_animal_list : list[str] = []
+random_animal_list : list[str] = [random_animal,]
 
 random_animal_x : list[float] = []
 random_animal_y : list[float] = []
@@ -95,6 +95,8 @@ faults = 0
 # TIMER
 timer = 0
 seconds = 0
+
+timer_animal = 0
 
 sunset_color = 1, 0.65, 0
 
@@ -240,7 +242,34 @@ def render():
         engine.draw_text(f"Wrongly typed letters: {faults}", engine.width/2, 350, True)
     pass
 
-def random_animal_move():
+def add_random_animal():
+    global random_animal, timer_animal
+
+    timer_animal += 1
+
+    if timer_animal > 120:
+        if current_difficulty == GameDifficulty.MEDIUM:
+            random_animal = random.choice(animals_medium)
+        elif current_difficulty == GameDifficulty.HARD:
+            random_animal = random.choice(animals_hard)
+
+        random_animal_list.append(random_animal)
+        timer_animal = 0
+
+    print(random_animal_list)
+    pass
+
+
+
+def move_random_animal():
+    """
+    Beweegt alle crewmates richting de rechterkant.
+    Als een crewmate buiten beeld gaat, keert hij links terug.
+    :return:
+    """
+    # Om crwemate te verplaatsen / restten: index, x breedte
+    for index, (x, image) in enumerate(zip(random_animal_x, random_animal_list)):
+        random_animal_x[index] += 4
     pass
 
 def evaluate():
@@ -252,6 +281,8 @@ def evaluate():
     minute = 60
 
     if current_state == GameState.GAMEPLAY:
+        add_random_animal()
+
         timer += 1
         seconds = int(timer / 60)
 
