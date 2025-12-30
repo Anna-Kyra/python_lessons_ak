@@ -66,11 +66,12 @@ animals_easy = "cow"
 animals_medium = "cow", "chicken"
 animals_hard = "cow", "chicken", "horse"
 
-random_animal_medium = random.choice(animals_medium)
-random_animal_hard = random.choice(animals_hard)
+if current_difficulty == GameDifficulty.MEDIUM:
+    random_animal = random.choice(animals_medium)
+elif current_difficulty == GameDifficulty.HARD:
+    random_animal = random.choice(animals_hard)
 
-random_animal_medium_list : list[str] = []
-random_animal_hard_list : list[str] = []
+random_animal_list : list[str] = []
 
 random_animal_x : list[float] = []
 random_animal_y : list[float] = []
@@ -177,9 +178,9 @@ def draw_type_animal():
     if current_difficulty == GameDifficulty.EASY:
         engine.draw_text(f"{animals_easy}", engine.width / 2, 10, True)
     elif current_difficulty == GameDifficulty.MEDIUM:
-        engine.draw_text(f"{random_animal_medium}", engine.width / 2, 10, True)
+        engine.draw_text(f"{random_animal}", engine.width / 2, 10, True)
     elif current_difficulty == GameDifficulty.HARD:
-        engine.draw_text(f"{random_animal_hard}", engine.width / 2, 10, True)
+        engine.draw_text(f"{random_animal}", engine.width / 2, 10, True)
 
 def render():
     """
@@ -296,7 +297,7 @@ def type_word(key: str):
     global current_index_horse, random_word_horse, random_word_list_horse, word_colored_horse
 
     global score, current_state, word_count, faults
-    global random_animal_medium, random_animal_hard
+    global random_animal, random_animal
 
     global word_color_cow, word_color_chicken, word_color_horse
 
@@ -320,13 +321,13 @@ def type_word(key: str):
 
         # Medium mode
         elif current_difficulty == GameDifficulty.MEDIUM:
-            if score < 5 and random_animal_medium == "cow":
+            if score < 5 and random_animal == "cow":
                 score += 1
 
-            if random_animal_medium == "cow":
-                random_animal_medium = random.choice(animals_medium)
+            if random_animal == "cow":
+                random_animal = random.choice(animals_medium)
                 word_count += 1
-            elif random_animal_medium != "cow" and score > 0:
+            elif random_animal != "cow" and score > 0:
                 score -= 1
                 print("not cow")
             else:
@@ -334,12 +335,12 @@ def type_word(key: str):
 
         # Hard mode
         elif current_difficulty == GameDifficulty.HARD:
-            if score < 5 and random_animal_hard == "cow":
+            if score < 5 and random_animal == "cow":
                 score += 1
-            if random_animal_hard == "cow":
-                random_animal_hard = random.choice(animals_hard)
+            if random_animal == "cow":
+                random_animal = random.choice(animals_hard)
                 word_count += 1
-            elif random_animal_hard != "cow" and score > 0:
+            elif random_animal != "cow" and score > 0:
                 score -= 1
                 print("not cow")
             else:
@@ -363,12 +364,12 @@ def type_word(key: str):
     if current_index_chicken == len(random_word_list_chicken):
         # Medium mode
         if current_difficulty == GameDifficulty.MEDIUM:
-            if score < 5 and random_animal_medium == "chicken":
+            if score < 5 and random_animal == "chicken":
                 score += 1
-            if random_animal_medium == "chicken":
-                random_animal_medium = random.choice(animals_medium)
+            if random_animal == "chicken":
+                random_animal = random.choice(animals_medium)
                 word_count += 1
-            elif random_animal_medium != "chicken" and score > 0:
+            elif random_animal != "chicken" and score > 0:
                 score -= 1
                 print("not chicken")
             else:
@@ -376,12 +377,12 @@ def type_word(key: str):
 
         # Hard mode
         elif current_difficulty == GameDifficulty.HARD:
-            if score < 5 and random_animal_hard == "chicken":
+            if score < 5 and random_animal == "chicken":
                 score += 1
-            if random_animal_hard == "chicken":
-                random_animal_hard = random.choice(animals_hard)
+            if random_animal == "chicken":
+                random_animal = random.choice(animals_hard)
                 word_count += 1
-            elif random_animal_hard != "chicken" and score > 0:
+            elif random_animal != "chicken" and score > 0:
                 score -= 1
                 print("not chicken")
             else:
@@ -405,12 +406,12 @@ def type_word(key: str):
     if current_index_horse == len(random_word_list_horse):
         # Hard mode
         if current_difficulty == GameDifficulty.HARD:
-            if score < 5 and random_animal_hard == "horse":
+            if score < 5 and random_animal == "horse":
                 score += 1
-            if random_animal_hard == "horse":
-                random_animal_hard = random.choice(animals_hard)
+            if random_animal == "horse":
+                random_animal = random.choice(animals_hard)
                 word_count += 1
-            elif random_animal_hard != "horse" and score > 0:
+            elif random_animal != "horse" and score > 0:
                 score -= 1
                 print("not horse")
             else:
