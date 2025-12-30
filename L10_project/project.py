@@ -69,6 +69,12 @@ animals_hard = "cow", "chicken", "horse"
 random_animal_medium = random.choice(animals_medium)
 random_animal_hard = random.choice(animals_hard)
 
+random_animal_medium_list : list[str] = []
+random_animal_hard_list : list[str] = []
+
+random_animal_x : list[float] = []
+random_animal_y : list[float] = []
+
 # New word color
 word_color_cow = (0, 1, 0)
 word_color_chicken = (0, 1, 0)
@@ -231,6 +237,9 @@ def render():
         engine.draw_text("Your animals are happy!!", engine.width/2, 50, True)
         engine.draw_text(f"Word count: {word_count}", engine.width/2, 300, True)
         engine.draw_text(f"Wrongly typed letters: {faults}", engine.width/2, 350, True)
+    pass
+
+def random_animal_move():
     pass
 
 def evaluate():
