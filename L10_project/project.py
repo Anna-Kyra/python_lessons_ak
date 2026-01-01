@@ -33,9 +33,9 @@ current_difficulty = GameDifficulty.HARD
 
 # SPAWNING WORDS
 # Lists
-word_list_cow = ["cow", "cheese", "milk", "leather", "meat", "four stomachs", "strong smell", "peripheral vision", "zoomies", "mooo"]
-word_list_chicken = ["chicken", "hen", "egg", "seeds", "bird", "rooster", "feathers", "chick"]
-word_list_horse = ["horse", "neh", "carrot", "sugar cube", "saddle", "cowboy", "equipment", "helmet", "riding"]
+word_list_cow = ["cow", "calf", "bull", "ox", "milk", "udder", "teat", "moo", "beef", "hide", "horn", "past", "grass", "hay", "farm", "cud", "stall", "brand", "steer", "dairy", "steak", "roast", "rib", "whey", "curds", "cream", "ghee", "filet", "brisk", "cheese", "milk", "leather", "meat", "zoomies", "moo"]
+word_list_chicken = ["chick", "hen", "cock", "bird", "eggs", "yolk", "meat", "wing", "wings", "thigh", "leg", "legs", "breast", "broth", "soup", "stock", "roast", "fry", "fried", "grill", "feed", "corn", "peck", "coop", "hatch", "cluck", "beak", "down", "plume"]
+word_list_horse = ["horse", "foal", "mare", "stud", "colt", "pony", "mane", "tail", "hoof", "hoofs", "hay", "oats", "grain", "reins", "bit", "spur", "barn", "field", "track", "race", "derby", "trot", "walk", "neigh", "leap", "jump"]
 
 # Randomise
 random_word_cow = random.choice(word_list_cow)
@@ -328,6 +328,17 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
             current_state = GameState.GAMEPLAY
     pass
 
+def remove_one_animal(kind: str) -> bool:
+    """
+    Verwijdert precies 1 dier van dit type.
+    Geeft True terug als het gelukt is, anders False.
+    """
+    for index in range(len(random_animal_list)):
+        if random_animal_list[index] == kind:
+            random_animal_list.pop(index)
+            return True
+    return False
+
 def type_word(key: str):
     global current_index_cow, random_word_cow, random_word_list_cow, word_colored_cow
     global current_index_chicken, random_word_chicken, random_word_list_chicken, word_colored_chicken
@@ -356,32 +367,14 @@ def type_word(key: str):
             if score < 5:
                 score += 1
 
-        # Medium mode
-        elif current_difficulty == GameDifficulty.MEDIUM:
-            for random_animal in random_animal_list:
-                if score < 5 and random_animal == "cow":
+        elif current_difficulty in (GameDifficulty.MEDIUM, GameDifficulty.HARD):
+            if remove_one_animal("cow"):
+                word_count += 1
+                if score < 5:
                     score += 1
-
-                if random_animal == "cow":
-                    random_animal_list.remove("cow")
-                    word_count += 1
-                elif random_animal != "cow" and score > 0:
+            else:
+                if score > 0:
                     score -= 1
-                    print("not cow")
-                else:
-                    current_state = GameState.GAMEOVER
-
-        # Hard mode
-        elif current_difficulty == GameDifficulty.HARD:
-            for random_animal in random_animal_list:
-                if score < 5 and random_animal == "cow":
-                    score += 1
-                if random_animal == "cow":
-                    random_animal_list.remove("cow")
-                    word_count += 1
-                elif random_animal != "cow" and score > 0:
-                    score -= 1
-                    print("not cow")
                 else:
                     current_state = GameState.GAMEOVER
 
@@ -401,33 +394,13 @@ def type_word(key: str):
         word_color_chicken = 0, 1, 0
 
     if current_index_chicken == len(random_word_list_chicken):
-        # Medium mode
-        if current_difficulty == GameDifficulty.MEDIUM:
-            for random_animal in random_animal_list:
-                if score < 5 and random_animal == "chicken":
+        if current_difficulty in (GameDifficulty.MEDIUM, GameDifficulty.HARD):
+            if remove_one_animal("chicken"):
+                word_count += 1
+                if score < 5:
                     score += 1
-                if random_animal == "chicken":
-                    random_animal_list.remove("chicken")
-                    word_count += 1
-                elif random_animal != "chicken" and score > 0:
-                    score -= 1
-                    print("not chicken")
-                else:
-                    current_state = GameState.GAMEOVER
-
-        # Hard mode
-        elif current_difficulty == GameDifficulty.HARD:
-            for random_animal in random_animal_list:
-                if score < 5 and random_animal == "chicken":
-                    score += 1
-                if random_animal == "chicken":
-                    random_animal_list.remove("chicken")
-                    word_count += 1
-                elif random_animal != "chicken" and score > 0:
-                    score -= 1
-                    print("not chicken")
-                else:
-                    current_state = GameState.GAMEOVER
+            else:
+                score -= 1
 
         print("Chicken word complete!")
         random_word_chicken = random.choice(word_list_chicken)
@@ -445,19 +418,13 @@ def type_word(key: str):
         word_color_horse = 0, 1, 0
 
     if current_index_horse == len(random_word_list_horse):
-        # Hard mode
-        if current_difficulty == GameDifficulty.HARD:
-            for random_animal in random_animal_list:
-                if score < 5 and random_animal == "horse":
+        if current_difficulty in GameDifficulty.HARD:
+            if remove_one_animal("horse"):
+                word_count += 1
+                if score < 5:
                     score += 1
-                if random_animal == "horse":
-                    random_animal_list.remove("horse")
-                    word_count += 1
-                elif random_animal != "horse" and score > 0:
-                    score -= 1
-                    print("not horse")
-                else:
-                    current_state = GameState.GAMEOVER
+            else:
+                score -= 1
 
         print("Horse word complete!")
         random_word_horse = random.choice(word_list_horse)
