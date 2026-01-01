@@ -31,6 +31,8 @@ class GameDifficulty(Enum):
     HARD = 2
 current_difficulty = GameDifficulty.HARD
 
+
+
 # SPAWNING WORDS
 # Lists
 word_list_cow = ["cow", "calf", "bull", "ox", "milk", "udder", "teat", "moo", "beef", "hide", "horn", "past", "grass", "hay", "farm", "cud", "stall", "brand", "steer", "dairy", "steak", "roast", "rib", "whey", "curds", "cream", "ghee", "filet", "brisk", "cheese", "milk", "leather", "meat", "zoomies", "moo"]
@@ -62,17 +64,13 @@ print(f"Chicken = {random_word_chicken}")
 print(f"Horse = {random_word_horse}")
 
 # DIFFERENT ANIMALS
-animals_easy = "cow"
-animals_medium = "cow", "chicken"
-animals_hard = "cow", "chicken", "horse"
+ANIMALS_BY_DIFFICULTY = {
+    GameDifficulty.EASY: ("cow",),
+    GameDifficulty.MEDIUM: ("cow", "chicken"),
+    GameDifficulty.HARD: ("cow", "chicken", "horse"),
+}
 
-if current_difficulty == GameDifficulty.MEDIUM:
-    random_animal = random.choice(animals_medium)
-elif current_difficulty == GameDifficulty.HARD:
-    random_animal = random.choice(animals_hard)
-
-random_animal_list : list[str] = [random_animal,]
-
+random_animal_list : list[str] = []
 random_animal_x : list[float] = []
 random_animal_y : list[float] = []
 
@@ -181,7 +179,7 @@ def draw_type_animal():
     y = 10
 
     if current_difficulty == GameDifficulty.EASY:
-        engine.draw_text(f"{animals_easy}", engine.width / 2, y, True)
+        engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
     elif current_difficulty == GameDifficulty.MEDIUM:
         # for index, animal in enumerate(random_animal_list):
         #     engine.draw_text(f"{animal}", engine.width / 2, y, True)
@@ -250,21 +248,15 @@ def render():
     pass
 
 def add_random_animal():
-    global random_animal, timer_animal
+    global timer_animal
 
     timer_animal += 1 / 60
 
     if timer_animal > 2:
-        if current_difficulty == GameDifficulty.MEDIUM:
-            random_animal = random.choice(animals_medium)
-        elif current_difficulty == GameDifficulty.HARD:
-            random_animal = random.choice(animals_hard)
-
+        allowed_animals = ANIMALS_BY_DIFFICULTY[current_difficulty]
+        random_animal = random.choice(allowed_animals)
         random_animal_list.append(random_animal)
         timer_animal = 0
-    pass
-
-
 
 # def move_random_animal():
 #     """
@@ -304,6 +296,9 @@ def evaluate():
 # Game logic
 # -----------------
 
+def reset_animals():
+    random_animal_list.clear()
+
 def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
     """
     This function is only executed once each time a mouse button was pressed!
@@ -318,13 +313,16 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
         # EASY
         if on_easy:
             current_difficulty = GameDifficulty.EASY
+            reset_animals()
             current_state = GameState.GAMEPLAY
         # MEDIUM
         elif on_medium:
             current_difficulty = GameDifficulty.MEDIUM
+            reset_animals()
             current_state = GameState.GAMEPLAY
         elif on_hard:
             current_difficulty = GameDifficulty.HARD
+            reset_animals()
             current_state = GameState.GAMEPLAY
     pass
 
