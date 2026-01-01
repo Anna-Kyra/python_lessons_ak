@@ -31,7 +31,9 @@ class GameDifficulty(Enum):
     HARD = 2
 current_difficulty = GameDifficulty.HARD
 
-
+# -----------------
+# Globals
+# -----------------
 
 # SPAWNING WORDS
 # Lists
@@ -174,19 +176,13 @@ def draw_timer():
 
 def draw_type_animal():
     engine.color = 0, 0, 0
-
-    #
     y = 10
 
     if current_difficulty == GameDifficulty.EASY:
         engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
     elif current_difficulty == GameDifficulty.MEDIUM:
-        # for index, animal in enumerate(random_animal_list):
-        #     engine.draw_text(f"{animal}", engine.width / 2, y, True)
         engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
     elif current_difficulty == GameDifficulty.HARD:
-        # for index, animal in enumerate(random_animal_list):
-        #     engine.draw_text(f"{animal}", engine.width / 2, y, True)
         engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
 
 def render():
