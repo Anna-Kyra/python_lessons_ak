@@ -180,6 +180,7 @@ def draw_type_animal():
 
     if current_difficulty == GameDifficulty.EASY:
         engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
+        y = 30
         for animal in random_animal_list:
             engine.draw_text(f"{animal}", engine.width / 2, y, True)
             y += 20
@@ -402,7 +403,7 @@ def type_word(key: str):
         word_color_horse = 0, 1, 0
 
     if current_index_horse == len(random_word_list_horse):
-        if current_difficulty in GameDifficulty.HARD:
+        if current_difficulty == GameDifficulty.HARD:
             if remove_one_animal("horse"):
                 word_count += 1
                 if score < 5:
