@@ -248,22 +248,11 @@ def add_random_animal():
 
     timer_animal += 1 / 60
 
-    if timer_animal > 2:
+    if timer_animal > 2 and len(random_animal_list) < 5:
         allowed_animals = ANIMALS_BY_DIFFICULTY[current_difficulty]
         random_animal = random.choice(allowed_animals)
         random_animal_list.append(random_animal)
         timer_animal = 0
-
-# def move_random_animal():
-#     """
-#     Beweegt alle crewmates richting de rechterkant.
-#     Als een crewmate buiten beeld gaat, keert hij links terug.
-#     :return:
-#     """
-#     # Om crwemate te verplaatsen / restten: index, x breedte
-#     for index, x, animal in enumerate(zip(random_animal_x, random_animal_list)):
-#         random_animal_x[index] += 4
-#     pass
 
 def evaluate():
     """
