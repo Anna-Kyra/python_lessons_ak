@@ -192,6 +192,10 @@ def draw_type_animal():
             y += 20
     elif current_difficulty == GameDifficulty.HARD:
         engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
+        y = 30
+        for animal in random_animal_list:
+            engine.draw_text(f"{animal}", engine.width / 2, y, True)
+            y += 20
 
 def render():
     """
@@ -351,17 +355,15 @@ def type_word(key: str):
         word_color_cow = 0, 1, 0
 
     if current_index_cow == len(random_word_list_cow):
-        # Easy mode
-        if current_difficulty == GameDifficulty.EASY:
-            if remove_one_animal("cow"):
-                word_count += 1
-                if score < 5:
-                    score += 1
+        if remove_one_animal("cow"):
+            word_count += 1
+            if score < 5:
+                score += 1
+        else:
+            if score > 0:
+                score -= 1
             else:
-                if score > 0:
-                    score -= 1
-                else:
-                    current_state = GameState.GAMEOVER
+                current_state = GameState.GAMEOVER
 
         print("Cow word complete!")
         random_word_cow = random.choice(word_list_cow)
