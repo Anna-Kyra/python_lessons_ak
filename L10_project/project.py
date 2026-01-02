@@ -175,7 +175,6 @@ def draw_timer():
     engine.draw_text(f"{seconds}", 20, engine.height - 40)
 
 def draw_type_animal():
-    global random_animal_x
     engine.color = 0, 0, 0
     y = 10
 
@@ -183,19 +182,19 @@ def draw_type_animal():
         engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
         y = 30
         for index, animal in enumerate(random_animal_list):
-            engine.draw_text(f"{animal}", random_animal_x[index], y, True)
+            engine.draw_text(f"{animal}", random_animal_x[index], random_animal_y[index], True)
             y += 20
     elif current_difficulty == GameDifficulty.MEDIUM:
         engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
         y = 30
-        for animal in random_animal_list:
-            engine.draw_text(f"{animal}", engine.width / 2, y, True)
+        for index, animal in enumerate(random_animal_list):
+            engine.draw_text(f"{animal}", random_animal_x[index], random_animal_y[index], True)
             y += 20
     elif current_difficulty == GameDifficulty.HARD:
         engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
         y = 30
-        for animal in random_animal_list:
-            engine.draw_text(f"{animal}", engine.width / 2, y, True)
+        for index, animal in enumerate(random_animal_list):
+            engine.draw_text(f"{animal}", random_animal_x[index], random_animal_y[index], True)
             y += 20
 
 def render():
@@ -267,13 +266,14 @@ def add_random_animal():
         random_animal_list.append(random_animal)
 
         random_animal_x.append(-100)
+        random_animal_y.append(random.uniform(30, engine.height - 150))
         timer_animal = 0
 
 def move_animal():
-    global random_animal_x
+    global random_animal_x, random_animal_y
     for index in range(len(random_animal_x)):
-        random_animal_x[index] += 4  # snelheid van 4 pixels per frame
-        # Optioneel: wrap-around als het uit het scherm gaat
+        random_animal_x[index] += 1  # snelheid van 4 pixels per frame
+
         if random_animal_x[index] > engine.width:
             random_animal_x[index] = -100  # start opnieuw links
     pass
@@ -339,14 +339,17 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
 
 def remove_one_animal(kind: str) -> bool:
     """
-    Verwijdert precies 1 dier van dit type.
-    Geeft True terug als het gelukt is, anders False.
+    Verwijdert precies 1 dier van dit type
+    + bijhorende x en y.
     """
     for index in range(len(random_animal_list)):
         if random_animal_list[index] == kind:
             random_animal_list.pop(index)
+            random_animal_x.pop(index)
+            random_animal_y.pop(index)
             return True
     return False
+
 
 def type_word(key: str):
     global current_index_cow, random_word_cow, random_word_list_cow, word_colored_cow
