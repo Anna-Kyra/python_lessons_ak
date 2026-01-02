@@ -104,6 +104,12 @@ timer_animal = 0
 sunset_color = 1, 0.65, 0
 
 # -----------------
+# IMAGES
+# -----------------
+# BACKGROUNDS
+start_background = engine.load_image("resources/img/start_background.png")
+
+# -----------------
 # Helper functions
 # -----------------
 
@@ -198,6 +204,7 @@ def render():
 
     if current_state == GameState.START:
         engine.background_color = 1, 0, 1
+        start_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
         start_screen()
 
     elif current_state == GameState.DIFFICULTY:
