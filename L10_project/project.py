@@ -88,7 +88,7 @@ word_color_horse = (0, 1, 0)
 x_difficulty = 100
 width_difficulty = (engine.width - x_difficulty * 2) / 3 - (20 / 3)
 height_difficulty = 300
-y_difficulty = 100
+y_difficulty = 150
 
 # SCORE
 score = 5
@@ -103,17 +103,33 @@ timer_animal = 0
 
 sunset_color = 1, 0.65, 0
 
-# -----------------
+
 # IMAGES
 # -----------------
+# Fonts
+mono_font = "resources/fonts/PixeloidMono.ttf"
+normal_font = "resources/fonts/PixeloidSans.ttf"
+bold_font = "resources/fonts/PixeloidSans-Bold.ttf"
+title_font = "resources/fonts/AnalogWhispers.ttf"
+
+engine.set_font(normal_font)
+
 # BACKGROUNDS
 start_background = engine.load_image("resources/img/start_background.png")
 normal_background = engine.load_image("resources/img/normal_background.png")
 
+
 # DIFFICULTY
+title_background_difficulty = engine.load_image("resources/img/title_background_difficulty.png")
+
 difficulty_easy = engine.load_image("resources/img/difficulty_easy.png")
 difficulty_medium = engine.load_image("resources/img/difficulty_medium.png")
 difficulty_hard = engine.load_image("resources/img/difficulty_hard.png")
+
+# COLORS
+# -----------------
+primary_text_clr = (0.24, 0.15, 0.19)
+highlight_clr = (0.8, 0.87, 0.42)
 
 # -----------------
 # Helper functions
@@ -131,10 +147,16 @@ def start_screen():
     engine.color = 0, 0, 0
 
     engine.set_font_size(50)
-    engine.draw_text('Moo-ve your fingers', engine.width/2, engine.height/4, True)
+    # engine.draw_text('Moo-ve your fingers', engine.width/2, engine.height/4, True)
 
-    engine.set_font_size(30)
-    engine.draw_text('_Press any key to play_', engine.width/2, engine.height*(3/4), True)
+    engine.set_font_size(25)
+    engine.set_font(bold_font)
+    # Shadow
+    engine.color = primary_text_clr
+    engine.draw_text('Press any key to play_', engine.width - 228, engine.height - 67, True)
+    engine.color = highlight_clr
+    engine.draw_text('Press any key to play_', engine.width - 225, engine.height - 70, True)
+
 
 # -----------------
 # Draw functions
@@ -208,6 +230,7 @@ def render():
     """
     global current_difficulty, current_state
 
+
     if current_state == GameState.START:
         engine.background_color = 1, 0, 1
         start_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
@@ -217,8 +240,22 @@ def render():
         engine.background_color = 1, 1, 0
         engine.shape_mode = ShapeMode.CORNER
         normal_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
-        engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2, 50, True)
+
+        engine.set_font(title_font)
+        engine.set_font_size(60)
+
+        engine.shape_mode = ShapeMode.CENTER
+        # engine.draw_rectangle(engine.width / 2, 75, 550, 76, False)
+        title_background_difficulty.draw_fixed_size(engine.width / 2, 75, 550 * 1.2, 76 * 1.2, False)
         engine.shape_mode = ShapeMode.CORNER
+        engine.color = highlight_clr
+        engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2 - 3, 77 + 3, True)
+        engine.color = primary_text_clr
+        engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2, 77, True)
+
+
+
+
         #EASY
         # engine.draw_rectangle(x_difficulty, y_difficulty, width_difficulty, height_difficulty, False)
         difficulty_easy.draw_fixed_size(x_difficulty -10, y_difficulty, width_difficulty, height_difficulty, False)
