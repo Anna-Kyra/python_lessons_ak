@@ -108,6 +108,12 @@ sunset_color = 1, 0.65, 0
 # -----------------
 # BACKGROUNDS
 start_background = engine.load_image("resources/img/start_background.png")
+normal_background = engine.load_image("resources/img/normal_background.png")
+
+# DIFFICULTY
+difficulty_easy = engine.load_image("resources/img/difficulty_easy.png")
+difficulty_medium = engine.load_image("resources/img/difficulty_medium.png")
+difficulty_hard = engine.load_image("resources/img/difficulty_hard.png")
 
 # -----------------
 # Helper functions
@@ -209,14 +215,19 @@ def render():
 
     elif current_state == GameState.DIFFICULTY:
         engine.background_color = 1, 1, 0
+        engine.shape_mode = ShapeMode.CORNER
+        normal_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
         engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2, 50, True)
         engine.shape_mode = ShapeMode.CORNER
         #EASY
-        engine.draw_rectangle(x_difficulty, y_difficulty, width_difficulty, height_difficulty, False)
+        # engine.draw_rectangle(x_difficulty, y_difficulty, width_difficulty, height_difficulty, False)
+        difficulty_easy.draw_fixed_size(x_difficulty -10, y_difficulty, width_difficulty, height_difficulty, False)
         #MEDIUM
-        engine.draw_rectangle(x_difficulty + 200 + 10, y_difficulty, width_difficulty, height_difficulty, False)
+        # engine.draw_rectangle(x_difficulty + 200 + 10, y_difficulty, width_difficulty, height_difficulty, False)
+        difficulty_medium.draw_fixed_size(x_difficulty + 200 + 10, y_difficulty, width_difficulty, height_difficulty, False)
         #HARD
-        engine.draw_rectangle(x_difficulty + 200 * 2 + 20, y_difficulty, width_difficulty, height_difficulty, False)
+        # engine.draw_rectangle(x_difficulty + 200 * 2 + 20, y_difficulty, width_difficulty, height_difficulty, False)
+        difficulty_hard.draw_fixed_size(x_difficulty + 200 * 2 + 30, y_difficulty, width_difficulty, height_difficulty,False)
 
         # Go back button
         engine.shape_mode = ShapeMode.CENTER
