@@ -175,14 +175,15 @@ def draw_timer():
     engine.draw_text(f"{seconds}", 20, engine.height - 40)
 
 def draw_type_animal():
+    global random_animal_x
     engine.color = 0, 0, 0
     y = 10
 
     if current_difficulty == GameDifficulty.EASY:
         engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
         y = 30
-        for animal in random_animal_list:
-            engine.draw_text(f"{animal}", engine.width / 2, y, True)
+        for index, animal in enumerate(random_animal_list):
+            engine.draw_text(f"{animal}", random_animal_x[index], y, True)
             y += 20
     elif current_difficulty == GameDifficulty.MEDIUM:
         engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
@@ -264,7 +265,19 @@ def add_random_animal():
         allowed_animals = ANIMALS_BY_DIFFICULTY[current_difficulty]
         random_animal = random.choice(allowed_animals)
         random_animal_list.append(random_animal)
+
+        random_animal_x.append(-100)
         timer_animal = 0
+
+def move_animal():
+    global random_animal_x
+    for index in range(len(random_animal_x)):
+        random_animal_x[index] += 4  # snelheid van 4 pixels per frame
+        # Optioneel: wrap-around als het uit het scherm gaat
+        if random_animal_x[index] > engine.width:
+            random_animal_x[index] = -100  # start opnieuw links
+    pass
+
 
 def evaluate():
     """
@@ -286,7 +299,8 @@ def evaluate():
             current_state = GameState.HIGHSCORE
 
         add_random_animal()
-        # move_random_animal()
+        move_animal()
+        print(random_animal_x)
     pass
 
 # -----------------
@@ -437,7 +451,7 @@ def key_up_event(key: str):
     This function is only executed once each time a key was released!
     Special keys have more than 1 character, for example ESCAPE, BACKSPACE, ENTER, ...
     """
-    global current_state, score
+    global current_state, score, timer
     if current_state == GameState.START and key:
         current_state = GameState.DIFFICULTY
 
@@ -453,6 +467,7 @@ def key_up_event(key: str):
         score = 5
         current_state = GameState.DIFFICULTY
     elif key == "3":
+        timer = 0
         score = 5
         current_state = GameState.GAMEPLAY
     elif key == "4":
