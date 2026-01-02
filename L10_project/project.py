@@ -76,6 +76,9 @@ random_animal_list : list[str] = []
 random_animal_x : list[float] = []
 random_animal_y : list[float] = []
 
+random_animal_alpha : list[float] = []
+random_animal_despawn : list[bool] = []
+
 # New word color
 word_color_cow = (0, 1, 0)
 word_color_chicken = (0, 1, 0)
@@ -176,26 +179,16 @@ def draw_timer():
 
 def draw_type_animal():
     engine.color = 0, 0, 0
-    y = 10
 
-    if current_difficulty == GameDifficulty.EASY:
-        engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
-        y = 30
-        for index, animal in enumerate(random_animal_list):
-            engine.draw_text(f"{animal}", random_animal_x[index], random_animal_y[index], True)
-            y += 20
-    elif current_difficulty == GameDifficulty.MEDIUM:
-        engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
-        y = 30
-        for index, animal in enumerate(random_animal_list):
-            engine.draw_text(f"{animal}", random_animal_x[index], random_animal_y[index], True)
-            y += 20
-    elif current_difficulty == GameDifficulty.HARD:
-        engine.draw_text(f"{random_animal_list}", engine.width / 2, y, True)
-        y = 30
-        for index, animal in enumerate(random_animal_list):
-            engine.draw_text(f"{animal}", random_animal_x[index], random_animal_y[index], True)
-            y += 20
+    for index, animal in enumerate(random_animal_list):
+        engine.color = 0, 0, 0, random_animal_alpha[index]
+        engine.draw_text(
+            animal,
+            random_animal_x[index],
+            random_animal_y[index],
+            True
+        )
+
 
 def render():
     """
@@ -267,16 +260,29 @@ def add_random_animal():
 
         random_animal_x.append(-100)
         random_animal_y.append(random.uniform(30, engine.height - 150))
+
+        random_animal_alpha.append(1.0)
+        random_animal_despawn.append(False)
+
         timer_animal = 0
 
 def move_animal():
-    global random_animal_x, random_animal_y
-    for index in range(len(random_animal_x)):
-        random_animal_x[index] += 1  # snelheid van 4 pixels per frame
+    for index in range(len(random_animal_x) - 1, -1, -1):
 
-        if random_animal_x[index] > engine.width:
-            random_animal_x[index] = -100  # start opnieuw links
-    pass
+        if random_animal_despawn[index]:
+            random_animal_alpha[index] -= 0.1   # fade out
+
+            if random_animal_alpha[index] <= 0:
+                random_animal_list.pop(index)
+                random_animal_x.pop(index)
+                random_animal_y.pop(index)
+                random_animal_alpha.pop(index)
+                random_animal_despawn.pop(index)
+        else:
+            random_animal_x[index] += 1
+
+            if random_animal_x[index] > engine.width:
+                random_animal_x[index] = -100
 
 
 def evaluate():
@@ -300,7 +306,7 @@ def evaluate():
 
         add_random_animal()
         move_animal()
-        print(random_animal_x)
+        print(random_animal_alpha)
     pass
 
 # -----------------
@@ -338,18 +344,11 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
     pass
 
 def remove_one_animal(kind: str) -> bool:
-    """
-    Verwijdert precies 1 dier van dit type
-    + bijhorende x en y.
-    """
     for index in range(len(random_animal_list)):
-        if random_animal_list[index] == kind:
-            random_animal_list.pop(index)
-            random_animal_x.pop(index)
-            random_animal_y.pop(index)
+        if random_animal_list[index] == kind and not random_animal_despawn[index]:
+            random_animal_despawn[index] = True
             return True
     return False
-
 
 def type_word(key: str):
     global current_index_cow, random_word_cow, random_word_list_cow, word_colored_cow
