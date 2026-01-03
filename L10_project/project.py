@@ -121,6 +121,7 @@ engine.set_font(normal_font)
 # BACKGROUNDS
 start_background = engine.load_image("resources/img/start_background.png")
 normal_background = engine.load_image("resources/img/normal_background.png")
+gameplay_background = engine.load_image("resources/img/gameplay_background.png")
 
 
 # DIFFICULTY
@@ -227,7 +228,7 @@ def draw_type_animal():
             engine.color = 0, 1, 0
         elif animal == "chicken":
             engine.color = 1, 0, 0
-        engine.draw_rectangle(random_animal_x[index], animal_y,100, 50, False)
+        engine.draw_rectangle(random_animal_x[index], animal_y,100, 70, False)
 
 # SCREENS
 def start_screen():
@@ -279,19 +280,37 @@ def difficulty_screen():
 
 def gameplay_screen():
     engine.background_color = sunset_color
+    gameplay_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
 
     draw_score()
     draw_word_count()
     draw_type_animal()
     draw_timer()
 
+    card_width = 110
+
     # Number word change
     if current_difficulty == GameDifficulty.EASY:
+        engine.shape_mode = ShapeMode.CORNER
+        engine.color = 1, 0, 0
+        engine.draw_rectangle(engine.width - 150 - 10, cow_y - 75 - 15, card_width, 50)
+
         draw_word("cow", engine.width - 150, cow_y - 75)
     elif current_difficulty == GameDifficulty.MEDIUM:
+        engine.shape_mode = ShapeMode.CORNER
+        engine.color = 1, 0, 0
+        engine.draw_rectangle(engine.width - 150 - 10, cow_y - 75 - 15, card_width, 50)
+        engine.draw_rectangle(engine.width - 150 - 10, chicken_y - 75 - 15, card_width, 50)
+
         draw_word("cow", engine.width - 150, cow_y - 75)
         draw_word("chicken", engine.width - 150, chicken_y - 75)
     elif current_difficulty == GameDifficulty.HARD:
+        engine.shape_mode = ShapeMode.CORNER
+        engine.color = 1, 0, 0
+        engine.draw_rectangle(engine.width - 150 - 10, cow_y - 75 - 15, card_width, 50)
+        engine.draw_rectangle(engine.width - 150 - 10, chicken_y - 75 - 15, card_width, 50)
+        engine.draw_rectangle(engine.width - 150 - 10, horse_y - 75 - 15, card_width, 50)
+
         draw_word("cow", engine.width - 150, cow_y - 75)
         draw_word("chicken", engine.width - 150, chicken_y - 75)
         draw_word("horse", engine.width - 150, horse_y - 75)
@@ -315,7 +334,6 @@ def render():
     This function is being executed over and over, as fast as the frame rate. Use to draw (not update).
     """
     global current_difficulty, current_state
-
 
     if current_state == GameState.START:
         start_screen()
