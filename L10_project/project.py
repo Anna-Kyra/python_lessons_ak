@@ -146,20 +146,7 @@ def setup():
 
     pass
 
-def start_screen():
-    engine.shape_mode = ShapeMode.CORNER
-    engine.color = 0, 0, 0
 
-    engine.set_font_size(50)
-    # engine.draw_text('Moo-ve your fingers', engine.width/2, engine.height/4, True)
-
-    engine.set_font_size(25)
-    engine.set_font(bold_font)
-    # Shadow
-    engine.color = primary_text_clr
-    engine.draw_text('Press any key to play_', engine.width - 228, engine.height - 67, True)
-    engine.color = highlight_clr
-    engine.draw_text('Press any key to play_', engine.width - 225, engine.height - 70, True)
 
 
 # -----------------
@@ -242,6 +229,86 @@ def draw_type_animal():
             engine.color = 1, 0, 0
         engine.draw_rectangle(random_animal_x[index], animal_y,100, 50, False)
 
+# SCREENS
+def start_screen():
+    engine.shape_mode = ShapeMode.CORNER
+    start_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+    engine.color = 0, 0, 0
+
+    engine.set_font_size(50)
+    # engine.draw_text('Moo-ve your fingers', engine.width/2, engine.height/4, True)
+
+    engine.set_font_size(25)
+    engine.set_font(bold_font)
+    # Shadow
+    engine.color = primary_text_clr
+    engine.draw_text('Press any key to play_', engine.width - 228, engine.height - 67, True)
+    engine.color = highlight_clr
+    engine.draw_text('Press any key to play_', engine.width - 225, engine.height - 70, True)
+
+def difficulty_screen():
+    engine.shape_mode = ShapeMode.CORNER
+    normal_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+
+    engine.set_font(title_font)
+    engine.set_font_size(60)
+
+    engine.shape_mode = ShapeMode.CENTER
+    # engine.draw_rectangle(engine.width / 2, 75, 550, 76, False)
+    title_background_difficulty.draw_fixed_size(engine.width / 2, 75, 550 * 1.2, 76 * 1.2, False)
+    engine.shape_mode = ShapeMode.CORNER
+    engine.color = highlight_clr
+    engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2 - 3, 77 + 3, True)
+    engine.color = primary_text_clr
+    engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2, 77, True)
+
+    # EASY
+    # engine.draw_rectangle(x_difficulty, y_difficulty, width_difficulty, height_difficulty, False)
+    difficulty_easy.draw_fixed_size(x_difficulty - 10, y_difficulty, width_difficulty, height_difficulty, False)
+    # MEDIUM
+    # engine.draw_rectangle(x_difficulty + 200 + 10, y_difficulty, width_difficulty, height_difficulty, False)
+    difficulty_medium.draw_fixed_size(x_difficulty + 200 + 10, y_difficulty, width_difficulty, height_difficulty, False)
+    # HARD
+    # engine.draw_rectangle(x_difficulty + 200 * 2 + 20, y_difficulty, width_difficulty, height_difficulty, False)
+    difficulty_hard.draw_fixed_size(x_difficulty + 200 * 2 + 30, y_difficulty, width_difficulty, height_difficulty,
+                                    False)
+
+    # Go back button
+    engine.shape_mode = ShapeMode.CENTER
+    engine.draw_rectangle(100, engine.height - 75, 100, 50, False)
+
+def gameplay_screen():
+    engine.background_color = sunset_color
+
+    draw_score()
+    draw_word_count()
+    draw_type_animal()
+    draw_timer()
+
+    # Number word change
+    if current_difficulty == GameDifficulty.EASY:
+        draw_word("cow", engine.width - 150, cow_y - 75)
+    elif current_difficulty == GameDifficulty.MEDIUM:
+        draw_word("cow", engine.width - 150, cow_y - 75)
+        draw_word("chicken", engine.width - 150, chicken_y - 75)
+    elif current_difficulty == GameDifficulty.HARD:
+        draw_word("cow", engine.width - 150, cow_y - 75)
+        draw_word("chicken", engine.width - 150, chicken_y - 75)
+        draw_word("horse", engine.width - 150, horse_y - 75)
+
+def gameover_screen():
+    engine.background_color = 1, 0, 0
+    engine.shape_mode = ShapeMode.CENTER
+    engine.draw_text("Your animals are sad", engine.width / 2, engine.height / 2, True)
+    engine.draw_text(f"Word count: {word_count}", engine.width / 2, 300, True)
+    engine.draw_text(f"Wrongly typed letters: {faults}", engine.width / 2, 350, True)
+
+def highscore_screen():
+    engine.background_color = 0, 1, 0
+    engine.color = 0, 0, 0
+    engine.draw_text("Your animals are happy!!", engine.width / 2, 50, True)
+    engine.draw_text(f"Word count: {word_count}", engine.width / 2, 300, True)
+    engine.draw_text(f"Wrongly typed letters: {faults}", engine.width / 2, 350, True)
 
 def render():
     """
@@ -251,75 +318,19 @@ def render():
 
 
     if current_state == GameState.START:
-        engine.background_color = 1, 0, 1
-        start_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
         start_screen()
 
     elif current_state == GameState.DIFFICULTY:
-        engine.background_color = 1, 1, 0
-        engine.shape_mode = ShapeMode.CORNER
-        normal_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
-
-        engine.set_font(title_font)
-        engine.set_font_size(60)
-
-        engine.shape_mode = ShapeMode.CENTER
-        # engine.draw_rectangle(engine.width / 2, 75, 550, 76, False)
-        title_background_difficulty.draw_fixed_size(engine.width / 2, 75, 550 * 1.2, 76 * 1.2, False)
-        engine.shape_mode = ShapeMode.CORNER
-        engine.color = highlight_clr
-        engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2 - 3, 77 + 3, True)
-        engine.color = primary_text_clr
-        engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2, 77, True)
-
-
-
-
-        #EASY
-        # engine.draw_rectangle(x_difficulty, y_difficulty, width_difficulty, height_difficulty, False)
-        difficulty_easy.draw_fixed_size(x_difficulty -10, y_difficulty, width_difficulty, height_difficulty, False)
-        #MEDIUM
-        # engine.draw_rectangle(x_difficulty + 200 + 10, y_difficulty, width_difficulty, height_difficulty, False)
-        difficulty_medium.draw_fixed_size(x_difficulty + 200 + 10, y_difficulty, width_difficulty, height_difficulty, False)
-        #HARD
-        # engine.draw_rectangle(x_difficulty + 200 * 2 + 20, y_difficulty, width_difficulty, height_difficulty, False)
-        difficulty_hard.draw_fixed_size(x_difficulty + 200 * 2 + 30, y_difficulty, width_difficulty, height_difficulty,False)
-
-        # Go back button
-        engine.shape_mode = ShapeMode.CENTER
-        engine.draw_rectangle(100, engine.height - 75, 100, 50, False)
+        difficulty_screen()
 
     elif current_state == GameState.GAMEPLAY:
-        engine.background_color = sunset_color
-
-        draw_score()
-        draw_word_count()
-        draw_type_animal()
-        draw_timer()
-
-        # Number word change
-        if current_difficulty == GameDifficulty.EASY:
-            draw_word("cow", engine.width - 150 , cow_y - 75)
-        elif current_difficulty == GameDifficulty.MEDIUM:
-            draw_word("cow", engine.width - 150, cow_y - 75)
-            draw_word("chicken", engine.width - 150, chicken_y - 75)
-        elif current_difficulty == GameDifficulty.HARD:
-            draw_word("cow", engine.width - 150, cow_y - 75)
-            draw_word("chicken", engine.width - 150, chicken_y - 75)
-            draw_word("horse", engine.width - 150, horse_y - 75)
+        gameplay_screen()
 
     elif current_state == GameState.GAMEOVER:
-        engine.background_color = 1, 0, 0
-        engine.shape_mode = ShapeMode.CENTER
-        engine.draw_text("Your animals are sad", engine.width/2, engine.height/2, True)
-        engine.draw_text(f"Word count: {word_count}", engine.width/2, 300, True)
-        engine.draw_text(f"Wrongly typed letters: {faults}", engine.width/2, 350, True)
+        gameover_screen()
+
     elif current_state == GameState.HIGHSCORE:
-        engine.background_color = 0, 1, 0
-        engine.color = 0, 0, 0
-        engine.draw_text("Your animals are happy!!", engine.width/2, 50, True)
-        engine.draw_text(f"Word count: {word_count}", engine.width/2, 300, True)
-        engine.draw_text(f"Wrongly typed letters: {faults}", engine.width/2, 350, True)
+        highscore_screen()
     pass
 
 def add_random_animal():
