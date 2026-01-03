@@ -299,14 +299,14 @@ def render():
 
         # Number word change
         if current_difficulty == GameDifficulty.EASY:
-            draw_word("cow", engine.width - 180 , cow_y - 60)
+            draw_word("cow", engine.width - 180 , cow_y - 75)
         elif current_difficulty == GameDifficulty.MEDIUM:
-            draw_word("cow", engine.width - 180, cow_y - 60)
-            draw_word("chicken", engine.width - 180, chicken_y - 60)
+            draw_word("cow", engine.width - 180, cow_y - 75)
+            draw_word("chicken", engine.width - 180, chicken_y - 75)
         elif current_difficulty == GameDifficulty.HARD:
-            draw_word("cow", engine.width - 180, cow_y - 60)
-            draw_word("chicken", engine.width - 180, chicken_y - 60)
-            draw_word("horse", engine.width - 180, horse_y - 60)
+            draw_word("cow", engine.width - 180, cow_y - 75)
+            draw_word("chicken", engine.width - 180, chicken_y - 75)
+            draw_word("horse", engine.width - 180, horse_y - 75)
 
     elif current_state == GameState.GAMEOVER:
         engine.background_color = 1, 0, 0
@@ -358,7 +358,11 @@ def move_animal():
             random_animal_x[index] += 1
 
             if random_animal_x[index] > engine.width - 250:
-                random_animal_x[index] = -100
+                random_animal_list.pop(index)
+                random_animal_x.pop(index)
+                random_animal_y.pop(index)
+                random_animal_alpha.pop(index)
+                random_animal_despawn.pop(index)
 
                 if score > 0:
                     score -= 1
