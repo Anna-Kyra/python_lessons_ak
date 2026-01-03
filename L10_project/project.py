@@ -166,7 +166,7 @@ def start_screen():
 # Draw functions
 # -----------------
 
-def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 30):
+def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 20):
     global word_color_cow, word_color_chicken, word_color_horse
     engine.set_font_size(font_size)
     color_word = 0, 0, 0
@@ -299,14 +299,14 @@ def render():
 
         # Number word change
         if current_difficulty == GameDifficulty.EASY:
-            draw_word("cow", engine.width - 180 , cow_y - 75)
+            draw_word("cow", engine.width - 150 , cow_y - 75)
         elif current_difficulty == GameDifficulty.MEDIUM:
-            draw_word("cow", engine.width - 180, cow_y - 75)
-            draw_word("chicken", engine.width - 180, chicken_y - 75)
+            draw_word("cow", engine.width - 150, cow_y - 75)
+            draw_word("chicken", engine.width - 150, chicken_y - 75)
         elif current_difficulty == GameDifficulty.HARD:
-            draw_word("cow", engine.width - 180, cow_y - 75)
-            draw_word("chicken", engine.width - 180, chicken_y - 75)
-            draw_word("horse", engine.width - 180, horse_y - 75)
+            draw_word("cow", engine.width - 150, cow_y - 75)
+            draw_word("chicken", engine.width - 150, chicken_y - 75)
+            draw_word("horse", engine.width - 150, horse_y - 75)
 
     elif current_state == GameState.GAMEOVER:
         engine.background_color = 1, 0, 0
