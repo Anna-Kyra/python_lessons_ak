@@ -76,9 +76,9 @@ random_animal_list : list[str] = []
 random_animal_x : list[float] = []
 random_animal_y : list[float] = []
 
-cow_y = 150
-chicken_y = cow_y + 100
-horse_y = chicken_y + 100
+cow_y = 180
+horse_y = engine.height - 100
+chicken_y = (horse_y + cow_y) / 2
 
 random_animal_alpha : list[float] = []
 random_animal_despawn : list[bool] = []
@@ -299,14 +299,14 @@ def render():
 
         # Number word change
         if current_difficulty == GameDifficulty.EASY:
-            draw_word("cow", 50 , engine.height - 150)
+            draw_word("cow", engine.width - 180 , cow_y - 60)
         elif current_difficulty == GameDifficulty.MEDIUM:
-            draw_word("cow", 50, engine.height - 150)
-            draw_word("chicken", engine.width / 3, engine.height - 150)
+            draw_word("cow", engine.width - 180, cow_y - 60)
+            draw_word("chicken", engine.width - 180, chicken_y - 60)
         elif current_difficulty == GameDifficulty.HARD:
-            draw_word("cow", 50, engine.height - 150)
-            draw_word("chicken", engine.width / 3, engine.height - 150)
-            draw_word("horse", engine.width / 3 * 2, engine.height - 150)
+            draw_word("cow", engine.width - 180, cow_y - 60)
+            draw_word("chicken", engine.width - 180, chicken_y - 60)
+            draw_word("horse", engine.width - 180, horse_y - 60)
 
     elif current_state == GameState.GAMEOVER:
         engine.background_color = 1, 0, 0
@@ -341,6 +341,8 @@ def add_random_animal():
         timer_animal = 0
 
 def move_animal():
+    global score, current_state
+
     for index in range(len(random_animal_x) - 1, -1, -1):
 
         if random_animal_despawn[index]:
@@ -355,8 +357,13 @@ def move_animal():
         else:
             random_animal_x[index] += 1
 
-            if random_animal_x[index] > engine.width:
+            if random_animal_x[index] > engine.width - 250:
                 random_animal_x[index] = -100
+
+                if score > 0:
+                    score -= 1
+                else:
+                    current_state = GameState.GAMEOVER
 
 
 def evaluate():
