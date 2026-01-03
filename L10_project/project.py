@@ -76,6 +76,10 @@ random_animal_list : list[str] = []
 random_animal_x : list[float] = []
 random_animal_y : list[float] = []
 
+cow_y = 150
+chicken_y = cow_y + 100
+horse_y = chicken_y + 100
+
 random_animal_alpha : list[float] = []
 random_animal_despawn : list[bool] = []
 
@@ -216,12 +220,27 @@ def draw_type_animal():
 
     for index, animal in enumerate(random_animal_list):
         engine.color = 0, 0, 0, random_animal_alpha[index]
+
+        if animal == "cow":
+            animal_y = cow_y
+        elif animal == "chicken":
+            animal_y = chicken_y
+        else:
+            animal_y = horse_y
+
         engine.draw_text(
             animal,
             random_animal_x[index],
-            random_animal_y[index],
+            animal_y,
             True
         )
+
+        engine.shape_mode = ShapeMode.CENTER
+        if animal == "cow":
+            engine.color = 0, 1, 0
+        elif animal == "chicken":
+            engine.color = 1, 0, 0
+        engine.draw_rectangle(random_animal_x[index], animal_y,100, 50, False)
 
 
 def render():
