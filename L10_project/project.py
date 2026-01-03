@@ -123,6 +123,11 @@ start_background = engine.load_image("resources/img/start_background.png")
 normal_background = engine.load_image("resources/img/normal_background.png")
 gameplay_background = engine.load_image("resources/img/gameplay_background.png")
 
+# Bags
+cow_bag = engine.load_image("resources/img/cow_bag.png")
+chicken_bag = engine.load_image("resources/img/chicken_bag.png")
+horse_bag = engine.load_image("resources/img/horse_bag.png")
+
 
 # DIFFICULTY
 title_background_difficulty = engine.load_image("resources/img/title_background_difficulty.png")
@@ -288,32 +293,42 @@ def gameplay_screen():
     draw_timer()
 
     card_width = 110
+    bag_width = 110
 
     # Number word change
     if current_difficulty == GameDifficulty.EASY:
         engine.shape_mode = ShapeMode.CORNER
         engine.color = 1, 0, 0
-        engine.draw_rectangle(engine.width - 150 - 10, cow_y - 75 - 15, card_width, 50)
+        engine.draw_rectangle(engine.width - 150 - 10, cow_y - 75 - 15, card_width, 50, False)
+        engine.color = 0, 1, 0
+        cow_bag.draw_fixed_size(engine.width - 150 - 10, cow_y - 75 - 15 + 50, bag_width, 100, False)
 
         draw_word("cow", engine.width - 150, cow_y - 75)
     elif current_difficulty == GameDifficulty.MEDIUM:
         engine.shape_mode = ShapeMode.CORNER
         engine.color = 1, 0, 0
-        engine.draw_rectangle(engine.width - 150 - 10, cow_y - 75 - 15, card_width, 50)
-        engine.draw_rectangle(engine.width - 150 - 10, chicken_y - 75 - 15, card_width, 50)
+        engine.draw_rectangle(engine.width - 150 - 10, cow_y - 75 - 15, card_width, 50, False)
+        engine.draw_rectangle(engine.width - 150 - 10 - 20, chicken_y - 75 - 15, card_width, 50, False)
+
+        cow_bag.draw_fixed_size(engine.width - 150 - 10, cow_y - 75 - 15 + 50, bag_width, 100, False)
+        chicken_bag.draw_fixed_size(engine.width - 150 - 10, chicken_y - 75 - 15 + 50, bag_width, 100, False)
 
         draw_word("cow", engine.width - 150, cow_y - 75)
-        draw_word("chicken", engine.width - 150, chicken_y - 75)
+        draw_word("chicken", engine.width - 150 - 20, chicken_y - 75)
     elif current_difficulty == GameDifficulty.HARD:
         engine.shape_mode = ShapeMode.CORNER
         engine.color = 1, 0, 0
-        engine.draw_rectangle(engine.width - 150 - 10, cow_y - 75 - 15, card_width, 50)
-        engine.draw_rectangle(engine.width - 150 - 10, chicken_y - 75 - 15, card_width, 50)
-        engine.draw_rectangle(engine.width - 150 - 10, horse_y - 75 - 15, card_width, 50)
+        engine.draw_rectangle(engine.width - 150 - 10, cow_y - 75 - 15, card_width, 50, False)
+        engine.draw_rectangle(engine.width - 150 - 10 - 20, chicken_y - 75 - 15, card_width, 50, False)
+        engine.draw_rectangle(engine.width - 150 - 10 + 20, horse_y - 75 - 15, card_width, 50, False)
+        engine.color = 0, 1, 0
+        cow_bag.draw_fixed_size(engine.width - 150 - 10, cow_y - 75 - 15 + 50, bag_width, 100, False)
+        chicken_bag.draw_fixed_size(engine.width - 150 - 10, chicken_y - 75 - 15 + 50, bag_width, 100, False)
+        horse_bag.draw_fixed_size(engine.width - 150 - 10, horse_y - 75 - 15 + 50, bag_width, 100, False)
 
         draw_word("cow", engine.width - 150, cow_y - 75)
-        draw_word("chicken", engine.width - 150, chicken_y - 75)
-        draw_word("horse", engine.width - 150, horse_y - 75)
+        draw_word("chicken", engine.width - 150 - 20, chicken_y - 75)
+        draw_word("horse", engine.width - 150 + 20, horse_y - 75)
 
 def gameover_screen():
     engine.background_color = 1, 0, 0
