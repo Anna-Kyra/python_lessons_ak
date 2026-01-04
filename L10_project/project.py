@@ -133,6 +133,7 @@ chicken_bag = engine.load_image("resources/img/chicken_bag.png")
 horse_bag = engine.load_image("resources/img/horse_bag.png")
 
 name_card = engine.load_image("resources/img/card.png")
+grass_background = engine.load_image("resources/img/name_card.png")
 
 # DIFFICULTY
 title_background_difficulty = engine.load_image("resources/img/title_background_difficulty.png")
@@ -226,7 +227,11 @@ def draw_score():
 
 def draw_word_count():
     engine.color = 0, 0, 0
-    engine.draw_text(f"word count : {word_count}", engine.width - 250, 20)
+
+    # grass_background.draw_fixed_size(engine.width - 270, 22, 220, 40, False)
+    engine.set_font(bold_font, 25)
+    engine.color = primary_text_clr
+    engine.draw_text(f"word count = {word_count}", engine.width - 300, 30)
 
 def draw_timer():
     engine.color = 0, 0, 0
@@ -377,8 +382,8 @@ def gameover_screen():
     engine.shape_mode = ShapeMode.CENTER
     engine.draw_text("It's game over for you now...wanna play again?", engine.width / 2, 150, True)
 
-    engine.draw_text(f"Word count: {word_count}", engine.width / 2, 300, True)
-    engine.draw_text(f"Wrongly typed letters: {faults}", engine.width / 2, 350, True)
+    engine.draw_text(f"Word count................................{word_count}", engine.width / 2, 300, True)
+    engine.draw_text(f"Wrongly typed letters.............{faults}", engine.width / 2, 350, True)
 
 def highscore_screen():
     engine.shape_mode = ShapeMode.CORNER
@@ -394,8 +399,8 @@ def highscore_screen():
 
     engine.set_font_size(30)
     engine.draw_text("Your animals have a full belly", engine.width / 2, 150, True)
-    engine.draw_text(f"Word count: {word_count}", engine.width / 2, 300, True)
-    engine.draw_text(f"Wrongly typed letters: {faults}", engine.width / 2, 350, True)
+    engine.draw_text(f"Word count................................{word_count}", engine.width / 2, 300, True)
+    engine.draw_text(f"Wrongly typed letters.............{faults}", engine.width / 2, 350, True)
 
 def render():
     """
@@ -568,7 +573,7 @@ def type_word(key: str):
     if current_index_cow == len(random_word_list_cow):
         if remove_one_animal("cow"):
             word_count += 1
-            if score < 5:
+            if score < 4:
                 score += 1
         else:
             if score > 0:
@@ -595,7 +600,7 @@ def type_word(key: str):
         if current_difficulty in (GameDifficulty.MEDIUM, GameDifficulty.HARD):
             if remove_one_animal("chicken"):
                 word_count += 1
-                if score < 5:
+                if score < 4:
                     score += 1
             else:
                 score -= 1
@@ -619,7 +624,7 @@ def type_word(key: str):
         if current_difficulty == GameDifficulty.HARD:
             if remove_one_animal("horse"):
                 word_count += 1
-                if score < 5:
+                if score < 4:
                     score += 1
             else:
                 score -= 1
@@ -648,7 +653,7 @@ def key_up_event(key: str):
     This function is only executed once each time a key was released!
     Special keys have more than 1 character, for example ESCAPE, BACKSPACE, ENTER, ...
     """
-    global current_state, score, timer, random_animal_list, random_animal_x, random_animal_y
+    global current_state, score, word_count, timer, random_animal_list, random_animal_x, random_animal_y
     if current_state == GameState.START and key:
         current_state = GameState.DIFFICULTY
 
@@ -661,12 +666,14 @@ def key_up_event(key: str):
         random_animal_x = []
         random_animal_y = []
         score = 4
+        word_count = 0
         current_state = GameState.START
     elif key == "2":
         random_animal_list = []
         random_animal_x = []
         random_animal_y = []
         score = 4
+        word_count = 0
         current_state = GameState.DIFFICULTY
     elif key == "3":
         random_animal_list = []
@@ -674,18 +681,21 @@ def key_up_event(key: str):
         random_animal_y = []
         timer = 0
         score = 4
+        word_count = 0
         current_state = GameState.GAMEPLAY
     elif key == "4":
         random_animal_list = []
         random_animal_x = []
         random_animal_y = []
         score = 4
+        word_count = 0
         current_state = GameState.GAMEOVER
     elif key == "5":
         random_animal_list = []
         random_animal_x = []
         random_animal_y = []
         score = 4
+        word_count = 0
         current_state = GameState.HIGHSCORE
     pass
 
