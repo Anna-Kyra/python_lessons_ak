@@ -137,6 +137,21 @@ difficulty_easy = engine.load_image("resources/img/difficulty_easy.png")
 difficulty_medium = engine.load_image("resources/img/difficulty_medium.png")
 difficulty_hard = engine.load_image("resources/img/difficulty_hard.png")
 
+# Spritesheets
+animals_sprite_columns = 3
+animals_sprite_rows = 2
+animals_sprite = engine.load_image("resources/img/animals_spritesheet.png")
+animals_sprite.resize(208 * 1.5, 270 * 1.5)
+animals_frames = animals_sprite.cut_all_frames(animals_sprite_columns, animals_sprite_rows)
+
+animal_frame_counter = 0
+window_frame_counter = 0
+
+
+chicken = animals_frames[0:2:1]
+cow = animals_frames[2:4:1]
+horse = animals_frames[4:6:1]
+
 # COLORS
 # -----------------
 primary_text_clr = (0.24, 0.15, 0.19)
@@ -215,26 +230,26 @@ def draw_type_animal():
     for index, animal in enumerate(random_animal_list):
         engine.color = 0, 0, 0, random_animal_alpha[index]
 
-        if animal == "cow":
-            animal_y = cow_y
-        elif animal == "chicken":
-            animal_y = chicken_y
-        else:
-            animal_y = horse_y
-
-        engine.draw_text(
-            animal,
-            random_animal_x[index],
-            animal_y,
-            True
-        )
+        # engine.draw_text(
+        #     animal,
+        #     random_animal_x[index],
+        #     animal_y,
+        #     True
+        # )
 
         engine.shape_mode = ShapeMode.CENTER
         if animal == "cow":
-            engine.color = 0, 1, 0
+            animal_y = cow_y
+            cow[animal_frame_counter].draw(random_animal_x[index], animal_y)
+
         elif animal == "chicken":
-            engine.color = 1, 0, 0
-        engine.draw_rectangle(random_animal_x[index], animal_y,100, 70, False)
+            animal_y = chicken_y
+            chicken[animal_frame_counter].draw(random_animal_x[index], animal_y)
+        elif animal == "horse":
+            animal_y = horse_y
+            horse[animal_frame_counter].draw(random_animal_x[index], animal_y)
+
+        # engine.draw_rectangle(random_animal_x[index], animal_y,100, 70, False) #horse height 90
 
 # SCREENS
 def start_screen():
@@ -415,6 +430,16 @@ def move_animal():
                 else:
                     current_state = GameState.GAMEOVER
 
+def animate_animal():
+    global window_frame_counter, animal_frame_counter
+
+    window_frame_counter += 1
+    if window_frame_counter > 15:
+        window_frame_counter = 0
+        animal_frame_counter += 1
+        if animal_frame_counter >= 2:
+            animal_frame_counter = 0
+
 
 def evaluate():
     """
@@ -437,6 +462,7 @@ def evaluate():
 
         add_random_animal()
         move_animal()
+        animate_animal()
         print(random_animal_alpha)
     pass
 
