@@ -648,7 +648,7 @@ def key_up_event(key: str):
     This function is only executed once each time a key was released!
     Special keys have more than 1 character, for example ESCAPE, BACKSPACE, ENTER, ...
     """
-    global current_state, score, timer
+    global current_state, score, timer, random_animal_list, random_animal_x, random_animal_y
     if current_state == GameState.START and key:
         current_state = GameState.DIFFICULTY
 
@@ -657,20 +657,34 @@ def key_up_event(key: str):
 
     # DEBUG
     if key == "1":
+        random_animal_list = []
+        random_animal_x = []
+        random_animal_y = []
         score = 4
         current_state = GameState.START
     elif key == "2":
-        engine.color = 0, 0, 0
+        random_animal_list = []
+        random_animal_x = []
+        random_animal_y = []
         score = 4
         current_state = GameState.DIFFICULTY
     elif key == "3":
+        random_animal_list = []
+        random_animal_x = []
+        random_animal_y = []
         timer = 0
         score = 4
         current_state = GameState.GAMEPLAY
     elif key == "4":
+        random_animal_list = []
+        random_animal_x = []
+        random_animal_y = []
         score = 4
         current_state = GameState.GAMEOVER
     elif key == "5":
+        random_animal_list = []
+        random_animal_x = []
+        random_animal_y = []
         score = 4
         current_state = GameState.HIGHSCORE
     pass
