@@ -3,7 +3,7 @@
 """
 Created on 2-12-2025
 
-@author: anna-
+@author: anna-kyra
 """
 import random
 import dae_progfa_lib as pfe
@@ -106,7 +106,6 @@ seconds = 0
 timer_animal = 0
 
 sunset_color = 1, 0.65, 0
-
 
 # IMAGES
 # -----------------
@@ -219,15 +218,9 @@ def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 20):
         engine.draw_text(f"{word_colored_horse.upper()}", x, y, False)
 
 def draw_score():
-    engine.color = 0, 0, 0
-    # engine.draw_text(f"{score}", 20, 20)
-
-    # engine.draw_rectangle(30, 30, 250, 30)
     score_frames[score].draw(20, 20)
 
 def draw_word_count():
-
-    # grass_background.draw_fixed_size(engine.width - 270, 22, 220, 40, False)
     engine.set_font(bold_font, 25)
     engine.color = primary_text_clr
     engine.draw_text(f"word count = {word_count}", engine.width - 300, 30)
@@ -245,13 +238,6 @@ def draw_type_animal():
     for index, animal in enumerate(random_animal_list):
         engine.color = 0, 0, 0, random_animal_alpha[index]
 
-        # engine.draw_text(
-        #     animal,
-        #     random_animal_x[index],
-        #     animal_y,
-        #     True
-        # )
-
         engine.shape_mode = ShapeMode.CENTER
         if animal == "cow":
             animal_y = cow_y
@@ -264,16 +250,10 @@ def draw_type_animal():
             animal_y = horse_y
             horse[animal_frame_counter].draw(random_animal_x[index], animal_y)
 
-        # engine.draw_rectangle(random_animal_x[index], animal_y,100, 70, False) #horse height 90
-
 # SCREENS
 def start_screen():
     engine.shape_mode = ShapeMode.CORNER
     start_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
-    engine.color = 0, 0, 0
-
-    engine.set_font_size(50)
-    # engine.draw_text('Moo-ve your fingers', engine.width/2, engine.height/4, True)
 
     engine.set_font_size(25)
     engine.set_font(bold_font)
@@ -291,7 +271,6 @@ def difficulty_screen():
     engine.set_font_size(60)
 
     engine.shape_mode = ShapeMode.CENTER
-    # engine.draw_rectangle(engine.width / 2, 75, 550, 76, False)
     title_background_difficulty.draw_fixed_size(engine.width / 2, 75, 550 * 1.2, 76 * 1.2, False)
     engine.shape_mode = ShapeMode.CORNER
     engine.color = highlight_clr
@@ -300,22 +279,15 @@ def difficulty_screen():
     engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2, 77, True)
 
     # EASY
-    # engine.draw_rectangle(x_difficulty, y_difficulty, width_difficulty, height_difficulty, False)
     difficulty_easy.draw_fixed_size(x_difficulty - 10, y_difficulty, width_difficulty, height_difficulty, False)
     # MEDIUM
-    # engine.draw_rectangle(x_difficulty + 200 + 10, y_difficulty, width_difficulty, height_difficulty, False)
     difficulty_medium.draw_fixed_size(x_difficulty + 200 + 10, y_difficulty, width_difficulty, height_difficulty, False)
     # HARD
-    # engine.draw_rectangle(x_difficulty + 200 * 2 + 20, y_difficulty, width_difficulty, height_difficulty, False)
     difficulty_hard.draw_fixed_size(x_difficulty + 200 * 2 + 30, y_difficulty, width_difficulty, height_difficulty,
                                     False)
 
     # Go back button
-    # engine.shape_mode = ShapeMode.CENTER
-    # engine.draw_rectangle(100, engine.height - 75, 100, 50, False)
     engine.set_font_size(30)
-    # engine.shape_mode = ShapeMode.CORNER
-    # name_card.draw_fixed_size(80, engine.height - 75, 150, 50, False)
     engine.shape_mode = ShapeMode.CENTER
     engine.set_font(bold_font)
     engine.color = primary_text_clr
@@ -388,7 +360,6 @@ def gameover_screen():
     engine.color = primary_text_clr
     engine.draw_text("Your animals are hungry!!", engine.width / 2, 77, True)
 
-    # engine.background_color = 0, 1, 0
     engine.set_font_size(30)
     engine.shape_mode = ShapeMode.CENTER
     engine.draw_text("It's game over for you now...wanna play again?", engine.width / 2, 150, True)
