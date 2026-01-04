@@ -384,6 +384,16 @@ def gameover_screen():
 
     engine.draw_text(f"Word count................................{word_count}", engine.width / 2, 300, True)
     engine.draw_text(f"Wrongly typed letters.............{faults}", engine.width / 2, 350, True)
+    engine.draw_text(f"Time spend.........................{timer}", engine.width / 2, 400, True)
+
+    engine.shape_mode = ShapeMode.CORNER
+    name_card.draw_fixed_size(80, engine.height - 75, 150, 50, False)
+    name_card.draw_fixed_size(270, engine.height - 75, 260, 50, False)
+    name_card.draw_fixed_size(580, engine.height - 75, 150, 50, False)
+    engine.shape_mode = ShapeMode.CENTER
+    engine.draw_text("go home", 150, engine.height - 50, True)
+    engine.draw_text("change difficulty", engine.width /2, engine.height - 50, True)
+    engine.draw_text("restart", engine.width - 150, engine.height - 50, True)
 
 def highscore_screen():
     engine.shape_mode = ShapeMode.CORNER
@@ -401,6 +411,15 @@ def highscore_screen():
     engine.draw_text("Your animals have a full belly", engine.width / 2, 150, True)
     engine.draw_text(f"Word count................................{word_count}", engine.width / 2, 300, True)
     engine.draw_text(f"Wrongly typed letters.............{faults}", engine.width / 2, 350, True)
+
+    engine.shape_mode = ShapeMode.CORNER
+    name_card.draw_fixed_size(80, engine.height - 75, 150, 50, False)
+    name_card.draw_fixed_size(270, engine.height - 75, 260, 50, False)
+    name_card.draw_fixed_size(580, engine.height - 75, 150, 50, False)
+    engine.shape_mode = ShapeMode.CENTER
+    engine.draw_text("go home", 150, engine.height - 50, True)
+    engine.draw_text("change difficulty", engine.width /2, engine.height - 50, True)
+    engine.draw_text("restart", engine.width - 150, engine.height - 50, True)
 
 def render():
     """
@@ -429,7 +448,7 @@ def add_random_animal():
 
     timer_animal += 1 / 60
 
-    if timer_animal > 2 and len(random_animal_list) < 5:
+    if timer_animal > 2 and len(random_animal_list) < 8:
         allowed_animals = ANIMALS_BY_DIFFICULTY[current_difficulty]
         random_animal = random.choice(allowed_animals)
         random_animal_list.append(random_animal)
@@ -506,7 +525,6 @@ def evaluate():
         add_random_animal()
         move_animal()
         animate_animal()
-        print(random_animal_alpha)
     pass
 
 # -----------------
@@ -521,6 +539,7 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
     This function is only executed once each time a mouse button was pressed!
     """
     global current_difficulty, current_state
+    global score, word_count, timer, random_animal_list, random_animal_x, random_animal_y
 
     if current_state == GameState.DIFFICULTY:
         engine.shape_mode = ShapeMode.CORNER
@@ -539,6 +558,38 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
             current_state = GameState.GAMEPLAY
         elif on_hard:
             current_difficulty = GameDifficulty.HARD
+            reset_animals()
+            current_state = GameState.GAMEPLAY
+
+    elif current_state in (GameState.GAMEOVER, GameState.HIGHSCORE):
+        engine.shape_mode = ShapeMode.CORNER
+        on_go_home = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, 80, engine.height - 75,150, 50)
+        on_change_difficulty = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, 270, engine.height - 75, 260, 50)
+        on_restart = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, 580, engine.height - 75, 150, 50)
+        # Go home
+        if on_go_home:
+            random_animal_list = []
+            random_animal_x = []
+            random_animal_y = []
+            score = 4
+            word_count = 0
+            reset_animals()
+            current_state = GameState.START
+        # MEDIUM
+        elif on_change_difficulty:
+            random_animal_list = []
+            random_animal_x = []
+            random_animal_y = []
+            score = 4
+            word_count = 0
+            reset_animals()
+            current_state = GameState.DIFFICULTY
+        elif on_restart:
+            random_animal_list = []
+            random_animal_x = []
+            random_animal_y = []
+            score = 4
+            word_count = 0
             reset_animals()
             current_state = GameState.GAMEPLAY
     pass
