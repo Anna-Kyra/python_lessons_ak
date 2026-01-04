@@ -181,6 +181,15 @@ def setup():
 # -----------------
 
 def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 20):
+    """
+    Draws good typed word over the randomly chosen word
+    The words are different for every animal type
+    :param animal: kind animal choose between: "cow", "chicken" or "horse"
+    :param x: x coordinate
+    :param y: y coordinate
+    :param font_size: font size default = 20
+    :return: 
+    """
     global word_color_cow, word_color_chicken, word_color_horse
     engine.set_font_size(font_size)
     color_word = primary_text_clr
@@ -218,14 +227,23 @@ def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 20):
         engine.draw_text(f"{word_colored_horse.upper()}", x, y, False)
 
 def draw_score():
+    """
+    Draws score bar from spritesheet
+    """
     score_frames[score].draw(20, 20)
 
 def draw_word_count():
+    """
+    Draws word count text
+    """
     engine.set_font(bold_font, 25)
     engine.color = primary_text_clr
     engine.draw_text(f"word count = {word_count}", engine.width - 300, 30)
 
 def draw_timer():
+    """
+    Draws timer text
+    """
     engine.shape_mode = ShapeMode.CORNER
     engine.color = primary_text_clr
     engine.set_font(bold_font, 25)
@@ -233,6 +251,9 @@ def draw_timer():
     engine.draw_text(f"time = {60 - seconds}", 40, engine.height - 53)
 
 def draw_type_animal():
+    """
+    Draws animals from spritesheet depending on the animal type
+    """
     engine.color = 0, 0, 0
 
     for index, animal in enumerate(random_animal_list):
@@ -252,6 +273,10 @@ def draw_type_animal():
 
 # SCREENS
 def start_screen():
+    """
+    Start screen layout.
+    Navigates to difficulty screen
+    """
     engine.shape_mode = ShapeMode.CORNER
     start_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
 
@@ -264,6 +289,11 @@ def start_screen():
     engine.draw_text('Press any key to play_', engine.width - 225, engine.height - 70, True)
 
 def difficulty_screen():
+    """
+    Difficulty screen layout.
+    Navigates to the gameplay screen in its particular difficulty
+    + can go back to start screen
+    """
     engine.shape_mode = ShapeMode.CORNER
     normal_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
 
@@ -296,6 +326,11 @@ def difficulty_screen():
     engine.draw_text("<- GO BACK", 150, engine.height - 50, True)
 
 def gameplay_screen():
+    """
+    Gameplay screen layout
+    This is where the gameplay happens
+    navigates to either highscore screen or gameover screen
+    """
     engine.background_color = sunset_color
     gameplay_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
 
@@ -344,6 +379,11 @@ def gameplay_screen():
         draw_word("horse", engine.width - 150, horse_y - 75)
 
 def gameover_screen():
+    """
+    Gameover layout
+    Shows scores and how much time you spend on the level
+    Can navigate to start screen, difficulty screen, gameplay screen
+    """
     engine.shape_mode = ShapeMode.CORNER
     gameover_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
 
@@ -375,6 +415,11 @@ def gameover_screen():
     engine.draw_text("restart", engine.width - 150, engine.height - 50, True)
 
 def highscore_screen():
+    """
+    Gameover layout
+    Shows word count and wrongly typed letters
+    Can navigate to start screen, difficulty screen, gameplay screen
+    """
     engine.shape_mode = ShapeMode.CORNER
     highscore_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
 
@@ -423,6 +468,11 @@ def render():
     pass
 
 def add_random_animal():
+    """
+    Adds a new animal to multiple lists with an x and y coordinate.
+    Y coordinate depends on the animal kind
+    It makes sure that the despawn function isn't activated
+    """
     global timer_animal
 
     timer_animal += 1 / 60
@@ -441,6 +491,11 @@ def add_random_animal():
         timer_animal = 0
 
 def move_animal():
+    """
+    Animates the animals x coordinates.
+    And clears when it needs to despawn,
+    when a word is written correctly or if it goes to close by the food
+    """
     global score, current_state
 
     for index in range(len(random_animal_x) - 1, -1, -1):
@@ -472,6 +527,9 @@ def move_animal():
                     current_state = GameState.GAMEOVER
 
 def animate_animal():
+    """
+    Goes true the spritesheet of the animals
+    """
     global window_frame_counter, animal_frame_counter
 
     window_frame_counter += 1
@@ -511,6 +569,9 @@ def evaluate():
 # -----------------
 
 def reset_animals():
+    """
+    Clears random animal list
+    """
     random_animal_list.clear()
 
 def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
@@ -573,6 +634,11 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
     pass
 
 def remove_one_animal(kind: str) -> bool:
+    """
+    Removes/despawn an animal
+    :param kind: kind animal choose between: "cow", "chicken" or "horse"
+    :return: Turns true if it needs to despawn
+    """
     for index in range(len(random_animal_list)):
         if random_animal_list[index] == kind and not random_animal_despawn[index]:
             random_animal_despawn[index] = True
@@ -580,6 +646,10 @@ def remove_one_animal(kind: str) -> bool:
     return False
 
 def type_word(key: str):
+    """
+    Typing mechanics for the cow, chicken and horse words.
+    :param key: key pressed
+    """
     global current_index_cow, random_word_cow, random_word_list_cow, word_colored_cow
     global current_index_chicken, random_word_chicken, random_word_list_chicken, word_colored_chicken
     global current_index_horse, random_word_horse, random_word_list_horse, word_colored_horse
