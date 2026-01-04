@@ -95,7 +95,7 @@ height_difficulty = 300
 y_difficulty = 150
 
 # SCORE
-score = 5
+score = 4
 word_count = 0
 faults = 0
 
@@ -125,6 +125,8 @@ gameplay_background = engine.load_image("resources/img/gameplay_background.png")
 gameover_background = engine.load_image("resources/img/gameover_background.png")
 highscore_background = engine.load_image("resources/img/highscore_background.png")
 
+outline = engine.load_image("resources/img/outline.png")
+
 # Bags
 cow_bag = engine.load_image("resources/img/cow_bag.png")
 chicken_bag = engine.load_image("resources/img/chicken_bag.png")
@@ -152,6 +154,11 @@ window_frame_counter = 0
 chicken = animals_frames[0:2:1]
 cow = animals_frames[2:4:1]
 horse = animals_frames[4:6:1]
+
+# Score
+score_sprite = engine.load_image("resources/img/score_spritesheet.png")
+score_sprite.resize(250 * 1.5, 270 * 1.5)
+score_frames = score_sprite.cut_all_frames(5, 1)
 
 # COLORS
 # -----------------
@@ -212,7 +219,10 @@ def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 20):
 
 def draw_score():
     engine.color = 0, 0, 0
-    engine.draw_text(f"{score}", 20, 20)
+    # engine.draw_text(f"{score}", 20, 20)
+
+    # engine.draw_rectangle(30, 30, 250, 30)
+    score_frames[score].draw(20, 20)
 
 def draw_word_count():
     engine.color = 0, 0, 0
@@ -301,9 +311,12 @@ def gameplay_screen():
     engine.background_color = sunset_color
     gameplay_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
 
+
+    draw_type_animal()
+    engine.shape_mode = ShapeMode.CORNER
+    outline.draw_fixed_size(0, 0, engine.width, engine.height, False)
     draw_score()
     draw_word_count()
-    draw_type_animal()
     draw_timer()
 
     card_width = 120
@@ -342,6 +355,8 @@ def gameplay_screen():
         draw_word("cow", engine.width - 150, cow_y - 75)
         draw_word("chicken", engine.width - 150, chicken_y - 75)
         draw_word("horse", engine.width - 150, horse_y - 75)
+
+
 
 def gameover_screen():
     engine.shape_mode = ShapeMode.CORNER
@@ -642,21 +657,21 @@ def key_up_event(key: str):
 
     # DEBUG
     if key == "1":
-        score = 5
+        score = 4
         current_state = GameState.START
     elif key == "2":
         engine.color = 0, 0, 0
-        score = 5
+        score = 4
         current_state = GameState.DIFFICULTY
     elif key == "3":
         timer = 0
-        score = 5
+        score = 4
         current_state = GameState.GAMEPLAY
     elif key == "4":
-        score = 5
+        score = 4
         current_state = GameState.GAMEOVER
     elif key == "5":
-        score = 5
+        score = 4
         current_state = GameState.HIGHSCORE
     pass
 
