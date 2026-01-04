@@ -149,7 +149,6 @@ animals_frames = animals_sprite.cut_all_frames(animals_sprite_columns, animals_s
 animal_frame_counter = 0
 window_frame_counter = 0
 
-
 chicken = animals_frames[0:2:1]
 cow = animals_frames[2:4:1]
 horse = animals_frames[4:6:1]
@@ -170,9 +169,6 @@ def setup():
 
     pass
 
-
-
-
 # -----------------
 # Draw functions
 # -----------------
@@ -180,7 +176,7 @@ def setup():
 def draw_word(animal: str, x: int | float, y: int | float, font_size: int = 20):
     global word_color_cow, word_color_chicken, word_color_horse
     engine.set_font_size(font_size)
-    color_word = 0, 0, 0
+    color_word = primary_text_clr
 
     engine.shape_mode = ShapeMode.CORNER
 
@@ -444,6 +440,8 @@ def move_animal():
             random_animal_x[index] += 1
 
             if random_animal_x[index] > engine.width - 250:
+                random_animal_alpha[index] -= 0.1
+
                 random_animal_list.pop(index)
                 random_animal_x.pop(index)
                 random_animal_y.pop(index)
