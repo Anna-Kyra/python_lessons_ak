@@ -226,7 +226,6 @@ def draw_score():
     score_frames[score].draw(20, 20)
 
 def draw_word_count():
-    engine.color = 0, 0, 0
 
     # grass_background.draw_fixed_size(engine.width - 270, 22, 220, 40, False)
     engine.set_font(bold_font, 25)
@@ -234,8 +233,11 @@ def draw_word_count():
     engine.draw_text(f"word count = {word_count}", engine.width - 300, 30)
 
 def draw_timer():
-    engine.color = 0, 0, 0
-    engine.draw_text(f"{seconds}", 20, engine.height - 40)
+    engine.shape_mode = ShapeMode.CORNER
+    engine.color = primary_text_clr
+    engine.set_font(bold_font, 25)
+    grass_background.draw_fixed_size(15, engine.height - 65, 163, 60, False)
+    engine.draw_text(f"time = {seconds}", 40, engine.height - 53)
 
 def draw_type_animal():
     engine.color = 0, 0, 0
@@ -309,20 +311,29 @@ def difficulty_screen():
                                     False)
 
     # Go back button
+    # engine.shape_mode = ShapeMode.CENTER
+    # engine.draw_rectangle(100, engine.height - 75, 100, 50, False)
+    engine.set_font_size(30)
+    # engine.shape_mode = ShapeMode.CORNER
+    # name_card.draw_fixed_size(80, engine.height - 75, 150, 50, False)
     engine.shape_mode = ShapeMode.CENTER
-    engine.draw_rectangle(100, engine.height - 75, 100, 50, False)
+    engine.set_font(bold_font)
+    engine.color = primary_text_clr
+    engine.draw_text("<- GO BACK", 147, engine.height - 48, True)
+    engine.color = highlight_clr
+    engine.draw_text("<- GO BACK", 150, engine.height - 50, True)
+
 
 def gameplay_screen():
     engine.background_color = sunset_color
     gameplay_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
 
-
     draw_type_animal()
+    draw_timer()
     engine.shape_mode = ShapeMode.CORNER
     outline.draw_fixed_size(0, 0, engine.width, engine.height, False)
     draw_score()
     draw_word_count()
-    draw_timer()
 
     card_width = 120
     bag_width = 110
@@ -546,6 +557,8 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
         on_easy = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, x_difficulty, y_difficulty, width_difficulty, height_difficulty)
         on_medium = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, x_difficulty + 200 + 10, y_difficulty, width_difficulty, height_difficulty)
         on_hard = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, x_difficulty + 200 * 2 + 10 * 2, y_difficulty, width_difficulty, height_difficulty)
+        on_go_home = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, 80, engine.height - 75, 150, 50)
+
         # EASY
         if on_easy:
             current_difficulty = GameDifficulty.EASY
@@ -560,6 +573,9 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
             current_difficulty = GameDifficulty.HARD
             reset_animals()
             current_state = GameState.GAMEPLAY
+        elif on_go_home:
+            reset_animals()
+            current_state = GameState.START
 
     elif current_state in (GameState.GAMEOVER, GameState.HIGHSCORE):
         engine.shape_mode = ShapeMode.CORNER
