@@ -230,7 +230,7 @@ def draw_timer():
     engine.color = primary_text_clr
     engine.set_font(bold_font, 25)
     grass_background.draw_fixed_size(15, engine.height - 65, 163, 60, False)
-    engine.draw_text(f"time = {seconds}", 40, engine.height - 53)
+    engine.draw_text(f"time = {60 - seconds}", 40, engine.height - 53)
 
 def draw_type_animal():
     engine.color = 0, 0, 0
@@ -295,7 +295,6 @@ def difficulty_screen():
     engine.color = highlight_clr
     engine.draw_text("<- GO BACK", 150, engine.height - 50, True)
 
-
 def gameplay_screen():
     engine.background_color = sunset_color
     gameplay_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
@@ -344,8 +343,6 @@ def gameplay_screen():
         draw_word("chicken", engine.width - 150, chicken_y - 75)
         draw_word("horse", engine.width - 150, horse_y - 75)
 
-
-
 def gameover_screen():
     engine.shape_mode = ShapeMode.CORNER
     gameover_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
@@ -366,7 +363,7 @@ def gameover_screen():
 
     engine.draw_text(f"Word count................................{word_count}", engine.width / 2, 300, True)
     engine.draw_text(f"Wrongly typed letters.............{faults}", engine.width / 2, 350, True)
-    engine.draw_text(f"Time spend.........................{timer}", engine.width / 2, 400, True)
+    engine.draw_text(f"Time spend.......................{int(timer/60)} seconds", engine.width / 2, 400, True)
 
     engine.shape_mode = ShapeMode.CORNER
     name_card.draw_fixed_size(80, engine.height - 75, 150, 50, False)
@@ -555,26 +552,20 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
         on_restart = engine.colliding_point_in_rect(engine.mouse_x, engine.mouse_y, 580, engine.height - 75, 150, 50)
         # Go home
         if on_go_home:
-            random_animal_list = []
-            random_animal_x = []
-            random_animal_y = []
+            timer = 0
             score = 4
             word_count = 0
             reset_animals()
             current_state = GameState.START
         # MEDIUM
         elif on_change_difficulty:
-            random_animal_list = []
-            random_animal_x = []
-            random_animal_y = []
+            timer = 0
             score = 4
             word_count = 0
             reset_animals()
             current_state = GameState.DIFFICULTY
         elif on_restart:
-            random_animal_list = []
-            random_animal_x = []
-            random_animal_y = []
+            timer = 0
             score = 4
             word_count = 0
             reset_animals()
@@ -692,6 +683,7 @@ def key_up_event(key: str):
     Special keys have more than 1 character, for example ESCAPE, BACKSPACE, ENTER, ...
     """
     global current_state, score, word_count, timer, random_animal_list, random_animal_x, random_animal_y
+
     if current_state == GameState.START and key:
         current_state = GameState.DIFFICULTY
 
@@ -736,7 +728,6 @@ def key_up_event(key: str):
         word_count = 0
         current_state = GameState.HIGHSCORE
     pass
-
 
 # Engine stuff; best not to mess with this:
 engine._setup = setup
