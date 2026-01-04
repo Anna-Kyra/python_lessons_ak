@@ -76,8 +76,8 @@ random_animal_list : list[str] = []
 random_animal_x : list[float] = []
 random_animal_y : list[float] = []
 
-cow_y = 180
-horse_y = engine.height - 100
+cow_y = 130
+horse_y = engine.height - 120
 chicken_y = (horse_y + cow_y) / 2
 
 random_animal_alpha : list[float] = []
@@ -122,6 +122,8 @@ engine.set_font(normal_font)
 start_background = engine.load_image("resources/img/start_background.png")
 normal_background = engine.load_image("resources/img/normal_background.png")
 gameplay_background = engine.load_image("resources/img/gameplay_background.png")
+gameover_background = engine.load_image("resources/img/gameover_background.png")
+highscore_background = engine.load_image("resources/img/highscore_background.png")
 
 # Bags
 cow_bag = engine.load_image("resources/img/cow_bag.png")
@@ -280,7 +282,7 @@ def difficulty_screen():
     title_background_difficulty.draw_fixed_size(engine.width / 2, 75, 550 * 1.2, 76 * 1.2, False)
     engine.shape_mode = ShapeMode.CORNER
     engine.color = highlight_clr
-    engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2 - 3, 77 + 3, True)
+    engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2 - 4, 77 + 4, True)
     engine.color = primary_text_clr
     engine.draw_text("CHOOSE DIFFICULTY", engine.width / 2, 77, True)
 
@@ -348,16 +350,41 @@ def gameplay_screen():
         draw_word("horse", engine.width - 150, horse_y - 75)
 
 def gameover_screen():
-    engine.background_color = 1, 0, 0
+    engine.shape_mode = ShapeMode.CORNER
+    gameover_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+
+    primary_text_clr = 0.25, 0.07, 0.08
+    engine.set_font(title_font)
+    engine.set_font_size(60)
+
+    engine.shape_mode = ShapeMode.CORNER
+    engine.color = 0.37, 0.11, 0.12
+    engine.draw_text("Your animals are hungry!!", engine.width / 2 - 3, 77 + 3, True)
+    engine.color = primary_text_clr
+    engine.draw_text("Your animals are hungry!!", engine.width / 2, 77, True)
+
+    # engine.background_color = 0, 1, 0
+    engine.set_font_size(30)
     engine.shape_mode = ShapeMode.CENTER
-    engine.draw_text("Your animals are sad", engine.width / 2, engine.height / 2, True)
+    engine.draw_text("It's game over for you now...wanna play again?", engine.width / 2, 150, True)
+
     engine.draw_text(f"Word count: {word_count}", engine.width / 2, 300, True)
     engine.draw_text(f"Wrongly typed letters: {faults}", engine.width / 2, 350, True)
 
 def highscore_screen():
-    engine.background_color = 0, 1, 0
-    engine.color = 0, 0, 0
-    engine.draw_text("Your animals are happy!!", engine.width / 2, 50, True)
+    engine.shape_mode = ShapeMode.CORNER
+    highscore_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+
+    engine.set_font(title_font)
+    engine.set_font_size(60)
+
+    engine.color = highlight_clr
+    engine.draw_text("Your animals are happy!!", engine.width / 2 - 3, 77 + 3, True)
+    engine.color = primary_text_clr
+    engine.draw_text("Your animals are happy!!", engine.width / 2, 77, True)
+
+    engine.set_font_size(30)
+    engine.draw_text("Your animals have a full belly", engine.width / 2, 150, True)
     engine.draw_text(f"Word count: {word_count}", engine.width / 2, 300, True)
     engine.draw_text(f"Wrongly typed letters: {faults}", engine.width / 2, 350, True)
 
