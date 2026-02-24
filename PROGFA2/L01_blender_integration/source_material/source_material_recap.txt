@@ -1,0 +1,22 @@
+# THE INVENTORY
+"Apples", "Milk", "Bread", "Eggs", "Cheese", "Rice", "Chicken", "Pasta"
+150, 42, 24, 0, 35, 80, 0, 20
+
+# FORMULA 1
+# ==== names ====
+"Lando Norris","Max Verstappen","Oscar Piastri","George Russell","Charles Leclerc","Lewis Hamilton","Kimi Antonelli","Alexander Albon","Carlos Sainz Jr","Fernando Alonso","Isack Hadjar","Nico Hulkenberg","Oliver Bearman"
+# ==== teams ====
+"McLaren","Red Bull Racing","McLaren","Mercedes","Ferrari","Ferrari","Mercedes","Williams","Williams","Aston Martin","Racing Bulls","Sauber","Haas")
+🥇🥈🥉
+# BOHEMIAN RHAPSODY
+Is this the real life? Is this just fantasy? Caught in a landslide. No escape from reality. Open your eyes, look up to the skies and see...
+
+# SALES
+"T-Shirt", "Blue Jeans", "Winter Coat", "Cotton Socks", "Leather Belt"
+# ==== prices ====
+20, 45.00, 120.50, 9.00, 25.00
+# ==== discounts ====
+10, 20, 50, 0, 15
+
+# SECURITY BADGE
+101, 105, 220, 440, 220, 101, 952

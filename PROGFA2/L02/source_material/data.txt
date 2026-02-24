@@ -1,0 +1,84 @@
+# ============== DEMO =================
+# demo_cafe.py -> given dictionaries
+drinks = {
+    "espresso": 2.50,
+    "cappuccino": 3.00,
+    "caffe latte": 3.50,
+    "green tea": 2.00,
+    "apple juice": 3.20,
+    "iced coffee": 3.80,
+    "mocktail": 4.50
+}
+
+menu = {
+    "drinks": {
+        "espresso": 2.50,
+        "cappuccino": 3.00,
+        "caffe latte": 3.50,
+        "green tea": 2.00,
+        "apple juice": 3.20,
+        "iced coffee": 3.80,
+        "mocktail": 4.50
+    },
+    "snacks": {
+        "crisps": 2.30,
+        "muffin": 3.00,
+        "brownie": 3.50,
+        "cheese": 5.00
+    },
+    "desserts": {
+        "tiramisu": 4.50,
+        "cheesecake": 4.80,
+        "ice cream": 3.50
+    }
+}
+
+
+# ============== EX01 =================
+# avatar.py -> given dictionaries
+warrior = {
+    "name": "PixelWarrior",
+    "hair_color": "blue",
+    "outfit": "armor",
+    "inventory": ["sword", "shield"]
+}
+
+knight = {
+    "name": "ShadowKnight",
+    "hair_color": "black",
+    "outfit": "cloak",
+    "inventory": ["dagger", "bow"]
+}
+
+# ============== EX02 =================
+# emoji_print.py -> given dictionary
+emoji_dict = {
+    ":)": "🙂",
+    ":D": "😄",
+    ":(": "☹️",
+    ":P": "😜",
+    ";)": "😉",
+    ":O": "😯",
+    ":*": "😘",
+    ":'(": "😢",
+    ":|": "😐",
+    ":/": "😕"
+}
+
+# emoji_print.py -> example text to use in todo 3:
+# I thought I nailed the joke :D, but my friend just gave me a blank stare :|. I shrugged and said, 'Guess I'll try again!' :P ;)
+
+# ============ EX 04 =================
+# character_creation.py -> character data structure + lists
+character = {
+    "name": "Jacqueline",
+    "mood": "surprised"
+}
+
+arms = ["crossed arms", "hands propped head", "hands with tablet", "phonecall"]
+moods = ["angry", "annoyed", "bored", "happy", "laughing", "surprised"]
+legs = ["knees bent", "run", "stand", "crossed", "walk"]
+
+# ================== EX 05 (CHALLENGE) =================
+# example text to copy:
+# Lena was reading a scary story on her phone while lounging in her bath, the old tap dripping slowly. Suddenly, a loud knock echoed at the door. She jumped, screamed, and dropped her phone into the bath; splat! Her friend, hearing it all, giggled and said, "Woohoo! Time for a new phone!" But Lena couldn’t stop crying.

@@ -1,0 +1,16 @@
+import bpy
+import math
+
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete(use_global=False)
+
+radians_in_between = 0.3
+num_circles = round(math.pi * 2 / radians_in_between)
+print(num_circles)
+radius = 12
+
+for i in range(num_circles):
+    angle = i * radians_in_between
+    x = math.cos(angle) * radius
+    y = math.sin(angle) * radius
+    bpy.ops.mesh.primitive_uv_sphere_add(location=(x, y, 0))    

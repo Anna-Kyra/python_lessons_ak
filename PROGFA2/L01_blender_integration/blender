@@ -1,0 +1,13 @@
+print("Hello, Blender!")
+
+import bpy
+
+object = bpy.data.objects.get("Cube")
+if object:
+    object.location.x += 2.0
+    
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete(use_global=False)
+
+for index in range(5):
+    bpy.ops.mesh.primitive_cube_add(size=1, location=(index * 2, 0, 0))

@@ -1,0 +1,32 @@
+import bpy
+
+bpy.ops.object.select_all(action='SELECT') 
+bpy.ops.object.delete(use_global=False)
+  
+square_size = 10   # with how much should the cube move?
+
+# Add a cube
+bpy.ops.mesh.primitive_cube_add(location=(0.5, 0.5, 0.5))
+cube = bpy.context.active_object
+
+# Initialize + insert 1st keyframe
+bpy.context.scene.frame_set(0)              # keyframe number: 0
+cube.location.x = 0                         # location x: start location
+cube.location.y = 0                         # location y: start location
+cube.keyframe_insert(data_path="location")  # (confirm / add keyframe)
+    
+# Initialize + insert 2nd keyframe
+bpy.context.scene.frame_set(30)             # keyframe number: 30 
+cube.location.x = square_size               # location x: changes to 10
+cube.location.y = 0                         # location y: remains the same
+cube.keyframe_insert(data_path="location")  # (confirm / add keyframe)
+# Initialize + insert 3rd keyframe
+bpy.context.scene.frame_set(60)             # keyframe number: ?
+cube.location.x = 10                        # location x: ?
+cube.location.y = 10                        # location y: ?
+cube.keyframe_insert(data_path="location")  # (confirm / add keyframe)
+
+bpy.context.scene.frame_set(90)             # keyframe number: ?
+cube.location.x = 0                         # location x: ?
+cube.location.y = 10                        # location y: ?
+cube.keyframe_insert(data_path="location")  # (confirm / add keyframe)   

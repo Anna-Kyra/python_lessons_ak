@@ -1,0 +1,16 @@
+# names:
+"Buddy", "Quacky", "Snork", "Clucky", "Flopsy", "Snickers"
+
+# x positions:
+765, 42, 764, 134, 35, 129
+
+# y positions:
+44, 41, 205, 43, 208, 213
+
+#adoption phrases:
+    "I promise to be your best buddy!",
+    "I’ll be your feathered friend forever!",
+    "Let’s have mud baths together!",
+    "I lay eggs of love, adopt me!",
+    "I’m soft, fluffy, and ready to cuddle!",
+    "I’ll purr my way into your heart!"
