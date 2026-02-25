@@ -1,0 +1,174 @@
+# demo task_list
+'☐'
+'☑'
+todos = [
+    "Finish progfa assignments",
+    "Optimize mesh",
+    "Bake normals",
+    "Rig character",
+    "Export to engine",
+    "Eat pizza",
+    "Submit before deadline",
+    "Script a tool",
+    "Try to stay awake",
+    "Fix weird shading",
+    "Cry over topology",
+    "Forget to save",
+    "Crash at 99% bake",
+    "Drink more coffee"
+]
+
+# EX01: Movie ratings
+'☆'
+'★'
+movie_ratings = {
+    "The Room": 1,
+    "LOTR: The Return of the King (2003)" : 5,
+    "Avatar: The Way of Water": 3,
+    "Inception": 4,
+    "Batman-Superman: Dawn of Justice": 2
+}
+
+# EX03: Fancy Frames
+course_chapters = {
+    "Python Basics": ["Introduction", "Variables and Data Types", "Control Flow", "Functions"],
+    "3D Modeling": ["Introduction to 3D", "Meshes and Textures", "Lighting and Rendering"],
+    "Environment Design": ["Concept Art for Environments", "Lighting in Environments"],
+    "Digital Sculpting": ["Sculpting Tools Overview", "Anatomy for Artists", "Character Design", "Texturing and Shading"],
+}
+
+# EX04: starry night
+# -> STEP 1: one constellation
+constellation = [
+    Star(316, 63, 23),
+    Star(312, 106, 16),
+    Star(379, 162, 23),
+    Star(372, 260, 23),
+    Star(343, 311, 23),
+    Star(358, 339, 16),
+    Star(347, 360, 23),
+    Star(356, 380, 23),
+]
+
+# -> STEP 2: random constellation from dictionary
+constellations = {
+    "lynx" : [
+        Star(316, 63, 23),
+        Star(312, 106, 16),
+        Star(379, 162, 23),
+        Star(372, 260, 23),
+        Star(343, 311, 23),
+        Star(358, 339, 16),
+        Star(347, 360, 23),
+        Star(356, 380, 23),
+    ],
+    "draco" : [
+        Star(538, 316, 23),
+        Star(495, 311, 23),
+        Star(415, 329, 23),
+        Star(329, 309, 30),
+        Star(304, 278, 23),
+        Star(314, 248, 30),
+        Star(331, 197, 30),
+        Star(371, 142, 23),
+        Star(393, 114, 13),
+        Star(377, 85, 23),
+        Star(349, 102, 23),
+        Star(281, 104, 13),
+        Star(257, 165, 23),
+        Star(246, 191, 13),
+        Star(224, 194, 30),
+        Star(215, 161, 30),
+        Star(257, 165, 23),
+    ],
+    "ursa minor": [
+        Star(398, 180, 30),
+        Star(368, 188, 23),
+        Star(336, 206, 23),
+        Star(318, 238, 23),
+        Star(314, 276, 30),
+        Star(287, 275, 23),
+        Star(296, 233, 13),
+        Star(318, 238, 23),
+    ],
+    "lacerta": [
+        Star(375, 135, 23),
+        Star(414, 166, 16),
+        Star(406, 192, 16),
+        Star(425, 197, 16),
+        Star(422, 215, 16),
+        Star(436, 216, 23),
+        Star(430, 235, 16),
+    ],
+    "cassiopeia": [
+        Star(322, 182, 30),
+        Star(357, 164, 30),
+        Star(365, 179, 23),
+        Star(368, 199, 30),
+        Star(397, 205, 23),
+        Star(412, 242, 23),
+    ],
+    "triangulum": [
+        Star(363, 166, 16),
+        Star(339, 194, 23),
+        Star(359, 196, 23),
+        Star(373, 173, 16),
+    ],
+    "canes venatici": [
+        Star(351, 233, 30),
+        Star(395, 234, 23),
+    ],
+    "cepheus": [
+        Star(417, 206, 23),
+        Star(466, 288, 30),
+        Star(381, 264, 30),
+        Star(335, 220, 30),
+        Star(360, 164, 23),
+        Star(417, 206, 23),
+        Star(381, 264, 30),
+    ],
+    "hercules": [
+        Star(447, 275, 23),
+        Star(410, 264, 23),
+        Star(380, 261, 23),
+        Star(328, 286, 30),
+        Star(312, 250, 23),
+        Star(348, 210, 23),
+        Star(380, 261, 23),
+        Star(348, 210, 23),
+        Star(414, 159, 23),
+    ]
+}
+
+# EX05: Flemish Stew Recipe
+ingredients = {
+    "Onions": 2,
+    "Butter": "1 knob",
+    "Beef": "1,000 g",
+    "Pepper": "to taste",
+    "Salt": "1 pinch",
+    "Brown beer": "2 bottles",
+    "Bay leaves": 2,
+    "Thyme sprigs": 2,
+    "Clove": 1,
+    "Liège syrup": "2 tbsp",
+    "Slice of bread": 1,
+    "Mustard": "2 tbsp",
+    "Vinegar": "1 dash",
+}
+recipe_steps = [
+    "Peel the onions and chop them into medium-sized pieces.",
+    "Heat a large stew pot and melt a knob of butter. Sauté the onions over medium heat without letting them brown.",
+    "Heat a frying pan over medium heat and melt a knob of butter.",
+    "Sear the beef pieces in the frying pan until they develop a golden-brown crust. Season with freshly ground pepper and a pinch of salt while cooking.",
+    "Transfer the seared meat to the stew pot with the onions. Keep the frying pan with the browned bits. Pour the beer into the pan and scrape up all the flavorful bits while bringing it to a boil (deglazing).",
+    "Once the beer is boiling, pour it into the stew pot.",
+    "Tie the bay leaves and fresh thyme sprigs together with kitchen twine. Add the herb bundle to the pot.",
+    "Add the clove and the Liège syrup (apple-pear syrup).",
+    "Spread a generous layer of mustard on the slice of brown bread and place it in the pot, mustard side down.",
+    "Let the stew simmer over low heat for 1.5 to 3 hours without a lid. The cooking time depends on the quality of the meat. Stir occasionally and check if the meat is tender.",
+    "Once the sauce has reached the desired thickness, place the lid on the pot.",
+    "Finish with a small dash of vinegar and stir well.",
+    "Taste and adjust with extra freshly ground pepper and a pinch of salt if needed.",
+    "Serve with hand-cut Belgian fries and mayonnaise!!"
+]
