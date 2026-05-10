@@ -1,0 +1,16 @@
+[CONFIDENTIAL]
+Date: 2024-03-01
+Subject: Project_X Progress
+
+Congratulations, you found the right report!
+
+Your next step is hidden within the **blueprints** folder.
+Locate the **binary** file that has the following secret **binary** code in it:
+b"\xbe\xa1m\xfa\xff\x00\x86q6\x02\xce\x8c\xbfb\xbb\x87\xaa2\x18\x8b\x0b\xe2Y%$8\xd2\xc3\x8d>\xcb\x89)"
+
+Don't forget binary files are read differently!
+Uncover the secret by opening the file using the **pillow** library:
+img = Image.open(path)
+img.show()
+
+Time is ticking. Good luck.

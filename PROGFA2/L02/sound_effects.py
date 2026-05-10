@@ -16,6 +16,8 @@ sound = pygame.mixer.Sound("SoundEffects/439073__fourthwoods__kara-woohoo.ogg")
 # 3. Wait a second; once the program stops, the sound stops as well!
 # time.sleep(1)
 """
+import random
+
 import pygame
 import time
 
@@ -51,6 +53,26 @@ sound_library = {
     "help": "213283__aderumoro__how-can-i-help-you-female-friendly-professional.wav",
 }
 
-def play_sound(sound : str):
+def play_sound(chosen_sound : str):
+    sound_file = sound_library[chosen_sound]
+    sound = pygame.mixer.Sound(f"SoundEffects/{sound_file}")
+    sound.play()
+    time.sleep(1)
+    pass
 
+def ask_sound():
+    chosen_sound = ""
+    while True:
+        chosen_sound = input("What sound would you like to play? ")
+        if chosen_sound in sound_library:
+            play_sound(chosen_sound)
+            print(f"-> Playing: {sound_library[chosen_sound]}")
+        elif chosen_sound == "exit":
+            print("[BYE! Thank you for using our sound effect player!]")
+            break
+        else:
+            print(f'Sorry, "{chosen_sound}" is not as valid sound in our library.\n'
+                  f'There are {len(sound_library)} options to choose from.\n'
+                  f'Options: {sound_library.keys()}')
 
+ask_sound()

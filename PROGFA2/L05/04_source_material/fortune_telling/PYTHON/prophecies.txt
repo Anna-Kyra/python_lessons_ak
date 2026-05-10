@@ -1,0 +1,100 @@
+Your next bug will be caused by a missing colon.
+Beware of infinite loops-they have no exit strategy.
+Soon, you will forget a closing parenthesis and stare at an error for hours.
+A wild indentation error will appear when you least expect it.
+The function you just fixed will break in a completely new way.
+You will name a variable list and regret it instantly.
+Soon, you will Google "How to reverse a list in Python" for the tenth time.
+A print statement will be your best debugger.
+Today, you will forget to return something from your function.
+Your for-loop will run forever because you forgot to update a variable.
+The best way to fix a bug is to explain it to a rubber duck.
+Someone will tell you that Python is slow, and you will pretend to care.
+The error message makes sense. You just don't want to accept it.
+Beware! You are about to indent something randomly just to see if it works.
+You will try to fix an error and accidentally create two more.
+Your future holds a print statement that never executes because of indentation.
+Python will forgive your mistakes, but PEP 8 will not.
+Soon, you will forget that Python starts indexing at zero.
+A semicolon will sneak into your code and you won't know how.
+You will import a module and forget to use it.
+You will accidentally name a variable import.
+Your function works, but you have no idea why.
+The next time you see None, it will haunt you for hours.
+A missing f in an f-string will make you question reality.
+Your code will fail in a way that makes no logical sense.
+The first time your program runs without errors, you will assume something is wrong.
+You will copy-paste chatGPT code without understanding it.
+The first rule of debugging: If it works, don't touch it.
+You will soon learn that == and is are not the same.
+Something will break because you forgot to convert a string to an integer.
+Your code will be beautiful until you add that one last feature.
+A simple fix will turn into a total rewrite.
+You will soon realize that try-except is just legal cheating.
+print("hello world") will always work. Your other code, not so much.
+The first time you see a traceback, you will consider switching careers.
+You will write a function that calls itself and then panic.
+Your next bug will be solved by restarting the computer.
+Tabs and spaces will wage war in your script.
+Your variable names will start meaningful and end up as x.
+The more comments you write, the less your future self will suffer.
+Soon, you will write a function so clever that even you can't understand it.
+Your code will run perfectly... on the second try.
+You will soon forget why you wrote that one line of code.
+You will spend 3 hours debugging a problem caused by a typo.
+Someone will tell you to use regular expressions, and you will regret listening.
+You will write while True: and then immediately question your choices.
+You will spend more time reading error messages than writing code.
+Your code will be 90% Google searches and 10% actual thinking.
+You will forget what self means at least twice.
+Today, you will fix a bug and cause another bug in a completely different place.
+The best feeling is when your code finally works. The worst feeling is not knowing why.
+Soon, you will add a comment that simply says # TODO: fix this.
+Your future includes a print statement that you forgot to remove.
+The function you wrote last week will seem written by a stranger today.
+You will wonder why Python doesn't have switch statements.
+You will use break in a loop and forget why you needed it.
+Beware of variable names that are too clever-they will backfire.
+You will learn that None is not the same as False.
+A misplaced comma will cause a bug so weird, you won't believe it.
+You will forget what __init__ does at least once.
+Your indentation will betray you at the worst possible moment.
+The best code is the one you didn't have to write.
+You will soon realize that debugging is just reverse coding.
+The moment you fix one error, two more will appear.
+You will run into a problem and find out it was solved in Python 3.10.
+One day, you will write except Exception as e: and feel powerful.
+SyntaxError: unexpected indent will be your nemesis.
+Someone will suggest using recursion, and you will regret listening.
+You will soon learn that len() is your best friend.
+Today, you will redefine print. Do not do this.
+You will delete code, only to realize you needed it.
+A missing : will ruin your whole afternoon.
+A future version of you will curse your current variable names.
+The best Python script is the one that actually runs.
+The next function you write will be unnecessarily complicated.
+Someone will tell you to use lambda, and you will pretend to understand.
+Your next bug will be caused by forgetting to return something.
+Soon, you will find a comment in your code that simply says ???.
+You will soon write a loop that never stops.
+You will realize that list.append() doesn't return a new list the hard way.
+There is a 90% chance you will misuse dict.keys().
+Your first encounter with zip() will leave you confused.
+The moment you understand list comprehensions, you will overuse them.
+Your next error will contain the words "unexpected EOF."
+Python will never judge you, but your fellow programmers will.
+You will write code that is so bad, even the interpreter gives up.
+Today, you will learn that *args and **kwargs exist. Tomorrow, you will forget.
+Your next bug will be solved by taking a break and coming back later.
+Someone will tell you to "just use decorators," and you will smile politely.
+The first time you use map(), you will wonder if it's magic.
+Your next debugging session will involve lots of staring at the screen.
+You will soon realize that writing code is easier than reading it.
+One day, you will write a recursive function, and it will actually work.
+TypeError: 'NoneType' object is not iterable will ruin your day.
+Soon, you will write a comment that says, "I have no idea why this works."
+Your best bug fix will be accidentally deleting the problematic code.
+If your code works on the first try, you definitely did something wrong.
+No matter how much you learn, Python will always find new ways to confuse you.
+Your future includes at least one KeyError.
+You will write a function and forget to call it.

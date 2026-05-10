@@ -1,0 +1,23 @@
+# ====== EX01: Console Car ======
+car_options = ['🚗', '🚙', '🚕', '🚓', '🚛', '🛻']
+
+# ====== EX03: Shape Generator ======
+
+# STEP 1: Replace ? with the correct attributes
+num_corners = ?  # number of corners in the shape
+diameter = ?     # size of the shape
+pos_x = ?        # center position of the shape
+pos_y = ?        # center position of the shape
+rotation = ?     # angle with which the shape is rotated
+
+# STEP 2: This code uses the above variables to draw. No need to change anything, just copy.
+angle_increase = math.pi * 2 / num_corners
+radius = diameter / 2
+
+for corner_number in range(num_corners):
+    angle = angle_increase * corner_number
+    x1 = pos_x + math.cos(rotation + angle) * radius
+    y1 = pos_y + math.sin(rotation + angle) * radius
+    x2 = pos_x + math.cos(rotation + angle + angle_increase) * radius
+    y2 = pos_y + math.sin(rotation + angle + angle_increase) * radius
+    engine.draw_line(x1, y1, x2, y2, 2)

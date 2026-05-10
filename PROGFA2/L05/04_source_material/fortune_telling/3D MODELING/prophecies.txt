@@ -1,0 +1,76 @@
+Your topology will look perfect... until you apply subdivision.
+A rogue n-gon will haunt your model forever.
+The one time you don't save your work, Blender will crash.
+Your UV map will look like modern art.
+Your normals are flipped, but you won't realize it until rendering.
+You will spend an hour tweaking vertices no one will ever see.
+Your object is invisible because it's on another layer.
+You will forget to apply scale and suffer the consequences.
+Edge flow is important... but yours looks like spaghetti.
+You will extrude something by accident and not notice until it's too late.
+The one time you render at full quality, it will take three days.
+Your materials will look amazing—until you change the lighting.
+Your render will finish just in time for you to spot a mistake.
+You will spend hours fixing a topology issue that didn't matter.
+Your reference image will mysteriously disappear from the viewport.
+That one polygon is still stretched, no matter how much you fix it.
+You will sculpt for an hour without realizing you were in the wrong layer.
+Your model is beautiful, but the polycount is horrifying.
+Your baking attempt will result in a black texture.
+You will set up the perfect camera angle and then accidentally move it.
+Your first rig attempt will turn your model into a nightmare creature.
+A vertex will go missing, and you will never find out why.
+Your mesh is broken because you accidentally hit a hotkey and don't know which one.
+You will delete history... and also all your progress.
+The autosave feature will fail you when you need it most.
+Your wireframe will be a disaster, but you will call it "stylized."
+Your bevels will look perfect... until you zoom in.
+Your displacement map will turn your model into a spiky horror.
+You will finally fix your topology, but now your UVs are ruined.
+You will sculpt for hours before realizing you weren't in sculpt mode.
+Your Boolean operation will fail for reasons unknown.
+Your topology will be perfect, but the shading will be cursed.
+Your character will look great, but the rig will break everything.
+Your glass material will look like plastic, and your plastic will look like glass.
+You will optimize your model... and then realize you deleted something important.
+Your reflections will reveal something embarrassing in your scene.
+You will spend hours setting up an HDRI, then decide to use a solid color.
+Your model looks amazing... until you look at it from the side.
+You will forget to set the correct frame rate and wonder why everything is slow.
+Your animation will look great, except for one joint that does something weird.
+Your weight painting will turn your character into a Lovecraftian horror.
+You will set up a perfect render, but the camera is inside a wall.
+Your high-poly model will crash your software, but you won't learn your lesson.
+You will finally unwrap your UVs, only to realize you forgot a piece.
+Your normal map will be inverted, but you will only realize after exporting.
+Your topology will look fine until you subdivide, then it's chaos.
+You will lose hours of work because you forgot to save before a crash.
+Your lighting setup will look great in the viewport, but horrible in the final render.
+You will spend hours on a detail no one will ever notice.
+Your texture resolution is too high, but if you lower it, it looks terrible.
+Your model will look amazing in the editor, but terrible in the game engine.
+Your motion blur will make your animation look like a fever dream.
+Your cloth simulation will explode for no reason.
+You will spend hours fixing UV seams, then never notice them again.
+You will finally fix a problem, then break three other things.
+Your render time will quadruple because you added one extra light.
+Your displacement map will work perfectly... except on one part.
+Your exported model will be a mess in every software except the one you made it in.
+You will mirror a model, but forget to delete the original half.
+Your rig will work fine... until you animate it.
+You will accidentally delete the wrong object, and only realize after saving.
+Your normals will be fine... until you import the model into another program.
+Your beautiful, complex shader will be completely invisible under normal lighting.
+You will accidentally animate the wrong control and break everything.
+Your particles will disappear for no reason, then randomly reappear.
+You will bake a texture, but forget to change the output path.
+Your animation will work perfectly... except for one frame that ruins everything.
+Your beautiful model will become a mess when exported to a different file format.
+You will tweak a setting for hours, only to reset it to the default.
+You will render an entire animation before realizing the camera was clipping part of it.
+Your texture will stretch in one spot no matter what you do.
+You will sculpt in the wrong layer and only realize after hours of work.
+Your materials will look completely different when opened on another computer.
+You will set up a perfect scene, then realize you forgot to save before closing.
+Your model is too high-poly, but decimating it ruins everything.
+You will accidentally scale something non-uniformly and regret it forever.
