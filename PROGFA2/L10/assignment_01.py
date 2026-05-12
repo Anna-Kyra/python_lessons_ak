@@ -28,12 +28,12 @@ current_state = GameState.START
 
 # GAME MAP
 class GameMap(Enum):
-    MAP1 = 0,
-    MAP2 = 1,
-    MAP3 = 2,
-    MAP4 = 3,
-    MAP5 = 4,
-current_map = GameMap.MAP1
+    CENTER = 0,
+    RIGHT = 1,
+    BOTTOM = 2,
+    LEFT = 3,
+    UP = 4,
+current_map = GameMap.CENTER
 
 # GAME THEME
 class GameTheme(Enum):
