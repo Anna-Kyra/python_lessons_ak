@@ -10,6 +10,8 @@ import dae_progfa_lib as pfe
 from dae_progfa_lib import MouseButton, ShapeMode
 from enum import Enum
 
+from player import Player
+
 # Create an instance of ProgfaEngine and set window size (width, height):
 engine = pfe.ProgfaEngine(800, 600)
 
@@ -70,25 +72,27 @@ def gameplay_screen():
     engine.background_color = 1, 1, 0
     engine.draw_text("GAMEPLAY", engine.width/2, engine.height/4, True)
 
-    draw_player()
+    # draw_player()
+    player.display(engine)
 
-
-global speed_x, speed_y, direction_player
-
-def initialize_variables():
-    global speed_x, speed_y, direction_player
-    direction_player = 0
-    player_x = 0
-    player_y = 0
-    speed_x = 0
-    speed_y = 0
+# global speed_x, speed_y, direction_player
+#
+# def initialize_variables():
+#     global speed_x, speed_y, direction_player
+#     direction_player = 0
+#     player_x = 0
+#     player_y = 0
+#     speed_x = 0
+#     speed_y = 0
 
 def setup():
     """
     Only executed ONCE (at the start); use to load files and initialize.
     """
-    initialize_variables()
+    # initialize_variables()
     pass
+
+player = Player(engine)
 
 
 def render():
@@ -109,6 +113,11 @@ def evaluate():
     """
     This function is being executed over and over, as fast as the frame rate. Use to update (not draw).
     """
+    key = engine.key
+    if (current_state == GameState.GAMEPLAY and
+            key == "RIGHT" or key == "LEFT" or key == "UP" or key == "DOWN" or
+            key == "d" or key == "a" or key == "w" or key == "s"):
+        player.move(key, engine)
 
     pass
 
@@ -133,18 +142,28 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
             current_state = GameState.GAMEPLAY
     print(current_theme)
 
+
 def key_up_event(key: str):
     """
     This function is only executed once each time a key was released!
     Special keys have more than 1 character, for example ESCAPE, BACKSPACE, ENTER, ...
     """
-    global current_state, speed_x, speed_y
+    global current_state
     if current_state == GameState.START and key:
         current_state = GameState.THEME
-    elif current_state == GameState.GAMEPLAY:
-        pass
 
-    print(key)
+
+    # DEBUG
+    if key == "1":
+        current_state = GameState.START
+    elif key == "2":
+        current_state = GameState.THEME
+    elif key == "3":
+        current_state = GameState.GAMEPLAY
+    elif key == "4":
+        current_state = GameState.END_SCREEN
+
+    # print(key)
 
     pass
 
