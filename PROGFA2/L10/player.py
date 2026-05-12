@@ -2,8 +2,10 @@ from dae_progfa_lib import ProgfaEngine, ShapeMode
 
 class Player:
     def __init__(self, engine : ProgfaEngine):
+        # placement
         self.center_x = engine.width/2
         self.center_y = engine.height/2
+        #movement
         self.speed_x = 0
         self.speed_y = 0
         self.direction = 0
@@ -47,6 +49,7 @@ class Player:
         if self.center_x - self.size < 0:
             # Check the left if the window
             self.center_x = engine.width - self.size
+
             print("left")
             return True
         elif self.center_x + self.size > engine.width:
@@ -62,12 +65,12 @@ class Player:
         This function will return True if the y coordinate is out of bounds.
         """
         if self.center_y - self.size < 0:
-            # Check the left if the window
+            # Check the top if the window
             self.center_y = engine.height - self.size
             print("up")
             return True
         elif self.center_y + self.size > engine.height:
-            # Check the right of the window
+            # Check the bottom of the window
             self.center_y = self.size
             print("down")
             return True
