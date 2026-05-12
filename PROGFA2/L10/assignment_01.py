@@ -30,7 +30,7 @@ class GameMap(Enum):
     MAP2 = 1,
     MAP3 = 2,
     MAP4 = 3,
-    MAP5 = 4
+    MAP5 = 4,
 current_map = GameMap.MAP1
 
 # GAME THEME
@@ -59,18 +59,35 @@ def theme_screen():
     engine.draw_text("CHOOSE THEME", engine.width / 2, 50, True)
     engine.color = 0, 0, 0
 
-    engine.draw_rectangle(engine.width / 2 -310, 100, 300, engine.height - 200)
-    engine.draw_rectangle(engine.width/2 + 10, 100, 300, engine.height-200)
+    engine.draw_rectangle(engine.width / 2 - 310, 100, 300, engine.height - 200)
+    engine.draw_rectangle(engine.width / 2 + 10, 100, 300, engine.height - 200)
+
+def draw_player():
+    engine.color = 0, 0, 0
+    engine.draw_rectangle(engine.width / 2, engine.height / 2, 100, 100)
 
 def gameplay_screen():
     engine.background_color = 1, 1, 0
     engine.draw_text("GAMEPLAY", engine.width/2, engine.height/4, True)
 
+    draw_player()
+
+
+global speed_x, speed_y, direction_player
+
+def initialize_variables():
+    global speed_x, speed_y, direction_player
+    direction_player = 0
+    player_x = 0
+    player_y = 0
+    speed_x = 0
+    speed_y = 0
+
 def setup():
     """
     Only executed ONCE (at the start); use to load files and initialize.
     """
-
+    initialize_variables()
     pass
 
 
@@ -86,8 +103,6 @@ def render():
         theme_screen()
     elif current_state == GameState.GAMEPLAY:
         gameplay_screen()
-
-    pass
 
 
 def evaluate():
@@ -118,18 +133,16 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
             current_state = GameState.GAMEPLAY
     print(current_theme)
 
-
-    pass
-
-
 def key_up_event(key: str):
     """
     This function is only executed once each time a key was released!
     Special keys have more than 1 character, for example ESCAPE, BACKSPACE, ENTER, ...
     """
-    global current_state
+    global current_state, speed_x, speed_y
     if current_state == GameState.START and key:
         current_state = GameState.THEME
+    elif current_state == GameState.GAMEPLAY:
+        pass
 
     print(key)
 
