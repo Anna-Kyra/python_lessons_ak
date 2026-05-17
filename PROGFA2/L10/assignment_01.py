@@ -69,21 +69,19 @@ def draw_player():
     engine.draw_rectangle(engine.width / 2, engine.height / 2, 100, 100)
 
 def gameplay_screen():
-    engine.background_color = 1, 1, 0
+    if current_map == GameMap.CENTER:
+        engine.background_color = 1, 1, 0
+    elif current_map == GameMap.LEFT:
+        engine.background_color = 1, 0, 0
+    elif current_map == GameMap.RIGHT:
+        engine.background_color = 0, 1, 0
+    elif current_map == GameMap.UP:
+        engine.background_color = 0, 0, 1
+    elif current_map == GameMap.BOTTOM:
+        engine.background_color = 0, 1, 1
+
     engine.draw_text("GAMEPLAY", engine.width/2, engine.height/4, True)
-
-    # draw_player()
     player.display(engine)
-
-# global speed_x, speed_y, direction_player
-#
-# def initialize_variables():
-#     global speed_x, speed_y, direction_player
-#     direction_player = 0
-#     player_x = 0
-#     player_y = 0
-#     speed_x = 0
-#     speed_y = 0
 
 def setup():
     """
@@ -99,7 +97,7 @@ def render():
     """
     This function is being executed over and over, as fast as the frame rate. Use to draw (not update).
     """
-    global current_state
+    global current_state, current_map
 
     if current_state == GameState.START:
         start_screen()
@@ -107,6 +105,35 @@ def render():
         theme_screen()
     elif current_state == GameState.GAMEPLAY:
         gameplay_screen()
+        #print(engine.width, player.center_x + player.size/2)
+
+        if current_map == GameMap.CENTER or current_map == GameMap.LEFT:
+            if player.is_out_of_bounds_right(engine):
+                if current_map == GameMap.CENTER:
+                    current_map = GameMap.RIGHT
+                elif current_map == GameMap.LEFT:
+                    current_map = GameMap.CENTER
+        if current_map == GameMap.CENTER or current_map == GameMap.RIGHT:
+            if player.is_out_of_bounds_left(engine):
+                if current_map == GameMap.CENTER:
+                    current_map = GameMap.LEFT
+                elif current_map == GameMap.RIGHT:
+                    current_map = GameMap.CENTER
+        if current_map == GameMap.CENTER or current_map == GameMap.BOTTOM:
+            if player.is_out_of_bounds_up(engine):
+                if current_map == GameMap.CENTER:
+                    current_map = GameMap.UP
+                elif current_map == GameMap.BOTTOM:
+                    current_map = GameMap.CENTER
+        if current_map == GameMap.CENTER or current_map == GameMap.UP:
+            if player.is_out_of_bounds_down(engine):
+                if current_map == GameMap.CENTER:
+                    current_map = GameMap.BOTTOM
+                elif current_map == GameMap.UP:
+                    current_map = GameMap.CENTER
+
+        print(current_map)
+
 
 
 def evaluate():

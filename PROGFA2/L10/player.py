@@ -39,10 +39,12 @@ class Player:
             self.speed_x = 0
             self.speed_y = 5
 
-        self._is_out_of_bounds_horizontally(engine)
-        self._is_out_of_bounds_vertically(engine)
+        # self.is_out_of_bounds_left(engine)
+        # self.is_out_of_bounds_right(engine)
+        # self.is_out_of_bounds_up(engine)
+        # self.is_out_of_bounds_down(engine)
 
-    def _is_out_of_bounds_horizontally(self, engine: ProgfaEngine) -> bool:
+    def is_out_of_bounds_left(self, engine: ProgfaEngine) -> bool:
         """
         This function will return True if the x coordinate is out of bounds.
         """
@@ -52,7 +54,14 @@ class Player:
 
             print("left")
             return True
-        elif self.center_x + self.size > engine.width:
+        else:
+            return False
+
+    def is_out_of_bounds_right(self, engine: ProgfaEngine) -> bool:
+        """
+        This function will return True if the x coordinate is out of bounds.
+        """
+        if self.center_x + self.size/2 >= engine.width - 20:
             # Check the right of the window
             self.center_x = self.size
             print("right")
@@ -60,7 +69,19 @@ class Player:
         else:
             return False
 
-    def _is_out_of_bounds_vertically(self, engine: ProgfaEngine) -> bool:
+    def is_out_of_bounds_down(self, engine: ProgfaEngine) -> bool:
+        """
+        This function will return True if the y coordinate is out of bounds.
+        """
+        if self.center_y + self.size > engine.height:
+            # Check the bottom of the window
+            self.center_y = self.size
+            print("down")
+            return True
+        else:
+            return False
+
+    def is_out_of_bounds_up(self, engine: ProgfaEngine) -> bool:
         """
         This function will return True if the y coordinate is out of bounds.
         """
@@ -68,11 +89,6 @@ class Player:
             # Check the top if the window
             self.center_y = engine.height - self.size
             print("up")
-            return True
-        elif self.center_y + self.size > engine.height:
-            # Check the bottom of the window
-            self.center_y = self.size
-            print("down")
             return True
         else:
             return False
