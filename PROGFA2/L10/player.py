@@ -21,14 +21,15 @@ class Player:
 
         print(self.theme)
         self.size = 100
-        #Spritesheets
+        #Spritesheet
         spritesheet_path = f"resources/{self.theme}/charakter_spritesheet.png"
+        spritesheet : ProgfaImage
         spritesheet = engine.load_image(spritesheet_path)
-
         self.spritesheet_columns = 8
         spritesheet_rows = 24
         spritesheet.resize(self.spritesheet_columns * self.size, spritesheet_rows * self.size)
         spritesheet_frames = spritesheet.cut_all_frames(spritesheet_rows, self.spritesheet_columns)
+        ##movements
         self.idle_front = spritesheet_frames[0:self.spritesheet_columns:1]
         self.idle_up = spritesheet_frames[self.spritesheet_columns:self.spritesheet_columns*2:1]
         self.idle_right = spritesheet_frames[self.spritesheet_columns*2:self.spritesheet_columns*3:1]
@@ -51,8 +52,10 @@ class Player:
         """
         engine.shape_mode = ShapeMode.CENTER
         engine.color = 0, 0, 0
+        # engine.draw_rectangle(self.x, self.y, self.size / 2, self.size / 2)
         # engine.draw_square(self.x, self.y, self.size, 0)
         self.current_pose[self.frame_counter].draw(self.x, self.y)
+
 
         if self.direction == "RIGHT":
             self.current_pose = self.idle_right
@@ -62,6 +65,7 @@ class Player:
             self.current_pose = self.idle_up
         else:
             self.current_pose = self.idle_front
+
         pass
 
     def animate(self):
@@ -81,19 +85,19 @@ class Player:
         if key == "RIGHT" or key == "d":
             self.current_pose = self.move_right
             self.direction = "RIGHT"
-            self.speed_x = 5
+            self.speed_x = 3
         elif key == "LEFT" or key == "a":
             self.current_pose = self.move_left
             self.direction = "LEFT"
-            self.speed_x = -5
+            self.speed_x = -3
         elif key == "UP" or key == "w":
             self.current_pose = self.move_up
             self.direction = "UP"
-            self.speed_y = -5
+            self.speed_y = -3
         elif key == "DOWN" or key == "s":
             self.current_pose = self.move_down
             self.direction = "DOWN"
-            self.speed_y = 5
+            self.speed_y = 3
 
 
         self.x += self.speed_x
@@ -107,9 +111,9 @@ class Player:
         """
         This function will return True if the x coordinate is out of bounds.
         """
-        if self.x - self.size < 0:
+        if self.x - self.size/2 < 0:
             # Check the left if the window
-            self.x = engine.width - self.size
+            self.x = engine.width - self.size/2
 
             print("left")
             return True
@@ -120,9 +124,9 @@ class Player:
         """
         This function will return True if the x coordinate is out of bounds.
         """
-        if self.x + self.size/2 >= engine.width - 20:
+        if self.x + self.size/2 >= engine.width:
             # Check the right of the window
-            self.x = self.size
+            self.x = self.size/2
             print("right")
             return True
         else:
@@ -132,9 +136,9 @@ class Player:
         """
         This function will return True if the y coordinate is out of bounds.
         """
-        if self.y + self.size > engine.height:
+        if self.y + self.size/2 > engine.height:
             # Check the bottom of the window
-            self.y = self.size
+            self.y = self.size/2
             print("down")
             return True
         else:
@@ -144,9 +148,9 @@ class Player:
         """
         This function will return True if the y coordinate is out of bounds.
         """
-        if self.y - self.size < 0:
+        if self.y - self.size/2 < 0:
             # Check the top if the window
-            self.y = engine.height - self.size
+            self.y = engine.height - self.size/2
             print("up")
             return True
         else:

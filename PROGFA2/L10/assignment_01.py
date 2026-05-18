@@ -14,7 +14,7 @@ from player import Player
 from npc import NPC
 
 # Create an instance of ProgfaEngine and set window size (width, height):
-engine = pfe.ProgfaEngine(800, 600)
+engine = pfe.ProgfaEngine(600, 600)
 
 # Set the frame rate to x frames per second:
 engine.fps = 60
@@ -41,6 +41,15 @@ class GameTheme(Enum):
     DAY = 0,
     NIGHT = 1,
 current_theme = GameTheme.DAY
+
+theme_path = "day_theme"
+if current_theme == "GameTheme.DAY":
+    theme_path = "day_theme"
+elif current_theme == "GameTheme.DAY":
+    theme_path = "night_theme"
+
+center_background = engine.load_image(f"resources/{theme_path}/background_center.png")
+right_background = engine.load_image(f"resources/{theme_path}/background_right.png")
 
 def load_level():
     pass
@@ -70,14 +79,16 @@ def draw_player():
     engine.draw_rectangle(engine.width / 2, engine.height / 2, 100, 100)
 
 def gameplay_screen():
-
+    engine.shape_mode = ShapeMode.CORNER
     if current_map == GameMap.CENTER:
         engine.background_color = 1, 1, 0
+        center_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
         # npc_one.display(engine)
     elif current_map == GameMap.LEFT:
         engine.background_color = 1, 0, 0
     elif current_map == GameMap.RIGHT:
         engine.background_color = 0, 1, 0
+        right_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
     elif current_map == GameMap.UP:
         engine.background_color = 0, 0, 1
     elif current_map == GameMap.BOTTOM:
