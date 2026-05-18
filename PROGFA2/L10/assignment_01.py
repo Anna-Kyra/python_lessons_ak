@@ -11,6 +11,7 @@ from dae_progfa_lib import MouseButton, ShapeMode
 from enum import Enum
 
 from player import Player
+from npc import NPC
 
 # Create an instance of ProgfaEngine and set window size (width, height):
 engine = pfe.ProgfaEngine(800, 600)
@@ -69,8 +70,10 @@ def draw_player():
     engine.draw_rectangle(engine.width / 2, engine.height / 2, 100, 100)
 
 def gameplay_screen():
+
     if current_map == GameMap.CENTER:
         engine.background_color = 1, 1, 0
+        # npc_one.display(engine)
     elif current_map == GameMap.LEFT:
         engine.background_color = 1, 0, 0
     elif current_map == GameMap.RIGHT:
@@ -88,10 +91,9 @@ def setup():
     Only executed ONCE (at the start); use to load files and initialize.
     """
     # initialize_variables()
+
     pass
-
-player = Player(engine)
-
+player = Player(str(current_theme), engine)
 
 def render():
     """
@@ -132,8 +134,6 @@ def render():
                 elif current_map == GameMap.UP:
                     current_map = GameMap.CENTER
 
-        print(current_map)
-
 
 
 def evaluate():
@@ -145,7 +145,8 @@ def evaluate():
             key == "RIGHT" or key == "LEFT" or key == "UP" or key == "DOWN" or
             key == "d" or key == "a" or key == "w" or key == "s"):
         player.move(key, engine)
-
+    if current_state == GameState.GAMEPLAY:
+        player.animate()
     pass
 
 
@@ -167,7 +168,11 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
         elif on_night:
             current_theme = GameTheme.NIGHT
             current_state = GameState.GAMEPLAY
-    print(current_theme)
+
+        print(current_theme)
+    else:
+        pass
+
 
 
 def key_up_event(key: str):

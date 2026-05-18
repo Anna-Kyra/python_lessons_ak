@@ -65,6 +65,8 @@ class Pokemon:
         # print(self.image)
 
     def display(self, x : float, y : float):
+        self.image.draw(x, y)
+        pass
         
 
 
