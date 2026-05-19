@@ -2,7 +2,7 @@ from dae_progfa_lib import ProgfaEngine, ShapeMode
 from dae_progfa_lib.progfa_image import ProgfaImage
 import numpy as np
 from pathlib import Path
-
+import csv
 
 class Player:
     def __init__(self, theme: str, map_dir : str, engine : ProgfaEngine):
@@ -121,6 +121,9 @@ class Player:
         self.path = "resources/csv_files/walking"
         for path in Path(self.path).glob(f"{self.map}*"):
             self.path = path
+            # with self.path.open("r") as file:
+            #     reader = csv.DictReader(file)
+            #     print(reader)
             print(self.path)
 
     def _draw_csv(self, engine : ProgfaEngine):
@@ -135,11 +138,15 @@ class Player:
                 cell_x = col * self.CELL_SIZE
                 cell_y = row * self.CELL_SIZE
 
+                if value == 213:
+                    value = 1
+                elif value == -1:
+                    value = 0
                 engine.color = 0, 0, 0, 0
                 engine.draw_square(cell_x, cell_y, self.CELL_SIZE, 1)
 
                 engine.color = 0, 0, 0
-                # engine.draw_text(str(value), cell_x, cell_y)
+                engine.draw_text(str(value), cell_x, cell_y)
 
     def check_hitbox(self):
         pass
