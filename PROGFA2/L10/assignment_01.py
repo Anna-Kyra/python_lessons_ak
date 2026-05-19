@@ -42,14 +42,28 @@ class GameTheme(Enum):
     NIGHT = 1,
 current_theme = GameTheme.DAY
 
-theme_path = "day_theme"
-if current_theme == "GameTheme.DAY":
-    theme_path = "day_theme"
-elif current_theme == "GameTheme.DAY":
-    theme_path = "night_theme"
 
-center_background = engine.load_image(f"resources/{theme_path}/background_center.png")
-right_background = engine.load_image(f"resources/{theme_path}/background_right.png")
+
+right_background = None
+theme_path = "day_theme"
+center_background_path = f"resources/{theme_path}/background_center.png"
+center_background = engine.load_image(center_background_path)
+
+def load_backgrounds():
+    global center_background, theme_path
+
+    if current_theme == GameTheme.DAY:
+        theme_path = "day_theme"
+    else:
+        theme_path = "night_theme"
+
+    if current_state == GameState.GAMEPLAY:
+        center_background = engine.load_image(
+            f"resources/{theme_path}/background_center.png")
+
+        # right_background = engine.load_image(
+        #     f"resources/{theme_path}/background_right.png"
+        # )
 
 def load_level():
     pass
@@ -80,19 +94,20 @@ def draw_player():
 
 def gameplay_screen():
     engine.shape_mode = ShapeMode.CORNER
-    if current_map == GameMap.CENTER:
-        engine.background_color = 1, 1, 0
-        center_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
-        # npc_one.display(engine)
-    elif current_map == GameMap.LEFT:
-        engine.background_color = 1, 0, 0
-    elif current_map == GameMap.RIGHT:
-        engine.background_color = 0, 1, 0
-        right_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
-    elif current_map == GameMap.UP:
-        engine.background_color = 0, 0, 1
-    elif current_map == GameMap.BOTTOM:
-        engine.background_color = 0, 1, 1
+    if current_state == GameState.GAMEPLAY:
+        if current_map == GameMap.CENTER:
+            engine.background_color = 1, 1, 0
+            center_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+            # npc_one.display(engine)
+        elif current_map == GameMap.LEFT:
+            engine.background_color = 1, 0, 0
+        elif current_map == GameMap.RIGHT:
+            engine.background_color = 0, 1, 0
+            # right_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+        elif current_map == GameMap.UP:
+            engine.background_color = 0, 0, 1
+        elif current_map == GameMap.BOTTOM:
+            engine.background_color = 0, 1, 1
 
     engine.draw_text("GAMEPLAY", engine.width/2, engine.height/4, True)
     player.display(engine)
@@ -180,6 +195,7 @@ def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
             current_theme = GameTheme.NIGHT
             current_state = GameState.GAMEPLAY
 
+        load_backgrounds()
         print(current_theme)
     else:
         pass

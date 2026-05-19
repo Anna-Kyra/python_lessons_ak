@@ -75,7 +75,6 @@ class Player:
             self.frame_counter += 1
             if self.frame_counter >= self.spritesheet_columns:
                 self.frame_counter = 0
-        print(self.frame_counter)
         pass
 
     def move(self, key : str, engine : ProgfaEngine):
