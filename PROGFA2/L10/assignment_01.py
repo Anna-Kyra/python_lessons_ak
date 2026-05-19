@@ -42,15 +42,12 @@ class GameTheme(Enum):
     NIGHT = 1,
 current_theme = GameTheme.DAY
 
-
-
-right_background = None
 theme_path = "day_theme"
-center_background_path = f"resources/{theme_path}/background_center.png"
-center_background = engine.load_image(center_background_path)
+center_background = engine.load_image(f"resources/{theme_path}/background_center.png")
+right_background = engine.load_image(f"resources/{theme_path}/background_right.png")
 
 def load_backgrounds():
-    global center_background, theme_path
+    global center_background, right_background, theme_path
 
     if current_theme == GameTheme.DAY:
         theme_path = "day_theme"
@@ -60,10 +57,9 @@ def load_backgrounds():
     if current_state == GameState.GAMEPLAY:
         center_background = engine.load_image(
             f"resources/{theme_path}/background_center.png")
-
-        # right_background = engine.load_image(
-        #     f"resources/{theme_path}/background_right.png"
-        # )
+        right_background = engine.load_image(
+            f"resources/{theme_path}/background_right.png"
+        )
 
 def load_level():
     pass
@@ -81,6 +77,7 @@ def start_screen():
     engine.draw_text('_Press any key to play_', engine.width/2, engine.height*(3/4), True)
 
 def theme_screen():
+    engine.shape_mode = ShapeMode.CORNER
     engine.background_color = 1, 1, 0
     engine.draw_text("CHOOSE THEME", engine.width / 2, 50, True)
     engine.color = 0, 0, 0
@@ -119,7 +116,7 @@ def setup():
     # initialize_variables()
 
     pass
-player = Player(str(current_theme), engine)
+player = Player(str(current_theme), "center", engine)
 
 def render():
     """

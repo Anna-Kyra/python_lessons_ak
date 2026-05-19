@@ -1,10 +1,14 @@
 from dae_progfa_lib import ProgfaEngine, ShapeMode
 from dae_progfa_lib.progfa_image import ProgfaImage
+import numpy as np
+from pathlib import Path
+
 
 class Player:
-    def __init__(self, theme: str, engine : ProgfaEngine):
+    def __init__(self, theme: str, map_dir : str, engine : ProgfaEngine):
         """"
         :param theme: chose either day_them or night_theme
+        :param map_dir: chose either center, right, left, top, bottom
         """
         #placement
         self.x = engine.width/2
@@ -13,6 +17,9 @@ class Player:
         self.speed_x = 0
         self.speed_y = 0
         self.direction = 0
+
+        self.map = map_dir
+        print(self.map)
 
         if theme == "GameTheme.DAY":
             self.theme = "day_theme"
@@ -43,6 +50,8 @@ class Player:
         self.frame_counter = 0
 
         self.window_frame_counter = 0
+        self._load_csv(engine)
+
 
     def display(self, engine : ProgfaEngine):
         """
@@ -66,6 +75,7 @@ class Player:
         else:
             self.current_pose = self.idle_front
 
+        self._draw_csv(engine)
         pass
 
     def animate(self):
@@ -103,6 +113,34 @@ class Player:
         self.y += self.speed_y
         self.current_pose[self.frame_counter].draw(self.x, self.y)
 
+    def _load_csv(self, engine : ProgfaEngine):
+        #WALK GRID
+        walk_grid : np.ndarray
+        self.CELL_SIZE = 600/32
+        self.path: Path
+        self.path = "resources/csv_files/walking"
+        for path in Path(self.path).glob(f"{self.map}*"):
+            self.path = path
+            print(self.path)
+
+    def _draw_csv(self, engine : ProgfaEngine):
+        walk_grid = np.loadtxt(self.path, delimiter=",", dtype=int)
+        print(walk_grid)
+        num_rows, num_cols = walk_grid.shape
+        print(num_rows, num_cols)
+        for row in range(num_rows):
+            for col in range(num_cols):
+                engine.shape_mode = ShapeMode.CORNER
+                value = walk_grid[row][col]
+                cell_x = col * self.CELL_SIZE
+                cell_y = row * self.CELL_SIZE
+
+                engine.color = 0, 0, 0, 0
+                engine.draw_square(cell_x, cell_y, self.CELL_SIZE, 1)
+
+                engine.color = 0, 0, 0
+                # engine.draw_text(str(value), cell_x, cell_y)
+
     def check_hitbox(self):
         pass
 
@@ -113,7 +151,6 @@ class Player:
         if self.x - self.size/2 < 0:
             # Check the left if the window
             self.x = engine.width - self.size/2
-
             print("left")
             return True
         else:
