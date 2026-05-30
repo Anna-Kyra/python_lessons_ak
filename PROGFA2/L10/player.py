@@ -63,6 +63,8 @@ class Player:
         engine.color = 0, 0, 0
         # engine.draw_rectangle(self.x, self.y, self.size / 2, self.size / 2)
         # engine.draw_square(self.x, self.y, self.size, 0)
+        self._draw_csv(engine)
+        engine.shape_mode = ShapeMode.CENTER
         self.current_pose[self.frame_counter].draw(self.x, self.y)
 
 
@@ -75,7 +77,8 @@ class Player:
         else:
             self.current_pose = self.idle_front
 
-        self._draw_csv(engine)
+
+        self._check_hitbox(engine)
         pass
 
     def animate(self):
@@ -113,6 +116,7 @@ class Player:
         self.y += self.speed_y
         self.current_pose[self.frame_counter].draw(self.x, self.y)
 
+
     def _load_csv(self, engine : ProgfaEngine):
         #WALK GRID
         walk_grid : np.ndarray
@@ -143,12 +147,22 @@ class Player:
                 elif value == -1:
                     value = 0
                 engine.color = 0, 0, 0, 0
+                engine.outline_color = 1, 0, 1
                 engine.draw_square(cell_x, cell_y, self.CELL_SIZE, 1)
 
                 engine.color = 0, 0, 0
                 engine.draw_text(str(value), cell_x, cell_y)
 
-    def check_hitbox(self):
+    def _collision(self, engine):
+
+        pass
+
+    def _check_hitbox(self, engine : ProgfaEngine):
+        # on_checkbox = engine.colliding_point_in_rect(mouse_x, mouse_y, self.x, self.y, self.size/2, self.size/2)
+        engine.shape_mode = ShapeMode.CENTER
+        engine.color = 0, 0, 0, 0
+        engine.outline_color = 0, 0, 1
+        engine.draw_square(self.x, self.y, self.size/2, 2)
         pass
 
     def is_out_of_bounds_left(self, engine: ProgfaEngine) -> bool:
@@ -157,7 +171,7 @@ class Player:
         """
         if self.x - self.size/2 < 0:
             # Check the left if the window
-            self.x = engine.width - self.size/2
+            self.x = engine.width - self.size
             print("left")
             return True
         else:
