@@ -132,9 +132,9 @@ class Player:
 
     def _draw_csv(self, engine : ProgfaEngine):
         walk_grid = np.loadtxt(self.path, delimiter=",", dtype=int)
-        print(walk_grid)
+        # print(walk_grid)
         num_rows, num_cols = walk_grid.shape
-        print(num_rows, num_cols)
+        # print(num_rows, num_cols)
         for row in range(num_rows):
             for col in range(num_cols):
                 engine.shape_mode = ShapeMode.CORNER
@@ -169,9 +169,9 @@ class Player:
         """
         This function will return True if the x coordinate is out of bounds.
         """
-        if self.x - self.size/2 < 0:
+        if self.x - self.size/4 < 0:
             # Check the left if the window
-            self.x = engine.width - self.size
+            self.x = engine.width - self.size/4
             print("left")
             return True
         else:
@@ -181,9 +181,9 @@ class Player:
         """
         This function will return True if the x coordinate is out of bounds.
         """
-        if self.x + self.size/2 >= engine.width:
+        if self.x >= engine.width:
             # Check the right of the window
-            self.x = self.size/2
+            self.x = self.size/4
             print("right")
             return True
         else:
@@ -193,9 +193,9 @@ class Player:
         """
         This function will return True if the y coordinate is out of bounds.
         """
-        if self.y + self.size/2 > engine.height:
+        if self.y + self.size/4 > engine.height:
             # Check the bottom of the window
-            self.y = self.size/2
+            self.y = self.size/4
             print("down")
             return True
         else:
@@ -205,9 +205,9 @@ class Player:
         """
         This function will return True if the y coordinate is out of bounds.
         """
-        if self.y - self.size/2 < 0:
+        if self.y - self.size/4 < 0:
             # Check the top if the window
-            self.y = engine.height - self.size/2
+            self.y = engine.height - self.size/4
             print("up")
             return True
         else:
