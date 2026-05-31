@@ -139,8 +139,8 @@ class Player:
             for col in range(num_cols):
                 engine.shape_mode = ShapeMode.CORNER
                 value = walk_grid[row][col]
-                cell_x = col * self.CELL_SIZE
-                cell_y = row * self.CELL_SIZE
+                self.cell_x = col * self.CELL_SIZE
+                self.cell_y = row * self.CELL_SIZE
 
                 if value == 213:
                     value = 1
@@ -148,17 +148,20 @@ class Player:
                     value = 0
                 engine.color = 0, 0, 0, 0
                 engine.outline_color = 1, 0, 1
-                engine.draw_square(cell_x, cell_y, self.CELL_SIZE, 1)
+                engine.draw_square(self.cell_x, self.cell_y, self.CELL_SIZE, 1)
 
                 engine.color = 0, 0, 0
-                engine.draw_text(str(value), cell_x, cell_y)
+                engine.draw_text(str(value), self.cell_x, self.cell_y)
+                on_checkbox = engine.colliding_rects(self.cell_x, self.cell_y, self.CELL_SIZE, self.CELL_SIZE, self.x,self.y, self.size/2, self.size/2)
+                if on_checkbox:
+                    print(value)
 
     def _collision(self, engine):
 
         pass
 
     def _check_hitbox(self, engine : ProgfaEngine):
-        # on_checkbox = engine.colliding_point_in_rect(mouse_x, mouse_y, self.x, self.y, self.size/2, self.size/2)
+
         engine.shape_mode = ShapeMode.CENTER
         engine.color = 0, 0, 0, 0
         engine.outline_color = 0, 0, 1
