@@ -122,13 +122,17 @@ def setup():
     # initialize_variables()
 
     pass
+
 player = Player(str(current_theme), "center", engine)
+
 
 def render():
     """
     This function is being executed over and over, as fast as the frame rate. Use to draw (not update).
     """
     global current_state, current_map
+    map_dir = "center"
+
 
     if current_state == GameState.START:
         start_screen()
@@ -142,26 +146,34 @@ def render():
             if player.is_out_of_bounds_right(engine):
                 if current_map == GameMap.CENTER:
                     current_map = GameMap.RIGHT
+                    map_dir = "right"
                 elif current_map == GameMap.LEFT:
                     current_map = GameMap.CENTER
+                    map_dir = "center"
         if current_map == GameMap.CENTER or current_map == GameMap.RIGHT:
             if player.is_out_of_bounds_left(engine):
                 if current_map == GameMap.CENTER:
                     current_map = GameMap.LEFT
+                    map_dir = "left"
                 elif current_map == GameMap.RIGHT:
                     current_map = GameMap.CENTER
+                    map_dir = "center"
         if current_map == GameMap.CENTER or current_map == GameMap.BOTTOM:
             if player.is_out_of_bounds_up(engine):
                 if current_map == GameMap.CENTER:
                     current_map = GameMap.UP
+                    map_dir = "up"
                 elif current_map == GameMap.BOTTOM:
                     current_map = GameMap.CENTER
+                    map_dir = "center"
         if current_map == GameMap.CENTER or current_map == GameMap.UP:
             if player.is_out_of_bounds_down(engine):
                 if current_map == GameMap.CENTER:
                     current_map = GameMap.BOTTOM
+                    map_dir = "bottom"
                 elif current_map == GameMap.UP:
                     current_map = GameMap.CENTER
+                    map_dir = "center"
 
 
 

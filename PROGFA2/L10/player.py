@@ -104,6 +104,8 @@ class Player:
             col = int(next_x // self.CELL_SIZE)
             row = int(next_y // self.CELL_SIZE)
 
+            if row < 0 or row >= self.num_rows or col < 0 or col >= self.num_cols:
+                return
             if self.walk_grid[row][col] == 0:
                 self.speed_x = 5
             else:
@@ -176,10 +178,6 @@ class Player:
         self.path = "resources/csv_files/walking"
         for path in Path(self.path).glob(f"{self.map}*"):
             self.path = path
-            # with self.path.open("r") as file:
-            #     reader = csv.DictReader(file)
-            #     print(reader)
-            print(self.path)
 
     def _draw_csv(self, engine : ProgfaEngine):
         self._check_hitbox(engine)
@@ -187,9 +185,9 @@ class Player:
         self.walk_grid[self.walk_grid == 213] = 1
         self.walk_grid[self.walk_grid == -1] = 0
 
-        num_rows, num_cols = self.walk_grid.shape
-        for row in range(num_rows):
-            for col in range(num_cols):
+        self.num_rows, self.num_cols = self.walk_grid.shape
+        for row in range(self.num_rows):
+            for col in range(self.num_cols):
                 engine.shape_mode = ShapeMode.CORNER
                 self.value = self.walk_grid[row][col]
                 cell_x = col * self.CELL_SIZE
@@ -216,12 +214,12 @@ class Player:
                     self.hitbox_size,
                     self.hitbox_size
                 )
-                engine.draw_square(self.x-self.hitbox_size/2,self.y-self.hitbox_size/2, self.hitbox_size, 2)
-                if on_checkbox and self.value == 1:
-                    print("wall")
-                    self.boundary = True
-                elif on_checkbox and self.value == 0:
-                    self.boundary = False
+                # engine.draw_square(self.x-self.hitbox_size/2,self.y-self.hitbox_size/2, self.hitbox_size, 2)
+                # if on_checkbox and self.value == 1:
+                #     print("wall")
+                #     self.boundary = True
+                # elif on_checkbox and self.value == 0:
+                #     self.boundary = False
 
 
     def _collision(self, engine):
@@ -243,6 +241,7 @@ class Player:
         if self.x - self.size/4 < 0:
             # Check the left if the window
             self.x = engine.width - self.size/4
+            self._load_csv(engine)
             print("left")
             return True
         else:
@@ -252,9 +251,10 @@ class Player:
         """
         This function will return True if the x coordinate is out of bounds.
         """
-        if self.x >= engine.width:
+        if self.x + self.size/4>= engine.width:
             # Check the right of the window
             self.x = self.size/4
+            self._load_csv(engine)
             print("right")
             return True
         else:
@@ -268,6 +268,7 @@ class Player:
             # Check the bottom of the window
             self.y = self.size/4
             print("down")
+            self._load_csv(engine)
             return True
         else:
             return False
@@ -280,6 +281,7 @@ class Player:
             # Check the top if the window
             self.y = engine.height - self.size/4
             print("up")
+            self._load_csv(engine)
             return True
         else:
             return False
