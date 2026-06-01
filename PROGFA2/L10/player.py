@@ -238,9 +238,9 @@ class Player:
         """
         This function will return True if the x coordinate is out of bounds.
         """
-        if self.x - self.size/4 < 0:
+        if self.x <= 0:
             # Check the left if the window
-            self.x = engine.width - self.size/4
+            self.x = engine.width - self.size/2
 
             print("left")
             return True
@@ -267,7 +267,6 @@ class Player:
             # Check the bottom of the window
             self.y = self.size/4
             print("down")
-            self._load_csv(engine)
             return True
         else:
             return False
@@ -280,7 +279,6 @@ class Player:
             # Check the top if the window
             self.y = engine.height - self.size/4
             print("up")
-            self._load_csv(engine)
             return True
         else:
             return False

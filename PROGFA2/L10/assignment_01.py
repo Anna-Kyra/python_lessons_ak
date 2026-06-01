@@ -112,7 +112,7 @@ def gameplay_screen():
             # right_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
         elif current_map == GameMap.UP:
             engine.background_color = 0, 0, 1
-            map_dir = "center"
+            map_dir = "top"
         elif current_map == GameMap.BOTTOM:
             engine.background_color = 0, 1, 1
             map_dir = "bottom"
