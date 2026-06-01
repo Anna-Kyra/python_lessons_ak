@@ -46,6 +46,8 @@ theme_path = "day_theme"
 center_background = engine.load_image(f"resources/{theme_path}/background_center.png")
 right_background = engine.load_image(f"resources/{theme_path}/background_right.png")
 
+inventory = engine.load_image(f"resources/{theme_path}/inventory.png")
+
 def load_backgrounds():
     global center_background, right_background, theme_path
 
@@ -92,7 +94,7 @@ def draw_player():
 def draw_inventory():
     engine.color = 0, 0, 0
     engine.shape_mode = ShapeMode.CORNER
-    engine.draw_rectangle(engine.width-425, engine.height - 100, 400, 75)
+    inventory.draw_fixed_size(engine.width - 304-25, engine.height - 100, 304, 75)
 
 def gameplay_screen():
     global map_dir
@@ -109,7 +111,7 @@ def gameplay_screen():
         elif current_map == GameMap.RIGHT:
             engine.background_color = 0, 1, 0
             map_dir = "right"
-            # right_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+            right_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
         elif current_map == GameMap.UP:
             engine.background_color = 0, 0, 1
             map_dir = "top"
