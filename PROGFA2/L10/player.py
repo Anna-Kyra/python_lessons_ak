@@ -97,20 +97,71 @@ class Player:
         if key in ("RIGHT", "d"):
             self.current_pose = self.move_right
             self.direction = "RIGHT"
-            self.speed_x = 5
+            # self.speed_x = 5
+            next_x = self.x + 5
+            next_y = self.y
+
+            col = int(next_x // self.CELL_SIZE)
+            row = int(next_y // self.CELL_SIZE)
+
+            if self.walk_grid[row][col] == 0:
+                self.speed_x = 5
+            else:
+                self.speed_x = 0
+
         elif key == "LEFT" or key == "a":
             self.current_pose = self.move_left
             self.direction = "LEFT"
             self.speed_x = -5
+            next_x = self.x - 5
+            next_y = self.y
+
+            col = int(next_x // self.CELL_SIZE)
+            row = int(next_y // self.CELL_SIZE)
+
+            if self.walk_grid[row][col] == 0:
+                self.speed_x = -5
+            else:
+                self.speed_x = 0
         elif key == "UP" or key == "w":
             self.current_pose = self.move_up
             self.direction = "UP"
-            self.speed_y = -5
+            next_x = self.x
+            next_y = self.y - 5
+
+            col = int(next_x // self.CELL_SIZE)
+            row = int(next_y // self.CELL_SIZE)
+
+            if self.walk_grid[row][col] == 0:
+                self.speed_y = -5
+            else:
+                self.speed_y = 0
         elif key == "DOWN" or key == "s":
             self.current_pose = self.move_down
             self.direction = "DOWN"
-            self.speed_y = 5
+            next_x = self.x
+            next_y = self.y + 5
 
+            col = int(next_x // self.CELL_SIZE)
+            row = int(next_y // self.CELL_SIZE)
+
+            if self.walk_grid[row][col] == 0:
+                self.speed_y = 5
+            else:
+                self.speed_y = 0
+
+        # # Bereken nieuwe positie
+        # next_x = self.x + self.speed_x + self.hitbox_size / 2
+        # next_y = self.y + self.speed_y
+        #
+        # # Bepaal op welke tegel de speler terechtkomt
+        # col = int(next_x // self.CELL_SIZE)
+        # row = int(next_y // self.CELL_SIZE)
+        #
+        # # Controleer de map
+        # if self.walk_grid[row][col] == 0:
+        #     self.x = next_x
+        #     self.y = next_y
 
         self.x += self.speed_x
         self.y += self.speed_y
@@ -132,31 +183,45 @@ class Player:
 
     def _draw_csv(self, engine : ProgfaEngine):
         self._check_hitbox(engine)
-        walk_grid = np.loadtxt(self.path, delimiter=",", dtype=int)
-        # print(walk_grid)
-        num_rows, num_cols = walk_grid.shape
-        # print(num_rows, num_cols)
+        self.walk_grid = np.loadtxt(self.path, delimiter=",", dtype=int)
+        self.walk_grid[self.walk_grid == 213] = 1
+        self.walk_grid[self.walk_grid == -1] = 0
+
+        num_rows, num_cols = self.walk_grid.shape
         for row in range(num_rows):
             for col in range(num_cols):
                 engine.shape_mode = ShapeMode.CORNER
-                self.value = walk_grid[row][col]
+                self.value = self.walk_grid[row][col]
                 cell_x = col * self.CELL_SIZE
                 cell_y = row * self.CELL_SIZE
 
-                if self.value == 213:
-                    self.value = 1
-                elif self.value == -1:
-                    self.value = 0
+                # if self.value == 213:
+                #     self.value = 1
+                # elif self.value == -1:
+                #     self.value = 0
                 engine.color = 0, 0, 0, 0
                 engine.outline_color = 1, 0, 1
                 engine.draw_square(cell_x, cell_y, self.CELL_SIZE, 1)
 
                 engine.color = 0, 0, 0
                 engine.draw_text(str(self.value), cell_x, cell_y)
-                on_checkbox = engine.colliding_rects(cell_x, cell_y, self.CELL_SIZE, self.CELL_SIZE, self.x-self.hitbox_size/2,self.y-self.hitbox_size/2, self.hitbox_size, self.hitbox_size)
+
+                on_checkbox = engine.colliding_rects(
+                    cell_x + self.speed_x,
+                    cell_y + self.speed_y,
+                    self.CELL_SIZE,
+                    self.CELL_SIZE,
+                    self.x-self.hitbox_size/2,
+                    self.y-self.hitbox_size/2,
+                    self.hitbox_size,
+                    self.hitbox_size
+                )
                 engine.draw_square(self.x-self.hitbox_size/2,self.y-self.hitbox_size/2, self.hitbox_size, 2)
                 if on_checkbox and self.value == 1:
                     print("wall")
+                    self.boundary = True
+                elif on_checkbox and self.value == 0:
+                    self.boundary = False
 
 
     def _collision(self, engine):
