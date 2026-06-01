@@ -50,7 +50,7 @@ class Player:
         self.frame_counter = 0
 
         self.window_frame_counter = 0
-        self._load_csv(engine)
+        # self._load_csv(engine)
 
 
     def display(self, engine : ProgfaEngine):
@@ -169,23 +169,27 @@ class Player:
         self.y += self.speed_y
         self.current_pose[self.frame_counter].draw(self.x, self.y)
 
-
-    def _load_csv(self, engine : ProgfaEngine):
+    def change_map(self, new_map, engine):
+        self.map = new_map
+        self._load_csv(self.map, engine)
+        print("Changing map to:", new_map)
+    def _load_csv(self, map:str, engine : ProgfaEngine):
         #WALK GRID
-        walk_grid : np.ndarray
-        self.CELL_SIZE = 600*1.5/32
-        self.path: Path
-        self.path = "resources/csv_files/walking"
-        for path in Path(self.path).glob(f"{self.map}*"):
+        self.CELL_SIZE = 600 * 1.5 / 32
+
+        folder = Path("resources/csv_files/walking")
+
+        for path in folder.glob(f"{map}*"):
             self.path = path
 
-    def _draw_csv(self, engine : ProgfaEngine):
-        self._check_hitbox(engine)
         self.walk_grid = np.loadtxt(self.path, delimiter=",", dtype=int)
         self.walk_grid[self.walk_grid == 213] = 1
         self.walk_grid[self.walk_grid == -1] = 0
 
         self.num_rows, self.num_cols = self.walk_grid.shape
+
+    def _draw_csv(self, engine : ProgfaEngine):
+        self._check_hitbox(engine)
         for row in range(self.num_rows):
             for col in range(self.num_cols):
                 engine.shape_mode = ShapeMode.CORNER
@@ -193,10 +197,6 @@ class Player:
                 cell_x = col * self.CELL_SIZE
                 cell_y = row * self.CELL_SIZE
 
-                # if self.value == 213:
-                #     self.value = 1
-                # elif self.value == -1:
-                #     self.value = 0
                 engine.color = 0, 0, 0, 0
                 engine.outline_color = 1, 0, 1
                 engine.draw_square(cell_x, cell_y, self.CELL_SIZE, 1)
@@ -204,16 +204,16 @@ class Player:
                 engine.color = 0, 0, 0
                 engine.draw_text(str(self.value), cell_x, cell_y)
 
-                on_checkbox = engine.colliding_rects(
-                    cell_x + self.speed_x,
-                    cell_y + self.speed_y,
-                    self.CELL_SIZE,
-                    self.CELL_SIZE,
-                    self.x-self.hitbox_size/2,
-                    self.y-self.hitbox_size/2,
-                    self.hitbox_size,
-                    self.hitbox_size
-                )
+                # on_checkbox = engine.colliding_rects(
+                #     cell_x + self.speed_x,
+                #     cell_y + self.speed_y,
+                #     self.CELL_SIZE,
+                #     self.CELL_SIZE,
+                #     self.x-self.hitbox_size/2,
+                #     self.y-self.hitbox_size/2,
+                #     self.hitbox_size,
+                #     self.hitbox_size
+                # )
                 # engine.draw_square(self.x-self.hitbox_size/2,self.y-self.hitbox_size/2, self.hitbox_size, 2)
                 # if on_checkbox and self.value == 1:
                 #     print("wall")
@@ -241,7 +241,7 @@ class Player:
         if self.x - self.size/4 < 0:
             # Check the left if the window
             self.x = engine.width - self.size/4
-            self._load_csv(engine)
+
             print("left")
             return True
         else:
@@ -254,7 +254,6 @@ class Player:
         if self.x + self.size/4>= engine.width:
             # Check the right of the window
             self.x = self.size/4
-            self._load_csv(engine)
             print("right")
             return True
         else:
