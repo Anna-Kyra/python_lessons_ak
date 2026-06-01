@@ -83,7 +83,7 @@ class Player:
 
     def animate(self):
         self.window_frame_counter += 1
-        if self.window_frame_counter > 15:
+        if self.window_frame_counter > 3:
             self.window_frame_counter = 0
             self.frame_counter += 1
             if self.frame_counter >= self.spritesheet_columns:
@@ -94,22 +94,22 @@ class Player:
         self.speed_x = 0
         self.speed_y = 0
 
-        if key == "RIGHT" or key == "d":
+        if key in ("RIGHT", "d"):
             self.current_pose = self.move_right
             self.direction = "RIGHT"
-            self.speed_x = 3
+            self.speed_x = 5
         elif key == "LEFT" or key == "a":
             self.current_pose = self.move_left
             self.direction = "LEFT"
-            self.speed_x = -3
+            self.speed_x = -5
         elif key == "UP" or key == "w":
             self.current_pose = self.move_up
             self.direction = "UP"
-            self.speed_y = -3
+            self.speed_y = -5
         elif key == "DOWN" or key == "s":
             self.current_pose = self.move_down
             self.direction = "DOWN"
-            self.speed_y = 3
+            self.speed_y = 5
 
 
         self.x += self.speed_x
@@ -120,7 +120,7 @@ class Player:
     def _load_csv(self, engine : ProgfaEngine):
         #WALK GRID
         walk_grid : np.ndarray
-        self.CELL_SIZE = 600/32
+        self.CELL_SIZE = 600*1.5/32
         self.path: Path
         self.path = "resources/csv_files/walking"
         for path in Path(self.path).glob(f"{self.map}*"):
@@ -131,6 +131,7 @@ class Player:
             print(self.path)
 
     def _draw_csv(self, engine : ProgfaEngine):
+        self._check_hitbox(engine)
         walk_grid = np.loadtxt(self.path, delimiter=",", dtype=int)
         # print(walk_grid)
         num_rows, num_cols = walk_grid.shape
@@ -138,34 +139,36 @@ class Player:
         for row in range(num_rows):
             for col in range(num_cols):
                 engine.shape_mode = ShapeMode.CORNER
-                value = walk_grid[row][col]
-                self.cell_x = col * self.CELL_SIZE
-                self.cell_y = row * self.CELL_SIZE
+                self.value = walk_grid[row][col]
+                cell_x = col * self.CELL_SIZE
+                cell_y = row * self.CELL_SIZE
 
-                if value == 213:
-                    value = 1
-                elif value == -1:
-                    value = 0
+                if self.value == 213:
+                    self.value = 1
+                elif self.value == -1:
+                    self.value = 0
                 engine.color = 0, 0, 0, 0
                 engine.outline_color = 1, 0, 1
-                engine.draw_square(self.cell_x, self.cell_y, self.CELL_SIZE, 1)
+                engine.draw_square(cell_x, cell_y, self.CELL_SIZE, 1)
 
                 engine.color = 0, 0, 0
-                engine.draw_text(str(value), self.cell_x, self.cell_y)
-                on_checkbox = engine.colliding_rects(self.cell_x, self.cell_y, self.CELL_SIZE, self.CELL_SIZE, self.x,self.y, self.size/2, self.size/2)
-                if on_checkbox:
-                    print(value)
+                engine.draw_text(str(self.value), cell_x, cell_y)
+                on_checkbox = engine.colliding_rects(cell_x, cell_y, self.CELL_SIZE, self.CELL_SIZE, self.x-self.hitbox_size/2,self.y-self.hitbox_size/2, self.hitbox_size, self.hitbox_size)
+                engine.draw_square(self.x-self.hitbox_size/2,self.y-self.hitbox_size/2, self.hitbox_size, 2)
+                if on_checkbox and self.value == 1:
+                    print("wall")
+
 
     def _collision(self, engine):
 
         pass
 
     def _check_hitbox(self, engine : ProgfaEngine):
-
         engine.shape_mode = ShapeMode.CENTER
+        self.hitbox_size = self.size/2
         engine.color = 0, 0, 0, 0
         engine.outline_color = 0, 0, 1
-        engine.draw_square(self.x, self.y, self.size/2, 2)
+        # engine.draw_square(self.x, self.y, self.hitbox_size, 2)
         pass
 
     def is_out_of_bounds_left(self, engine: ProgfaEngine) -> bool:

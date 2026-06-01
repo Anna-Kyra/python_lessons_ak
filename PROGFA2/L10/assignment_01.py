@@ -14,7 +14,7 @@ from player import Player
 from npc import NPC
 
 # Create an instance of ProgfaEngine and set window size (width, height):
-engine = pfe.ProgfaEngine(600, 600)
+engine = pfe.ProgfaEngine(600*1.5, 600*1.5)
 
 # Set the frame rate to x frames per second:
 engine.fps = 60
@@ -89,6 +89,11 @@ def draw_player():
     engine.color = 0, 0, 0
     engine.draw_rectangle(engine.width / 2, engine.height / 2, 100, 100)
 
+def draw_inventory():
+    engine.color = 0, 0, 0
+    engine.shape_mode = ShapeMode.CORNER
+    engine.draw_rectangle(engine.width-425, engine.height - 100, 400, 75)
+
 def gameplay_screen():
     engine.shape_mode = ShapeMode.CORNER
     if current_state == GameState.GAMEPLAY:
@@ -107,6 +112,7 @@ def gameplay_screen():
             engine.background_color = 0, 1, 1
 
     engine.draw_text("GAMEPLAY", engine.width/2, engine.height/4, True)
+    draw_inventory()
     player.display(engine)
 
 def setup():
