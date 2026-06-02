@@ -172,13 +172,13 @@ def setup():
 map_dir = "center"
 game_map = Map(str(current_theme), "center", engine)
 player = Player(game_map, str(current_theme), "center", engine)
-npc_Heidi = NPC("Heidi", game_map, engine)
-npc_Max = NPC("Max", game_map, engine)
-npc_Olivia = NPC("Olivia", game_map, engine)
-npc_Mia = NPC("Mia", game_map, engine)
-npc_Liam = NPC("Liam", game_map, engine)
-npc_Arthur = NPC("Arthur", game_map, engine)
-npc_Ryda = NPC("Ryda", game_map, engine)
+npc_Heidi = NPC("Heidi", Map(str(current_theme), map_dir, engine), engine)
+npc_Max = NPC("Max", Map(str(current_theme), map_dir, engine), engine)
+npc_Arthur = NPC("Arthur", Map(str(current_theme), map_dir, engine), engine)
+npc_Mia = NPC("Mia", Map(str(current_theme), map_dir, engine), engine)
+npc_Liam = NPC("Liam", Map(str(current_theme), map_dir, engine), engine)
+npc_Ryda = NPC("Ryda", Map(str(current_theme), map_dir, engine), engine)
+npc_Olivia = NPC("Olivia", Map(str(current_theme), map_dir, engine), engine)
 
 def render():
     """
