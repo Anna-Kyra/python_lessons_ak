@@ -130,7 +130,7 @@ def gameplay_screen():
 
     engine.draw_text("GAMEPLAY", engine.width/2, engine.height/4, True)
     draw_inventory()
-    player.display(engine)
+    player.display()
 
 def setup():
     """
@@ -149,7 +149,7 @@ def render():
     """
     global current_state, current_map
 
-    player.change_map(map_dir, engine)
+    player.change_map(map_dir)
     if current_state == GameState.START:
         start_screen()
     elif current_state == GameState.THEME:
@@ -159,37 +159,37 @@ def render():
         #print(engine.width, player.center_x + player.size/2)
 
         if current_map == GameMap.CENTER or current_map == GameMap.LEFT:
-            if player.is_out_of_bounds_right(engine):
+            if player.is_out_of_bounds_right():
                 if current_map == GameMap.CENTER:
                     current_map = GameMap.RIGHT
-                    player.change_map(map_dir, engine)
+                    player.change_map(map_dir)
                 elif current_map == GameMap.LEFT:
                     current_map = GameMap.CENTER
-                    player.change_map(map_dir, engine)
+                    player.change_map(map_dir)
         if current_map == GameMap.CENTER or current_map == GameMap.RIGHT:
-            if player.is_out_of_bounds_left(engine):
+            if player.is_out_of_bounds_left():
                 if current_map == GameMap.CENTER:
                     current_map = GameMap.LEFT
-                    player.change_map(map_dir, engine)
+                    player.change_map(map_dir)
                 elif current_map == GameMap.RIGHT:
                     current_map = GameMap.CENTER
-                    player.change_map(map_dir, engine)
+                    player.change_map(map_dir)
         if current_map == GameMap.CENTER or current_map == GameMap.BOTTOM:
-            if player.is_out_of_bounds_up(engine):
+            if player.is_out_of_bounds_up():
                 if current_map == GameMap.CENTER:
                     current_map = GameMap.UP
-                    player.change_map(map_dir, engine)
+                    player.change_map(map_dir)
                 elif current_map == GameMap.BOTTOM:
                     current_map = GameMap.CENTER
-                    player.change_map(map_dir, engine)
+                    player.change_map(map_dir)
         if current_map == GameMap.CENTER or current_map == GameMap.UP:
-            if player.is_out_of_bounds_down(engine):
+            if player.is_out_of_bounds_down():
                 if current_map == GameMap.CENTER:
                     current_map = GameMap.BOTTOM
-                    player.change_map(map_dir, engine)
+                    player.change_map(map_dir)
                 elif current_map == GameMap.UP:
                     current_map = GameMap.CENTER
-                    player.change_map(map_dir, engine)
+                    player.change_map(map_dir)
 
 
 
@@ -202,7 +202,7 @@ def evaluate():
     if (current_state == GameState.GAMEPLAY and
             key == "RIGHT" or key == "LEFT" or key == "UP" or key == "DOWN" or
             key == "d" or key == "a" or key == "w" or key == "s"):
-        player.move(key, engine)
+        player.move(key)
     if current_state == GameState.GAMEPLAY:
         player.animate()
     pass

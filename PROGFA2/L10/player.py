@@ -10,6 +10,7 @@ class Player:
         :param theme: chose either day_them or night_theme
         :param map_dir: chose either center, right, left, top, bottom
         """
+        self.engine = engine
         #placement
         self.x = engine.width/2
         self.y = engine.height/2
@@ -52,16 +53,16 @@ class Player:
 
         self.window_frame_counter = 0
 
-    def display(self, engine : ProgfaEngine):
+    def display(self):
         """
 
         :param engine:
         :return:
         """
-        engine.shape_mode = ShapeMode.CENTER
-        engine.color = 0, 0, 0
-        self._draw_csv(engine)
-        engine.shape_mode = ShapeMode.CENTER
+        self.engine.shape_mode = ShapeMode.CENTER
+        self.engine.color = 0, 0, 0
+        self._draw_csv()
+        self.engine.shape_mode = ShapeMode.CENTER
         self.current_pose[self.frame_counter].draw(self.x, self.y)
 
 
@@ -75,7 +76,7 @@ class Player:
             self.current_pose = self.idle_front
 
 
-        self._check_hitbox(engine)
+        self._check_hitbox()
         pass
 
     def animate(self):
@@ -87,7 +88,7 @@ class Player:
                 self.frame_counter = 0
         pass
 
-    def move(self, key : str, engine : ProgfaEngine):
+    def move(self, key : str):
         self.speed_x = 0
         self.speed_y = 0
 
@@ -166,10 +167,10 @@ class Player:
         self.y += self.speed_y
         self.current_pose[self.frame_counter].draw(self.x, self.y)
 
-    def change_map(self, new_map, engine):
+    def change_map(self, new_map):
         self.map = new_map
-        self._load_csv(self.map, engine)
-    def _load_csv(self, map:str, engine : ProgfaEngine):
+        self._load_csv(self.map)
+    def _load_csv(self, map:str):
         #WALK GRID
         self.CELL_SIZE = 600 * 1.5 / 32
 
@@ -184,21 +185,21 @@ class Player:
 
         self.num_rows, self.num_cols = self.walk_grid.shape
 
-    def _draw_csv(self, engine : ProgfaEngine):
-        self._check_hitbox(engine)
+    def _draw_csv(self):
+        self._check_hitbox()
         for row in range(self.num_rows):
             for col in range(self.num_cols):
-                engine.shape_mode = ShapeMode.CORNER
+                self.engine.shape_mode = ShapeMode.CORNER
                 self.value = self.walk_grid[row][col]
                 cell_x = col * self.CELL_SIZE
                 cell_y = row * self.CELL_SIZE
 
-                engine.color = 0, 0, 0, 0
-                engine.outline_color = 1, 0, 1
-                engine.draw_square(cell_x, cell_y, self.CELL_SIZE, 1)
+                self.engine.color = 0, 0, 0, 0
+                self.engine.outline_color = 1, 0, 1
+                self.engine.draw_square(cell_x, cell_y, self.CELL_SIZE, 1)
 
-                engine.color = 0, 0, 0
-                engine.draw_text(str(self.value), cell_x, cell_y)
+                self.engine.color = 0, 0, 0
+                self.engine.draw_text(str(self.value), cell_x, cell_y)
 
                 # on_checkbox = engine.colliding_rects(
                 #     cell_x + self.speed_x,
@@ -218,8 +219,8 @@ class Player:
                 #     self.boundary = False
 
 
-    def collision(self, object_x, object_y, object_width, object_height, engine):
-        on_checkbox = engine.colliding_rects(
+    def collision(self, object_x, object_y, object_width, object_height):
+        on_checkbox = self.engine.colliding_rects(
             object_x,
             object_y,
             object_width,
@@ -234,32 +235,32 @@ class Player:
             print("hit")
         pass
 
-    def _check_hitbox(self, engine : ProgfaEngine):
-        engine.shape_mode = ShapeMode.CENTER
+    def _check_hitbox(self):
+        self.engine.shape_mode = ShapeMode.CENTER
         self.hitbox_size = self.size/2
-        engine.color = 0, 0, 0, 0
-        engine.outline_color = 0, 0, 1
-        # engine.draw_square(self.x, self.y, self.hitbox_size, 2)
+        self.engine.color = 0, 0, 0, 0
+        self.engine.outline_color = 0, 0, 1
+        # self.engine.draw_square(self.x, self.y, self.hitbox_size, 2)
         pass
 
-    def is_out_of_bounds_left(self, engine: ProgfaEngine) -> bool:
+    def is_out_of_bounds_left(self) -> bool:
         """
         This function will return True if the x coordinate is out of bounds.
         """
         if self.x <= 0:
             # Check the left if the window
-            self.x = engine.width - self.size/2
+            self.x = self.engine.width - self.size/2
 
             print("left")
             return True
         else:
             return False
 
-    def is_out_of_bounds_right(self, engine: ProgfaEngine) -> bool:
+    def is_out_of_bounds_right(self) -> bool:
         """
         This function will return True if the x coordinate is out of bounds.
         """
-        if self.x + self.size/4>= engine.width:
+        if self.x + self.size/4>= self.engine.width:
             # Check the right of the window
             self.x = self.size/4
             print("right")
@@ -267,11 +268,11 @@ class Player:
         else:
             return False
 
-    def is_out_of_bounds_down(self, engine: ProgfaEngine) -> bool:
+    def is_out_of_bounds_down(self) -> bool:
         """
         This function will return True if the y coordinate is out of bounds.
         """
-        if self.y + self.size/4 > engine.height:
+        if self.y + self.size/4 > self.engine.height:
             # Check the bottom of the window
             self.y = self.size/4
             print("down")
@@ -279,13 +280,13 @@ class Player:
         else:
             return False
 
-    def is_out_of_bounds_up(self, engine: ProgfaEngine) -> bool:
+    def is_out_of_bounds_up(self) -> bool:
         """
         This function will return True if the y coordinate is out of bounds.
         """
         if self.y - self.size/4 < 0:
             # Check the top if the window
-            self.y = engine.height - self.size/4
+            self.y = self.engine.height - self.size/4
             print("up")
             return True
         else:
