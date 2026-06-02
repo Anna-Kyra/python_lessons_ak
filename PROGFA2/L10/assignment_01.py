@@ -110,7 +110,7 @@ def gameplay_screen():
             engine.background_color = 1, 1, 0
             center_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
             map_dir = "center"
-            # npc_one.display(engine)
+            npc_one.display()
         elif current_map == GameMap.LEFT:
             engine.background_color = 1, 0, 0
             map_dir = "left"
@@ -139,9 +139,10 @@ def setup():
     # initialize_variables()
 
     pass
+
 map_dir = "center"
 player = Player(str(current_theme), "center", engine)
-
+npc_one = NPC("Heidi", engine)
 
 def render():
     """
@@ -192,8 +193,6 @@ def render():
                     player.change_map(map_dir)
 
 
-
-
 def evaluate():
     """
     This function is being executed over and over, as fast as the frame rate. Use to update (not draw).
@@ -205,6 +204,8 @@ def evaluate():
         player.move(key)
     if current_state == GameState.GAMEPLAY:
         player.animate()
+        player.collision(npc_one.x, npc_one.y, npc_one.size, npc_one.size)
+        engine.draw_square(0, 0, 200)
     pass
 
 

@@ -4,6 +4,7 @@ import numpy as np
 from pathlib import Path
 import csv
 
+
 class Player:
     def __init__(self, theme: str, map_dir : str, engine : ProgfaEngine):
         """"
@@ -220,6 +221,8 @@ class Player:
 
 
     def collision(self, object_x, object_y, object_width, object_height):
+        self._check_hitbox()
+        self.engine.shape_mode = ShapeMode.CENTER
         on_checkbox = self.engine.colliding_rects(
             object_x,
             object_y,
@@ -233,6 +236,9 @@ class Player:
 
         if on_checkbox:
             print("hit")
+            self.engine.draw_square(self.x-self.hitbox_size/2,
+            self.y-self.hitbox_size/2,
+            self.hitbox_size,)
         pass
 
     def _check_hitbox(self):
