@@ -43,16 +43,10 @@ class GameTheme(Enum):
     NIGHT = 1,
 current_theme = GameTheme.DAY
 
-class DialogueProgression(Enum):
-    BEGIN = 0,
-    CONVERSATION = 1,
-    FINISHED = 2
-dialogue_state = DialogueProgression.FINISHED
+normal_font = "resources/font/PixeloidSans.ttf"
+title_font = "resources/font/AnalogWhispers.ttf"
 
-font = "resources/font/pixelFont-7-8x14-sproutLands.ttf"
-font = "resources/font/AnalogWhispers.ttf"
-
-engine.set_font(font)
+engine.set_font(title_font)
 
 theme_path = "day_theme"
 center_background = engine.load_image(f"resources/{theme_path}/background_center.png")
@@ -65,6 +59,8 @@ start_screen_background = engine.load_image("resources/start_screen_background.p
 theme_screen_background = engine.load_image("resources/theme_background.png")
 
 inventory = engine.load_image(f"resources/{theme_path}/inventory.png")
+
+number_invites = 7
 
 def load_backgrounds():
     global center_background, right_background, left_background, bottom_background, top_background,theme_path
@@ -131,8 +127,21 @@ def draw_inventory():
     engine.shape_mode = ShapeMode.CORNER
     inventory.draw_fixed_size(engine.width - 304-25, engine.height - 100, 304, 75)
 
+def draw_todo():
+    engine.shape_mode = ShapeMode.CORNER
+    engine.color = (0.15, 0.19, 0.18, 0.7)
+    engine.draw_rectangle(engine.width- 250-25, 25, 250, 300, 0)
+    engine.set_font_size(30)
+    engine.color = 1, 1, 1
+    engine.set_font(title_font)
+    engine.draw_text("TODO:", engine.width- 250-15, 35, False)
+
+    engine.set_font(normal_font)
+    engine.set_font_size(15)
+    engine.draw_text(f"INVITES:    {7-number_invites}/7", engine.width- 250-15, 75, False)
+
 def gameplay_screen():
-    global map_dir, dialogue_state
+    global map_dir
     engine.shape_mode = ShapeMode.CORNER
     if current_state == GameState.GAMEPLAY:
         if current_map == GameMap.CENTER:
@@ -140,12 +149,12 @@ def gameplay_screen():
             center_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
             map_dir = "center"
             npc_Heidi.display()
-            if player.collision(npc_Heidi.x, npc_Heidi.y, npc_Heidi.size, npc_Heidi.size):
-                dialogue_state = DialogueProgression.BEGIN
-                npc_Heidi.draw_dialogue()
-                print(dialogue_state)
             npc_Max.display()
             npc_Arthur.display()
+            if player.collision(npc_Heidi.x, npc_Heidi.y, npc_Heidi.size, npc_Heidi.size):
+                engine.set_font(title_font)
+                npc_Heidi.draw_dialogue()
+                npc_Heidi.start_dialogue()
         elif current_map == GameMap.LEFT:
             engine.background_color = 1, 0, 0
             map_dir = "left"
@@ -169,7 +178,9 @@ def gameplay_screen():
 
     engine.draw_text("GAMEPLAY", engine.width/2, engine.height/4, True)
     draw_inventory()
+    draw_todo()
     player.display()
+
 
 def setup():
     """
@@ -242,13 +253,17 @@ def evaluate():
     """
     This function is being executed over and over, as fast as the frame rate. Use to update (not draw).
     """
+    global number_invites
     key = engine.key
     if (current_state == GameState.GAMEPLAY and
             key == "RIGHT" or key == "LEFT" or key == "UP" or key == "DOWN" or
             key == "d" or key == "a" or key == "w" or key == "s"):
-        if dialogue_state == DialogueProgression.FINISHED:
+        if npc_Heidi.can_move():
+            if player.collision(npc_Heidi.x, npc_Heidi.y, npc_Heidi.size, npc_Heidi.size):
+                npc_Heidi.start_dialogue()
             player.move(key)
-        else: return 
+
+        else: return
     if current_state == GameState.GAMEPLAY:
         player.animate()
         engine.draw_square(0, 0, 200)
@@ -286,9 +301,12 @@ def key_up_event(key: str):
     This function is only executed once each time a key was released!
     Special keys have more than 1 character, for example ESCAPE, BACKSPACE, ENTER, ...
     """
-    global current_state
+    global current_state, number_invites
     if current_state == GameState.START and key:
         current_state = GameState.THEME
+    elif current_state == GameState.GAMEPLAY:
+        npc_Heidi.progress_dialogue(key)
+        number_invites -= npc_Heidi.minus_invite()
 
 
     # DEBUG
