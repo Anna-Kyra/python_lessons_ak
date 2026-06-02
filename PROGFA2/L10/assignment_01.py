@@ -10,6 +10,7 @@ import dae_progfa_lib as pfe
 from dae_progfa_lib import MouseButton, ShapeMode
 from enum import Enum
 
+from map import Map
 from player import Player
 from npc import NPC
 
@@ -141,16 +142,17 @@ def setup():
     pass
 
 map_dir = "center"
-player = Player(str(current_theme), "center", engine)
+game_map = Map(str(current_theme), "center", engine)
+player = Player(game_map, str(current_theme), "center", engine)
 npc_one = NPC("Heidi", engine)
 
 def render():
     """
     This function is being executed over and over, as fast as the frame rate. Use to draw (not update).
     """
-    global current_state, current_map
+    global current_state, current_map, map_dir
 
-    player.change_map(map_dir)
+    # map.change_map(map_dir)
     if current_state == GameState.START:
         start_screen()
     elif current_state == GameState.THEME:
@@ -163,35 +165,35 @@ def render():
             if player.is_out_of_bounds_right():
                 if current_map == GameMap.CENTER:
                     current_map = GameMap.RIGHT
-                    player.change_map(map_dir)
+                    map_dir = "right"
                 elif current_map == GameMap.LEFT:
                     current_map = GameMap.CENTER
-                    player.change_map(map_dir)
+                    map_dir = "center"
         if current_map == GameMap.CENTER or current_map == GameMap.RIGHT:
             if player.is_out_of_bounds_left():
                 if current_map == GameMap.CENTER:
                     current_map = GameMap.LEFT
-                    player.change_map(map_dir)
+                    map_dir = "left"
                 elif current_map == GameMap.RIGHT:
                     current_map = GameMap.CENTER
-                    player.change_map(map_dir)
+                    map_dir = "center"
         if current_map == GameMap.CENTER or current_map == GameMap.BOTTOM:
             if player.is_out_of_bounds_up():
                 if current_map == GameMap.CENTER:
                     current_map = GameMap.UP
-                    player.change_map(map_dir)
+                    map_dir = "top"
                 elif current_map == GameMap.BOTTOM:
                     current_map = GameMap.CENTER
-                    player.change_map(map_dir)
+                    map_dir = "center"
         if current_map == GameMap.CENTER or current_map == GameMap.UP:
             if player.is_out_of_bounds_down():
                 if current_map == GameMap.CENTER:
                     current_map = GameMap.BOTTOM
-                    player.change_map(map_dir)
+                    map_dir = "bottom"
                 elif current_map == GameMap.UP:
                     current_map = GameMap.CENTER
-                    player.change_map(map_dir)
-
+                    map_dir = "center"
+        game_map.change_map(map_dir)
 
 def evaluate():
     """

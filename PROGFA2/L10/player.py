@@ -4,14 +4,17 @@ import numpy as np
 from pathlib import Path
 import csv
 
+from map import Map
+
 
 class Player:
-    def __init__(self, theme: str, map_dir : str, engine : ProgfaEngine):
+    def __init__(self, map: Map, theme: str, map_dir : str, engine : ProgfaEngine):
         """"
         :param theme: chose either day_them or night_theme
         :param map_dir: chose either center, right, left, top, bottom
         """
         self.engine = engine
+        self.map = map
         #placement
         self.x = engine.width/2
         self.y = engine.height/2
@@ -19,9 +22,6 @@ class Player:
         self.speed_x = 0
         self.speed_y = 0
         self.direction = 0
-
-        self.map = map_dir
-        print(self.map)
 
         if theme == "GameTheme.DAY":
             self.theme = "day_theme"
@@ -62,7 +62,6 @@ class Player:
         """
         self.engine.shape_mode = ShapeMode.CENTER
         self.engine.color = 0, 0, 0
-        self._draw_csv()
         self.engine.shape_mode = ShapeMode.CENTER
         self.current_pose[self.frame_counter].draw(self.x, self.y)
 
@@ -93,6 +92,7 @@ class Player:
         self.speed_x = 0
         self.speed_y = 0
 
+
         if key in ("RIGHT", "d"):
             self.current_pose = self.move_right
             self.direction = "RIGHT"
@@ -100,12 +100,12 @@ class Player:
             next_x = self.x + 5
             next_y = self.y
 
-            col = int(next_x // self.CELL_SIZE)
-            row = int(next_y // self.CELL_SIZE)
+            col = int(next_x // self.map.CELL_SIZE)
+            row = int(next_y // self.map.CELL_SIZE)
 
-            if row < 0 or row >= self.num_rows or col < 0 or col >= self.num_cols:
+            if row < 0 or row >= self.map.num_rows or col < 0 or col >= self.map.num_cols:
                 return
-            if self.walk_grid[row][col] == 0:
+            if self.map.walk_grid[row][col] == 0:
                 self.speed_x = 5
             else:
                 self.speed_x = 0
@@ -117,10 +117,10 @@ class Player:
             next_x = self.x - 5
             next_y = self.y
 
-            col = int(next_x // self.CELL_SIZE)
-            row = int(next_y // self.CELL_SIZE)
+            col = int(next_x // self.map.CELL_SIZE)
+            row = int(next_y // self.map.CELL_SIZE)
 
-            if self.walk_grid[row][col] == 0:
+            if self.map.walk_grid[row][col] == 0:
                 self.speed_x = -5
             else:
                 self.speed_x = 0
@@ -130,10 +130,10 @@ class Player:
             next_x = self.x
             next_y = self.y - 5
 
-            col = int(next_x // self.CELL_SIZE)
-            row = int(next_y // self.CELL_SIZE)
+            col = int(next_x // self.map.CELL_SIZE)
+            row = int(next_y // self.map.CELL_SIZE)
 
-            if self.walk_grid[row][col] == 0:
+            if self.map.walk_grid[row][col] == 0:
                 self.speed_y = -5
             else:
                 self.speed_y = 0
@@ -143,81 +143,20 @@ class Player:
             next_x = self.x
             next_y = self.y + 5
 
-            col = int(next_x // self.CELL_SIZE)
-            row = int(next_y // self.CELL_SIZE)
+            col = int(next_x // self.map.CELL_SIZE)
+            row = int(next_y // self.map.CELL_SIZE)
 
-            if self.walk_grid[row][col] == 0:
+            if self.map.walk_grid[row][col] == 0:
                 self.speed_y = 5
             else:
                 self.speed_y = 0
-
-        # # Bereken nieuwe positie
-        # next_x = self.x + self.speed_x + self.hitbox_size / 2
-        # next_y = self.y + self.speed_y
-        #
-        # # Bepaal op welke tegel de speler terechtkomt
-        # col = int(next_x // self.CELL_SIZE)
-        # row = int(next_y // self.CELL_SIZE)
-        #
-        # # Controleer de map
-        # if self.walk_grid[row][col] == 0:
-        #     self.x = next_x
-        #     self.y = next_y
+        print("player map:", self.map.map)
 
         self.x += self.speed_x
         self.y += self.speed_y
         self.current_pose[self.frame_counter].draw(self.x, self.y)
 
-    def change_map(self, new_map):
-        self.map = new_map
-        self._load_csv(self.map)
-    def _load_csv(self, map:str):
-        #WALK GRID
-        self.CELL_SIZE = 600 * 1.5 / 32
 
-        folder = Path("resources/csv_files/walking")
-
-        for path in folder.glob(f"{map}*"):
-            self.path = path
-
-        self.walk_grid = np.loadtxt(self.path, delimiter=",", dtype=int)
-        self.walk_grid[self.walk_grid == 213] = 1
-        self.walk_grid[self.walk_grid == -1] = 0
-
-        self.num_rows, self.num_cols = self.walk_grid.shape
-
-    def _draw_csv(self):
-        self._check_hitbox()
-        for row in range(self.num_rows):
-            for col in range(self.num_cols):
-                self.engine.shape_mode = ShapeMode.CORNER
-                self.value = self.walk_grid[row][col]
-                cell_x = col * self.CELL_SIZE
-                cell_y = row * self.CELL_SIZE
-
-                self.engine.color = 0, 0, 0, 0
-                self.engine.outline_color = 1, 0, 1
-                self.engine.draw_square(cell_x, cell_y, self.CELL_SIZE, 1)
-
-                self.engine.color = 0, 0, 0
-                self.engine.draw_text(str(self.value), cell_x, cell_y)
-
-                # on_checkbox = engine.colliding_rects(
-                #     cell_x + self.speed_x,
-                #     cell_y + self.speed_y,
-                #     self.CELL_SIZE,
-                #     self.CELL_SIZE,
-                #     self.x-self.hitbox_size/2,
-                #     self.y-self.hitbox_size/2,
-                #     self.hitbox_size,
-                #     self.hitbox_size
-                # )
-                # engine.draw_square(self.x-self.hitbox_size/2,self.y-self.hitbox_size/2, self.hitbox_size, 2)
-                # if on_checkbox and self.value == 1:
-                #     print("wall")
-                #     self.boundary = True
-                # elif on_checkbox and self.value == 0:
-                #     self.boundary = False
 
 
     def collision(self, object_x, object_y, object_width, object_height):
