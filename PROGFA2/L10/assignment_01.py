@@ -59,8 +59,10 @@ start_screen_background = engine.load_image("resources/start_screen_background.p
 theme_screen_background = engine.load_image("resources/theme_background.png")
 
 inventory = engine.load_image(f"resources/{theme_path}/inventory.png")
+scroll = engine.load_image(f"resources/{theme_path}/scroll.png")
 
 number_invites = 7
+
 
 def load_backgrounds():
     global center_background, right_background, left_background, bottom_background, top_background,theme_path
@@ -126,11 +128,20 @@ def draw_inventory():
     engine.color = 0, 0, 0
     engine.shape_mode = ShapeMode.CORNER
     inventory.draw_fixed_size(engine.width - 304-25, engine.height - 100, 304, 75)
+    if number_invites>0:
+        scroll.draw_fixed_size(engine.width - 304-10, engine.height - 85, 30, 30)
+
+        engine.color = (0.15, 0.19, 0.18)
+        engine.draw_circle(engine.width - 300+7, engine.height - 85+20, 20, 0)
+        engine.set_font(title_font)
+        engine.set_font_size(15)
+        engine.color = 1, 1, 1
+        engine.draw_text(f"{number_invites}", engine.width - 300+12, engine.height - 85+24, False)
 
 def draw_todo():
     engine.shape_mode = ShapeMode.CORNER
     engine.color = (0.15, 0.19, 0.18, 0.7)
-    engine.draw_rectangle(engine.width- 250-25, 25, 250, 300, 0)
+    engine.draw_rectangle(engine.width- 250-25, 25, 250, 150, 0)
     engine.set_font_size(30)
     engine.color = 1, 1, 1
     engine.set_font(title_font)
@@ -138,7 +149,9 @@ def draw_todo():
 
     engine.set_font(normal_font)
     engine.set_font_size(15)
-    engine.draw_text(f"INVITES:    {7-number_invites}/7", engine.width- 250-15, 75, False)
+    engine.draw_text(f"Hand out invites for", engine.width- 250-15, 75, False)
+    engine.draw_text(f"sprouts party.", engine.width- 250-15, 75+20, False)
+    engine.draw_text(f"INVITES:    {7-number_invites}/7", engine.width- 250-15, 75+20 + 40, False)
 
 def gameplay_screen():
     global map_dir
@@ -151,36 +164,41 @@ def gameplay_screen():
             npc_Heidi.display()
             npc_Max.display()
             npc_Arthur.display()
+
             if player.collision(npc_Heidi.x, npc_Heidi.y, npc_Heidi.size, npc_Heidi.size):
                 engine.set_font(title_font)
                 npc_Heidi.draw_dialogue()
                 npc_Heidi.start_dialogue()
         elif current_map == GameMap.LEFT:
             engine.background_color = 1, 0, 0
-            map_dir = "left"
+
             left_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+            map_dir = "left"
             npc_Mia.display()
             npc_Liam.display()
+
         elif current_map == GameMap.RIGHT:
             engine.background_color = 0, 1, 0
             map_dir = "right"
             right_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+
         elif current_map == GameMap.UP:
             engine.background_color = 0, 0, 1
             map_dir = "top"
             top_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
             npc_Ryda.display()
+
         elif current_map == GameMap.BOTTOM:
             engine.background_color = 0, 1, 1
             map_dir = "bottom"
             bottom_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
             npc_Olivia.display()
 
+
     engine.draw_text("GAMEPLAY", engine.width/2, engine.height/4, True)
     draw_inventory()
     draw_todo()
     player.display()
-
 
 def setup():
     """
@@ -191,15 +209,16 @@ def setup():
     pass
 
 map_dir = "center"
-game_map = Map(str(current_theme), "center", engine)
+game_map = Map(str(current_theme), map_dir, engine)
 player = Player(game_map, str(current_theme), "center", engine)
-npc_Heidi = NPC("Heidi", Map(str(current_theme), map_dir, engine), engine)
-npc_Max = NPC("Max", Map(str(current_theme), map_dir, engine), engine)
-npc_Arthur = NPC("Arthur", Map(str(current_theme), map_dir, engine), engine)
-npc_Mia = NPC("Mia", Map(str(current_theme), map_dir, engine), engine)
-npc_Liam = NPC("Liam", Map(str(current_theme), map_dir, engine), engine)
-npc_Ryda = NPC("Ryda", Map(str(current_theme), map_dir, engine), engine)
-npc_Olivia = NPC("Olivia", Map(str(current_theme), map_dir, engine), engine)
+npc_Heidi = NPC("Heidi", game_map, engine)
+npc_Max = NPC("Max", game_map, engine)
+npc_Arthur = NPC("Arthur", game_map, engine)
+npc_Mia = NPC("Mia", game_map, engine)
+npc_Liam = NPC("Liam", game_map, engine)
+npc_Ryda = NPC("Ryda", game_map, engine)
+npc_Olivia = NPC("Olivia", game_map, engine)
+
 
 def render():
     """
@@ -247,7 +266,8 @@ def render():
                 elif current_map == GameMap.UP:
                     current_map = GameMap.CENTER
                     map_dir = "center"
-        game_map.change_map(map_dir)
+
+    game_map.change_map(map_dir)
 
 def evaluate():
     """

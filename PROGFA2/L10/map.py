@@ -54,6 +54,7 @@ class Map:
 
                 self.engine.color = 0, 0, 0, 0
                 self.engine.outline_color = 1, 0, 1
+                self.engine.set_font_size(10)
                 self.engine.draw_square(cell_x, cell_y, self.CELL_SIZE, 1)
 
                 self.engine.color = 0, 0, 0
