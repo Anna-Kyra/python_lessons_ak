@@ -172,7 +172,7 @@ class Player:
         )
 
         if on_checkbox:
-            print("hit")
+            # print("hit")
             return True
         return False
 

@@ -43,6 +43,12 @@ class GameTheme(Enum):
     NIGHT = 1,
 current_theme = GameTheme.DAY
 
+class DialogueProgression(Enum):
+    BEGIN = 0,
+    CONVERSATION = 1,
+    FINISHED = 2
+dialogue_state = DialogueProgression.FINISHED
+
 font = "resources/font/pixelFont-7-8x14-sproutLands.ttf"
 font = "resources/font/AnalogWhispers.ttf"
 
@@ -126,7 +132,7 @@ def draw_inventory():
     inventory.draw_fixed_size(engine.width - 304-25, engine.height - 100, 304, 75)
 
 def gameplay_screen():
-    global map_dir
+    global map_dir, dialogue_state
     engine.shape_mode = ShapeMode.CORNER
     if current_state == GameState.GAMEPLAY:
         if current_map == GameMap.CENTER:
@@ -134,6 +140,10 @@ def gameplay_screen():
             center_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
             map_dir = "center"
             npc_Heidi.display()
+            if player.collision(npc_Heidi.x, npc_Heidi.y, npc_Heidi.size, npc_Heidi.size):
+                dialogue_state = DialogueProgression.BEGIN
+                npc_Heidi.draw_dialogue()
+                print(dialogue_state)
             npc_Max.display()
             npc_Arthur.display()
         elif current_map == GameMap.LEFT:
@@ -194,9 +204,6 @@ def render():
     elif current_state == GameState.GAMEPLAY:
         gameplay_screen()
         #print(engine.width, player.center_x + player.size/2)
-        if player.collision(npc_Heidi.x, npc_Heidi.y, npc_Heidi.size, npc_Heidi.size):
-            npc_Heidi.draw_dialogue()
-            print("ha hit")
         if current_map == GameMap.CENTER or current_map == GameMap.LEFT:
             if player.is_out_of_bounds_right():
                 if current_map == GameMap.CENTER:
@@ -239,9 +246,9 @@ def evaluate():
     if (current_state == GameState.GAMEPLAY and
             key == "RIGHT" or key == "LEFT" or key == "UP" or key == "DOWN" or
             key == "d" or key == "a" or key == "w" or key == "s"):
-        if not player.collision(npc_Heidi.x, npc_Heidi.y, npc_Heidi.size, npc_Heidi.size):
+        if dialogue_state == DialogueProgression.FINISHED:
             player.move(key)
-        else: return
+        else: return 
     if current_state == GameState.GAMEPLAY:
         player.animate()
         engine.draw_square(0, 0, 200)
