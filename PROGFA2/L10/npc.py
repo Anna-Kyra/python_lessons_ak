@@ -17,3 +17,6 @@ class NPC:
         engine.shape_mode = ShapeMode.CENTER
         engine.color = self.color
         engine.draw_square(self.x, self.y, self.size, 0)
+
+    def dialogue(self):
+        pass

@@ -28,6 +28,7 @@ class Player:
 
         print(self.theme)
         self.size = 100
+
         #Spritesheet
         spritesheet_path = f"resources/{self.theme}/charakter_spritesheet.png"
         spritesheet : ProgfaImage
@@ -50,8 +51,6 @@ class Player:
         self.frame_counter = 0
 
         self.window_frame_counter = 0
-        # self._load_csv(engine)
-
 
     def display(self, engine : ProgfaEngine):
         """
@@ -61,8 +60,6 @@ class Player:
         """
         engine.shape_mode = ShapeMode.CENTER
         engine.color = 0, 0, 0
-        # engine.draw_rectangle(self.x, self.y, self.size / 2, self.size / 2)
-        # engine.draw_square(self.x, self.y, self.size, 0)
         self._draw_csv(engine)
         engine.shape_mode = ShapeMode.CENTER
         self.current_pose[self.frame_counter].draw(self.x, self.y)
@@ -172,7 +169,6 @@ class Player:
     def change_map(self, new_map, engine):
         self.map = new_map
         self._load_csv(self.map, engine)
-        print("Changing map to:", new_map)
     def _load_csv(self, map:str, engine : ProgfaEngine):
         #WALK GRID
         self.CELL_SIZE = 600 * 1.5 / 32
@@ -222,8 +218,20 @@ class Player:
                 #     self.boundary = False
 
 
-    def _collision(self, engine):
+    def collision(self, object_x, object_y, object_width, object_height, engine):
+        on_checkbox = engine.colliding_rects(
+            object_x,
+            object_y,
+            object_width,
+            object_height,
+            self.x-self.hitbox_size/2,
+            self.y-self.hitbox_size/2,
+            self.hitbox_size,
+            self.hitbox_size
+        )
 
+        if on_checkbox:
+            print("hit")
         pass
 
     def _check_hitbox(self, engine : ProgfaEngine):
