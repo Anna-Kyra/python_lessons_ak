@@ -2,6 +2,7 @@ from dae_progfa_lib import ProgfaEngine, ShapeMode
 import numpy as np
 from pathlib import Path
 import csv
+import random
 
 class Map:
     def __init__(self, theme: str, map_dir : str, engine : ProgfaEngine):
@@ -13,7 +14,6 @@ class Map:
             self.theme = "day_theme"
         elif theme == "GameTheme.NIGHT":
             self.theme = "night_theme"
-
 
         self._load_csv(self.map)
 
@@ -58,6 +58,16 @@ class Map:
 
                 self.engine.color = 0, 0, 0
                 self.engine.draw_text(str(self.value), cell_x, cell_y)
+
+    def get_random_walkable_tile(self):
+        valid_tiles = []
+
+        for row in range(self.num_rows):
+            for col in range(self.num_cols):
+                if self.walk_grid[row][col] == 0:
+                    valid_tiles.append((row, col))
+
+        return random.choice(valid_tiles)
 
     def display(self):
         self._draw_csv()

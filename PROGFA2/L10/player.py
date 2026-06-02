@@ -5,7 +5,7 @@ from pathlib import Path
 import csv
 
 from map import Map
-
+from inventory import Inventory
 
 class Player:
     def __init__(self, map: Map, theme: str, map_dir : str, engine : ProgfaEngine):
@@ -15,6 +15,8 @@ class Player:
         """
         self.engine = engine
         self.map = map
+        self.invites_number = 7
+        self.inventory : Inventory = Inventory(self.invites_number)
         #placement
         self.x = engine.width/2
         self.y = engine.height/2

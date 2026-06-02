@@ -111,7 +111,7 @@ def gameplay_screen():
             engine.background_color = 1, 1, 0
             center_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
             map_dir = "center"
-            npc_one.display()
+            npc_Heidi.display()
         elif current_map == GameMap.LEFT:
             engine.background_color = 1, 0, 0
             map_dir = "left"
@@ -144,7 +144,8 @@ def setup():
 map_dir = "center"
 game_map = Map(str(current_theme), "center", engine)
 player = Player(game_map, str(current_theme), "center", engine)
-npc_one = NPC("Heidi", engine)
+npc_Heidi = NPC("Heidi", game_map, engine)
+npc_Max = NPC("Max", game_map, engine)
 
 def render():
     """
@@ -206,7 +207,7 @@ def evaluate():
         player.move(key)
     if current_state == GameState.GAMEPLAY:
         player.animate()
-        player.collision(npc_one.x, npc_one.y, npc_one.size, npc_one.size)
+        player.collision(npc_Heidi.x, npc_Heidi.y, npc_Heidi.size, npc_Heidi.size)
         engine.draw_square(0, 0, 200)
     pass
 

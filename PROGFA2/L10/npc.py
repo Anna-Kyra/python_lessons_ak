@@ -1,21 +1,24 @@
 import random
 from dae_progfa_lib import ProgfaEngine, ShapeMode
-
+from map import Map
 
 class NPC:
-    def __init__(self, name : str, engine: ProgfaEngine):
+    def __init__(self, name : str, map : Map, engine: ProgfaEngine):
         self.engine = engine
+        self.map = map
         self.name = name
-        self.x = random.randint(0, int(self.engine.width))
-        self.y = random.randint(0, int(self.engine.height))
+        row, col = self.map.get_random_walkable_tile()
 
-        self.size = 25
+        self.x = col * self.map.CELL_SIZE
+        self.y = row * self.map.CELL_SIZE
+
+        self.size = self.map.CELL_SIZE
         self.color = random.randint(0, 1), random.randint(0, 1), random.randint(0, 1)
 
         print(self.x)
 
     def display(self):
-        self.engine.shape_mode = ShapeMode.CENTER
+        # self.engine.shape_mode = ShapeMode.CENTER
         self.engine.color = self.color
         self.engine.draw_square(self.x, self.y, self.size, 0)
 
