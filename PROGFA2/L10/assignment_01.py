@@ -43,12 +43,18 @@ class GameTheme(Enum):
     NIGHT = 1,
 current_theme = GameTheme.DAY
 
+font = "resources/font/pixelFont-7-8x14-sproutLands.ttf"
+
+engine.set_font(font)
+
 theme_path = "day_theme"
 center_background = engine.load_image(f"resources/{theme_path}/background_center.png")
 right_background = engine.load_image(f"resources/{theme_path}/background_right.png")
 left_background = engine.load_image(f"resources/{theme_path}/background_left.png")
 bottom_background = engine.load_image(f"resources/{theme_path}/background_bottom.png")
 top_background = engine.load_image(f"resources/{theme_path}/background_top.png")
+
+start_screen_background = engine.load_image("resources/start_screen_background.png")
 
 inventory = engine.load_image(f"resources/{theme_path}/inventory.png")
 
@@ -78,9 +84,11 @@ def start_screen():
     engine.background_color = 1, 0, 1
     engine.shape_mode = ShapeMode.CORNER
     engine.color = 0, 0, 0
+    start_screen_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
 
-    engine.set_font_size(50)
-    engine.draw_text("Sprout's Party", engine.width/2, engine.height/4, True)
+    engine.set_font_size(100)
+    engine.draw_text("Sprout's", engine.width/2-100, engine.height/4+100, True)
+    engine.draw_text("Party", engine.width/2+100, engine.height/4+250, True)
 
     engine.set_font_size(30)
     engine.draw_text('_Press any key to play_', engine.width/2, engine.height*(3/4), True)
@@ -112,10 +120,14 @@ def gameplay_screen():
             center_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
             map_dir = "center"
             npc_Heidi.display()
+            npc_Max.display()
+            npc_Arthur.display()
         elif current_map == GameMap.LEFT:
             engine.background_color = 1, 0, 0
             map_dir = "left"
             left_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+            npc_Mia.display()
+            npc_Liam.display()
         elif current_map == GameMap.RIGHT:
             engine.background_color = 0, 1, 0
             map_dir = "right"
@@ -124,10 +136,12 @@ def gameplay_screen():
             engine.background_color = 0, 0, 1
             map_dir = "top"
             top_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+            npc_Ryda.display()
         elif current_map == GameMap.BOTTOM:
             engine.background_color = 0, 1, 1
             map_dir = "bottom"
             bottom_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+            npc_Olivia.display()
 
     engine.draw_text("GAMEPLAY", engine.width/2, engine.height/4, True)
     draw_inventory()
@@ -146,6 +160,11 @@ game_map = Map(str(current_theme), "center", engine)
 player = Player(game_map, str(current_theme), "center", engine)
 npc_Heidi = NPC("Heidi", game_map, engine)
 npc_Max = NPC("Max", game_map, engine)
+npc_Olivia = NPC("Olivia", game_map, engine)
+npc_Mia = NPC("Mia", game_map, engine)
+npc_Liam = NPC("Liam", game_map, engine)
+npc_Arthur = NPC("Arthur", game_map, engine)
+npc_Ryda = NPC("Ryda", game_map, engine)
 
 def render():
     """
@@ -161,7 +180,9 @@ def render():
     elif current_state == GameState.GAMEPLAY:
         gameplay_screen()
         #print(engine.width, player.center_x + player.size/2)
-
+        if player.collision(npc_Heidi.x, npc_Heidi.y, npc_Heidi.size, npc_Heidi.size):
+            npc_Heidi.draw_dialogue()
+            print("ha hit")
         if current_map == GameMap.CENTER or current_map == GameMap.LEFT:
             if player.is_out_of_bounds_right():
                 if current_map == GameMap.CENTER:
@@ -204,10 +225,11 @@ def evaluate():
     if (current_state == GameState.GAMEPLAY and
             key == "RIGHT" or key == "LEFT" or key == "UP" or key == "DOWN" or
             key == "d" or key == "a" or key == "w" or key == "s"):
-        player.move(key)
+        if not player.collision(npc_Heidi.x, npc_Heidi.y, npc_Heidi.size, npc_Heidi.size):
+            player.move(key)
+        else: return
     if current_state == GameState.GAMEPLAY:
         player.animate()
-        player.collision(npc_Heidi.x, npc_Heidi.y, npc_Heidi.size, npc_Heidi.size)
         engine.draw_square(0, 0, 200)
     pass
 

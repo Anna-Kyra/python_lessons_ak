@@ -94,7 +94,6 @@ class Player:
         self.speed_x = 0
         self.speed_y = 0
 
-
         if key in ("RIGHT", "d"):
             self.current_pose = self.move_right
             self.direction = "RIGHT"
@@ -158,10 +157,7 @@ class Player:
         self.y += self.speed_y
         self.current_pose[self.frame_counter].draw(self.x, self.y)
 
-
-
-
-    def collision(self, object_x, object_y, object_width, object_height):
+    def collision(self, object_x, object_y, object_width, object_height) -> bool:
         self._check_hitbox()
         self.engine.shape_mode = ShapeMode.CENTER
         on_checkbox = self.engine.colliding_rects(
@@ -169,18 +165,16 @@ class Player:
             object_y,
             object_width,
             object_height,
-            self.x-self.hitbox_size/2,
-            self.y-self.hitbox_size/2,
+            self.x,
+            self.y,
             self.hitbox_size,
             self.hitbox_size
         )
 
         if on_checkbox:
             print("hit")
-            self.engine.draw_square(self.x-self.hitbox_size/2,
-            self.y-self.hitbox_size/2,
-            self.hitbox_size,)
-        pass
+            return True
+        return False
 
     def _check_hitbox(self):
         self.engine.shape_mode = ShapeMode.CENTER

@@ -1,5 +1,6 @@
 import random
 from dae_progfa_lib import ProgfaEngine, ShapeMode
+
 from map import Map
 
 class NPC:
@@ -23,4 +24,10 @@ class NPC:
         self.engine.draw_square(self.x, self.y, self.size, 0)
 
     def dialogue(self):
+        pass
+
+    def draw_dialogue(self):
+        self.engine.color = 0, 0, 0, 0.8
+        self.engine.shape_mode = ShapeMode.CORNER
+        self.engine.draw_rectangle(25, self.engine.height - 225, 500, 200, 0)
         pass
