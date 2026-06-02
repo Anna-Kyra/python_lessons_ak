@@ -44,6 +44,7 @@ class GameTheme(Enum):
 current_theme = GameTheme.DAY
 
 font = "resources/font/pixelFont-7-8x14-sproutLands.ttf"
+font = "resources/font/AnalogWhispers.ttf"
 
 engine.set_font(font)
 
@@ -55,6 +56,7 @@ bottom_background = engine.load_image(f"resources/{theme_path}/background_bottom
 top_background = engine.load_image(f"resources/{theme_path}/background_top.png")
 
 start_screen_background = engine.load_image("resources/start_screen_background.png")
+theme_screen_background = engine.load_image("resources/theme_background.png")
 
 inventory = engine.load_image(f"resources/{theme_path}/inventory.png")
 
@@ -83,24 +85,36 @@ def load_level():
 def start_screen():
     engine.background_color = 1, 0, 1
     engine.shape_mode = ShapeMode.CORNER
-    engine.color = 0, 0, 0
+    engine.color = (0.15, 0.19, 0.18)
     start_screen_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
 
-    engine.set_font_size(100)
+    engine.set_font_size(120)
     engine.draw_text("Sprout's", engine.width/2-100, engine.height/4+100, True)
     engine.draw_text("Party", engine.width/2+100, engine.height/4+250, True)
 
     engine.set_font_size(30)
-    engine.draw_text('_Press any key to play_', engine.width/2, engine.height*(3/4), True)
+    engine.draw_text('_Press any key to play_', engine.width-200, engine.height-50, True)
 
 def theme_screen():
     engine.shape_mode = ShapeMode.CORNER
     engine.background_color = 1, 1, 0
-    engine.draw_text("CHOOSE THEME", engine.width / 2, 50, True)
-    engine.color = 0, 0, 0
+    theme_screen_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+    engine.set_font_size(75)
+    engine.color = (0.15, 0.19, 0.18)
+    engine.draw_text("CHOOSE THEME", engine.width / 2, 100, True)
+    engine.color = (0.15, 0.19, 0.18, 0.7)
 
-    engine.draw_rectangle(engine.width / 2 - 310, 100, 300, engine.height - 200)
-    engine.draw_rectangle(engine.width / 2 + 10, 100, 300, engine.height - 200)
+    engine.draw_rectangle(engine.width / 2 - 370, 200, 350, engine.height - 400, 0)
+    engine.color = 1,1,1
+    engine.set_font_size(50)
+    engine.draw_text("Day", engine.width / 2 - (370/2)-10, engine.height/2-25, True)
+    engine.draw_text("Theme", engine.width / 2 - (370/2)-10, engine.height/2+25, True)
+    engine.color = (0.15, 0.19, 0.18, 0.7)
+    engine.draw_rectangle(engine.width / 2 + 20, 200, 350, engine.height - 400, 0)
+    engine.set_font_size(50)
+    engine.color = 0, 0, 0
+    engine.draw_text("Night", engine.width / 2 + (370 / 2) + 10, engine.height / 2 - 25, True)
+    engine.draw_text("Theme", engine.width / 2 + (370 / 2) + 10, engine.height / 2 + 25, True)
 
 def draw_player():
     engine.color = 0, 0, 0
