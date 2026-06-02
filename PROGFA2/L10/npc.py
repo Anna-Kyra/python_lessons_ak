@@ -7,8 +7,6 @@ class NPC:
         self.name = name
         self.x = random.randint(0, engine.width)
         self.y = random.randint(0, engine.height)
-        self.speed_x = 5
-        self.speed_y = 5
 
         self.size = 25
         self.color = random.randint(0, 1), random.randint(0, 1), random.randint(0, 1)

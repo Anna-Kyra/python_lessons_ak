@@ -45,11 +45,14 @@ current_theme = GameTheme.DAY
 theme_path = "day_theme"
 center_background = engine.load_image(f"resources/{theme_path}/background_center.png")
 right_background = engine.load_image(f"resources/{theme_path}/background_right.png")
+left_background = engine.load_image(f"resources/{theme_path}/background_left.png")
+bottom_background = engine.load_image(f"resources/{theme_path}/background_bottom.png")
+top_background = engine.load_image(f"resources/{theme_path}/background_top.png")
 
 inventory = engine.load_image(f"resources/{theme_path}/inventory.png")
 
 def load_backgrounds():
-    global center_background, right_background, theme_path
+    global center_background, right_background, left_background, bottom_background, top_background,theme_path
 
     if current_theme == GameTheme.DAY:
         theme_path = "day_theme"
@@ -62,6 +65,9 @@ def load_backgrounds():
         right_background = engine.load_image(
             f"resources/{theme_path}/background_right.png"
         )
+        left_background = engine.load_image(f"resources/{theme_path}/background_left.png")
+        bottom_background = engine.load_image(f"resources/{theme_path}/background_bottom.png")
+        top_background = engine.load_image(f"resources/{theme_path}/background_top.png")
 
 def load_level():
     pass
@@ -108,6 +114,7 @@ def gameplay_screen():
         elif current_map == GameMap.LEFT:
             engine.background_color = 1, 0, 0
             map_dir = "left"
+            left_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
         elif current_map == GameMap.RIGHT:
             engine.background_color = 0, 1, 0
             map_dir = "right"
@@ -115,9 +122,11 @@ def gameplay_screen():
         elif current_map == GameMap.UP:
             engine.background_color = 0, 0, 1
             map_dir = "top"
+            top_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
         elif current_map == GameMap.BOTTOM:
             engine.background_color = 0, 1, 1
             map_dir = "bottom"
+            bottom_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
 
     engine.draw_text("GAMEPLAY", engine.width/2, engine.height/4, True)
     draw_inventory()
