@@ -92,6 +92,7 @@ def start_screen():
     engine.color = (0.15, 0.19, 0.18)
     start_screen_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
 
+    engine.set_font(title_font)
     engine.set_font_size(120)
     engine.draw_text("Sprout's", engine.width/2-100, engine.height/4+100, True)
     engine.draw_text("Party", engine.width/2+100, engine.height/4+250, True)
@@ -194,11 +195,25 @@ def gameplay_screen():
             bottom_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
             npc_Olivia.display()
 
-
     engine.draw_text("GAMEPLAY", engine.width/2, engine.height/4, True)
     draw_inventory()
     draw_todo()
     player.display()
+
+def end_screen():
+    engine.shape_mode = ShapeMode.CORNER
+    engine.background_color = 1, 1, 0
+    theme_screen_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+    engine.set_font(title_font)
+    engine.set_font_size(100)
+    engine.draw_text("PARTY TIME", engine.width / 2, 300,True)
+    engine.set_font_size(50)
+    engine.draw_text("Nice you helped Sprout", engine.width / 2, 500-50, True)
+    engine.draw_text("getting people to to his party!", engine.width / 2, 570-50, True)
+
+    engine.set_font(normal_font)
+    engine.set_font_size(30)
+    engine.draw_text('_Press any key to go back to start', engine.width/2, engine.height - 50, True)
 
 def setup():
     """
@@ -214,11 +229,10 @@ player = Player(game_map, str(current_theme), "center", engine)
 npc_Heidi = NPC("Heidi", game_map, engine)
 npc_Max = NPC("Max", game_map, engine)
 npc_Arthur = NPC("Arthur", game_map, engine)
-npc_Mia = NPC("Mia", game_map, engine)
-npc_Liam = NPC("Liam", game_map, engine)
-npc_Ryda = NPC("Ryda", game_map, engine)
-npc_Olivia = NPC("Olivia", game_map, engine)
-
+npc_Mia = NPC("Mia", Map(str(current_theme), "left", engine), engine)
+npc_Liam = NPC("Liam", Map(str(current_theme), "left", engine), engine)
+npc_Ryda = NPC("Ryda", Map(str(current_theme), "top", engine), engine)
+npc_Olivia = NPC("Olivia", Map(str(current_theme), "bottom", engine), engine)
 
 def render():
     """
@@ -266,7 +280,8 @@ def render():
                 elif current_map == GameMap.UP:
                     current_map = GameMap.CENTER
                     map_dir = "center"
-
+    elif current_state == GameState.END_SCREEN:
+        end_screen()
     game_map.change_map(map_dir)
 
 def evaluate():
@@ -327,6 +342,8 @@ def key_up_event(key: str):
     elif current_state == GameState.GAMEPLAY:
         npc_Heidi.progress_dialogue(key)
         number_invites -= npc_Heidi.minus_invite()
+    elif current_state == GameState.END_SCREEN and key:
+        current_state = GameState.START
 
 
     # DEBUG
