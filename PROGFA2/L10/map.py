@@ -42,7 +42,7 @@ class Map:
         self.walk_grid[self.walk_grid == -1] = 0
 
         self.num_rows, self.num_cols = self.walk_grid.shape
-        self._draw_csv()
+        # self._draw_csv()
 
     def _draw_csv(self):
         for row in range(self.num_rows):
@@ -68,6 +68,3 @@ class Map:
                     valid_tiles.append((row, col))
 
         return random.choice(valid_tiles)
-
-    def display(self):
-        self._draw_csv()
