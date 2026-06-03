@@ -1,7 +1,7 @@
 [BEGIN]
-Sprout: Hi Olivia!
-Sprout: I'm having a birthday party this weekend.
+SPROUT: Hi Olivia!
+SPROUT: I'm having a birthday party this weekend.
 
 [CONVERSATION]
-Olivia: I'd be happy to come.
-Olivia: See you there!
+OLIVIA: I'd be happy to come.
+OLIVIA: See you there!

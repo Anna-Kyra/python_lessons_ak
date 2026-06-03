@@ -1,7 +1,7 @@
 [BEGIN]
-Sprout: Hey Heidi! My birthday party is this weekend.
-Sprout: Would you like to come?
+SPROUT: Hey Heidi! My birthday party is this weekend.
+SPROUT: Would you like to come?
 
 [CONVERSATION]
-Heidi: Of course!
-Heidi: I wouldn't miss it for the world.
+HEIDI: Of course!
+HEIDI: I wouldn't miss it for the world.

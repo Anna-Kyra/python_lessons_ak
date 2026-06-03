@@ -1,7 +1,7 @@
 [BEGIN]
-Sprout: Hi Liam!
-Sprout: I'm celebrating my birthday this weekend.
+SPROUT: Hi Liam!
+SPROUT: I'm celebrating my birthday this weekend.
 
 [CONVERSATION]
-Liam: That sounds awesome.
-Liam: I'll definitely come.
+LIAM: That sounds awesome.
+LIAM: I'll definitely come.
