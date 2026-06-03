@@ -184,20 +184,21 @@ def gameplay_screen():
             left_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
             map_dir = "left"
             npc_Mia.display()
-            npc_Liam.display()
+
             if player.collision(npc_Mia.x, npc_Mia.y, npc_Mia.size, npc_Mia.size):
                 engine.set_font(title_font)
                 npc_Mia.draw_dialogue()
                 npc_Mia.start_dialogue()
-            if player.collision(npc_Liam.x, npc_Liam.y, npc_Liam.size, npc_Liam.size):
-                engine.set_font(title_font)
-                npc_Liam.draw_dialogue()
-                npc_Liam.start_dialogue()
 
         elif current_map == GameMap.RIGHT:
             engine.background_color = 0, 1, 0
             map_dir = "right"
             right_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
+            npc_Liam.display()
+            if player.collision(npc_Liam.x, npc_Liam.y, npc_Liam.size, npc_Liam.size):
+                engine.set_font(title_font)
+                npc_Liam.draw_dialogue()
+                npc_Liam.start_dialogue()
 
         elif current_map == GameMap.UP:
             engine.background_color = 0, 0, 1
@@ -254,7 +255,7 @@ npc_Heidi = NPC("Heidi", game_map, engine)
 npc_Max = NPC("Max", game_map, engine)
 npc_Arthur = NPC("Arthur", game_map, engine)
 npc_Mia = NPC("Mia", Map(str(current_theme), "left", engine), engine)
-npc_Liam = NPC("Liam", Map(str(current_theme), "left", engine), engine)
+npc_Liam = NPC("Liam", Map(str(current_theme), "right", engine), engine)
 npc_Ryda = NPC("Ryda", Map(str(current_theme), "top", engine), engine)
 npc_Olivia = NPC("Olivia", Map(str(current_theme), "bottom", engine), engine)
 
@@ -328,7 +329,13 @@ def evaluate():
         if current_map == GameMap.LEFT:
             can_move = (
                     npc_Mia.can_move()
-                    and npc_Liam.can_move()
+            )
+
+            if can_move:
+                player.move(key)
+        if current_map == GameMap.RIGHT:
+            can_move = (
+                    npc_Liam.can_move()
             )
 
             if can_move:

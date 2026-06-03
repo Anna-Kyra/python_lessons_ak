@@ -1,0 +1,7 @@
+[BEGIN]
+Sprout: Hey Ryda!
+Sprout: Want to join my birthday party?
+
+[CONVERSATION]
+Ryda: Absolutely!
+Ryda: I'll bring a gift too.

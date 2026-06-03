@@ -1,0 +1,7 @@
+[BEGIN]
+Sprout: Hey Max! I'm having a birthday party soon.
+Sprout: Do you want to come?
+
+[CONVERSATION]
+Max: Sounds fun!
+Max: Count me in.
