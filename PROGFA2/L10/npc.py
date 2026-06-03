@@ -46,8 +46,8 @@ class NPC:
             self.engine.draw_rectangle(25, self.engine.height - 225, 500, 200, 0)
             self.engine.set_font_size(20)
             self.engine.color = 1,1,1
+            self.engine.draw_text(f"{self.name}", 240, self.engine.height - 200, False)
             self.engine.draw_text("(press ENTER to continue)", 280, self.engine.height - 60, False)
-
 
     def start_dialogue(self):
         if self.progression == DialogueProgression.NO:

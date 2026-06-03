@@ -170,6 +170,14 @@ def gameplay_screen():
                 engine.set_font(title_font)
                 npc_Heidi.draw_dialogue()
                 npc_Heidi.start_dialogue()
+            if player.collision(npc_Max.x, npc_Max.y, npc_Max.size, npc_Max.size):
+                engine.set_font(title_font)
+                npc_Max.draw_dialogue()
+                npc_Max.start_dialogue()
+            if player.collision(npc_Arthur.x, npc_Arthur.y, npc_Arthur.size, npc_Arthur.size):
+                engine.set_font(title_font)
+                npc_Arthur.draw_dialogue()
+                npc_Arthur.start_dialogue()
         elif current_map == GameMap.LEFT:
             engine.background_color = 1, 0, 0
 
@@ -177,6 +185,14 @@ def gameplay_screen():
             map_dir = "left"
             npc_Mia.display()
             npc_Liam.display()
+            if player.collision(npc_Mia.x, npc_Mia.y, npc_Mia.size, npc_Mia.size):
+                engine.set_font(title_font)
+                npc_Mia.draw_dialogue()
+                npc_Mia.start_dialogue()
+            if player.collision(npc_Liam.x, npc_Liam.y, npc_Liam.size, npc_Liam.size):
+                engine.set_font(title_font)
+                npc_Liam.draw_dialogue()
+                npc_Liam.start_dialogue()
 
         elif current_map == GameMap.RIGHT:
             engine.background_color = 0, 1, 0
@@ -188,12 +204,20 @@ def gameplay_screen():
             map_dir = "top"
             top_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
             npc_Ryda.display()
+            if player.collision(npc_Ryda.x, npc_Ryda.y, npc_Ryda.size, npc_Ryda.size):
+                engine.set_font(title_font)
+                npc_Ryda.draw_dialogue()
+                npc_Ryda.start_dialogue()
 
         elif current_map == GameMap.BOTTOM:
             engine.background_color = 0, 1, 1
             map_dir = "bottom"
             bottom_background.draw_fixed_size(0, 0, engine.width, engine.height, False)
             npc_Olivia.display()
+            if player.collision(npc_Olivia.x, npc_Olivia.y, npc_Olivia.size, npc_Olivia.size):
+                engine.set_font(title_font)
+                npc_Olivia.draw_dialogue()
+                npc_Olivia.start_dialogue()
 
     engine.draw_text("GAMEPLAY", engine.width/2, engine.height/4, True)
     draw_inventory()
@@ -290,20 +314,42 @@ def evaluate():
     """
     global number_invites
     key = engine.key
-    if (current_state == GameState.GAMEPLAY and
-            key == "RIGHT" or key == "LEFT" or key == "UP" or key == "DOWN" or
-            key == "d" or key == "a" or key == "w" or key == "s"):
-        if npc_Heidi.can_move():
-            if player.collision(npc_Heidi.x, npc_Heidi.y, npc_Heidi.size, npc_Heidi.size):
-                npc_Heidi.start_dialogue()
-            player.move(key)
+    if (current_state == GameState.GAMEPLAY
+            and key in ("RIGHT", "LEFT", "UP", "DOWN", "d", "a", "w", "s")):
+        if current_map == GameMap.CENTER:
+            can_move = (
+                    npc_Heidi.can_move()
+                    and npc_Max.can_move()
+                    and npc_Arthur.can_move()
+            )
 
-        else: return
+            if can_move:
+                player.move(key)
+        if current_map == GameMap.LEFT:
+            can_move = (
+                    npc_Mia.can_move()
+                    and npc_Liam.can_move()
+            )
+
+            if can_move:
+                player.move(key)
+        if current_map == GameMap.UP:
+            can_move = (
+                    npc_Ryda.can_move()
+            )
+
+            if can_move:
+                player.move(key)
+        if current_map == GameMap.BOTTOM:
+            can_move = (
+                    npc_Olivia.can_move()
+            )
+            if can_move:
+                player.move(key)
     if current_state == GameState.GAMEPLAY:
         player.animate()
         engine.draw_square(0, 0, 200)
     pass
-
 
 def mouse_pressed_event(mouse_x: int, mouse_y: int, mouse_button: MouseButton):
     """
@@ -340,11 +386,22 @@ def key_up_event(key: str):
     if current_state == GameState.START and key:
         current_state = GameState.THEME
     elif current_state == GameState.GAMEPLAY:
-        npc_Heidi.progress_dialogue(key)
-        number_invites -= npc_Heidi.minus_invite()
+        for npc in [
+            npc_Heidi,
+            npc_Max,
+            npc_Arthur,
+            npc_Mia,
+            npc_Liam,
+            npc_Ryda,
+            npc_Olivia
+        ]:
+            npc.progress_dialogue(key)
+            number_invites -= npc.minus_invite()
+        if number_invites <= 0:
+            current_state = GameState.END_SCREEN
     elif current_state == GameState.END_SCREEN and key:
         current_state = GameState.START
-
+        number_invites = 7
 
     # DEBUG
     if key == "1":
