@@ -1,0 +1,7 @@
+[BEGIN]
+SPROUT: Hey Mia!
+SPROUT: Would you like to come to my birthday party?
+
+[CONVERSATION]
+MIA: I'd love to!
+MIA: Thanks for inviting me.

@@ -1,0 +1,7 @@
+[BEGIN]
+SPROUT: Hi Arthur!
+SPROUT: I'm inviting everyone to my birthday party.
+
+[CONVERSATION]
+ARTHUR: A party?
+ARTHUR: Sure, I'll be there.
